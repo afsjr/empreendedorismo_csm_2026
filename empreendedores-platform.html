@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Empreendedores Exponenciais — CSM</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;background:#f7f2f2;color:#1a0a0a;min-height:100vh}
+:root{--cr:#C8181A;--crd:#8B0F10;--crl:#FAE8E8;--cy:#E8B800;--cyd:#9A7A00;--cyl:#FDF5D0;--cb:rgba(200,24,26,.18);--cb2:rgba(200,24,26,.35);--r:10px}
+button{font-family:inherit;cursor:pointer}
+header{background:#fff;border-bottom:2px solid var(--cr);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;gap:10px;flex-wrap:wrap}
+.logo-wrap{display:flex;align-items:center;gap:10px;cursor:pointer}
+.logo-shield{width:38px;height:38px;background:var(--cr);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;letter-spacing:-1px;flex-shrink:0;border:2px solid var(--cy)}
+.logo-text strong{font-size:13px;font-weight:700;color:var(--cr);display:block;line-height:1.2}
+.logo-text span{font-size:11px;color:var(--cyd)}
+.nav-btns{display:flex;gap:6px;flex-wrap:wrap}
+.nav-btn{font-size:12px;padding:5px 12px;border:1.5px solid var(--cb2);border-radius:20px;background:transparent;color:var(--crd);font-weight:500;transition:all .15s}
+.nav-btn:hover{background:var(--crl)}
+.nav-btn.active{background:var(--cr);color:#fff;border-color:var(--cr)}
+.main{max-width:940px;margin:0 auto;padding:20px 16px}
+.view{display:none}.view.active{display:block}
+
+/* LANDING */
+.hero{text-align:center;padding:40px 16px 32px}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--cyl);color:var(--cyd);font-size:11px;padding:5px 14px;border-radius:20px;margin-bottom:16px;font-weight:600;border:1px solid var(--cy)}
+.hero h1{font-size:26px;font-weight:700;line-height:1.3;margin-bottom:12px}
+.hero h1 em{color:var(--cr);font-style:normal}
+.hero p{font-size:14px;color:var(--cyd);line-height:1.7;max-width:520px;margin:0 auto 28px}
+.hero-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.btn-p{background:var(--cr);color:#fff;border:none;padding:10px 22px;border-radius:22px;font-size:13px;font-weight:600}
+.btn-p:hover{opacity:.85}
+.btn-s{background:var(--cy);color:#1a0a0a;border:none;padding:10px 22px;border-radius:22px;font-size:13px;font-weight:600}
+.btn-s:hover{opacity:.85}
+.btn-t{background:var(--crd);color:#fff;border:none;padding:10px 22px;border-radius:22px;font-size:13px;font-weight:600;display:inline-flex;align-items:center;gap:6px}
+.btn-t:hover{opacity:.85}
+.stats-bar{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin:0 0 36px}
+.stat-c{background:#fff;border:1.5px solid var(--cb);border-radius:var(--r);padding:16px;text-align:center}
+.stat-n{font-size:24px;font-weight:700;color:var(--cr)}
+.stat-l{font-size:11px;color:var(--cyd);margin-top:2px}
+.teoria-banner{background:var(--cr);border-radius:var(--r);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:28px;flex-wrap:wrap}
+.teoria-banner-text strong{font-size:14px;color:#fff;font-weight:600;display:block;margin-bottom:3px}
+.teoria-banner-text span{font-size:12px;color:rgba(255,255,255,.8)}
+.btn-tb{background:var(--cy);color:#1a0a0a;border:none;padding:8px 18px;border-radius:20px;font-size:12px;font-weight:700;white-space:nowrap;cursor:pointer}
+.section-title{font-size:15px;font-weight:700;color:var(--crd);margin-bottom:14px;padding-bottom:6px;border-bottom:2px solid var(--cy)}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:32px}
+.feat-card{background:#fff;border:1.5px solid var(--cb);border-radius:var(--r);padding:16px}
+.feat-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;margin-bottom:10px}
+.feat-title{font-size:13px;font-weight:600;color:var(--crd);margin-bottom:4px}
+.feat-desc{font-size:12px;color:var(--cyd);line-height:1.5}
+.anos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:32px}
+.ano-card{border-radius:var(--r);padding:16px;border:1.5px solid}
+.ano-6{background:#fff3f3;border-color:var(--cr)}
+.ano-7{background:var(--cyl);border-color:var(--cy)}
+.ano-8{background:#fff3f3;border-color:var(--cr)}
+.ano-9{background:var(--cyl);border-color:var(--cy)}
+.ano-label{font-size:10px;font-weight:700;margin-bottom:6px;color:var(--cr)}
+.ano-title{font-size:13px;font-weight:600;color:#1a0a0a;margin-bottom:8px}
+.ano-projects{font-size:11px;color:var(--cyd);line-height:1.7}
+
+/* GROUPS */
+.groups-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.add-btn{background:var(--cr);color:#fff;border:none;padding:7px 16px;border-radius:20px;font-size:12px;font-weight:600}
+.groups-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.group-card{background:#fff;border:1.5px solid var(--cb);border-radius:var(--r);padding:16px;cursor:pointer;transition:border-color .15s}
+.group-card:hover{border-color:var(--cr)}
+.group-card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px}
+.group-name{font-size:14px;font-weight:600}
+.group-project{font-size:12px;color:var(--cyd);margin-bottom:10px;line-height:1.4}
+.group-members{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px}
+.member-chip{font-size:11px;background:var(--crl);color:var(--crd);padding:2px 8px;border-radius:20px;font-weight:500}
+.group-prog-label{display:flex;justify-content:space-between;font-size:11px;color:var(--cyd);margin-bottom:4px}
+.group-prog-bar{height:4px;background:#f0e0e0;border-radius:2px;overflow:hidden}
+.group-prog-fill{height:100%;background:var(--cr);border-radius:2px;transition:width .3s}
+.empty-state{text-align:center;padding:48px 16px;color:var(--cyd);grid-column:1/-1}
+.empty-state p{font-size:14px;margin-bottom:16px}
+
+/* FILTER */
+.filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.filter-btn{font-size:12px;padding:5px 12px;border:1.5px solid var(--cb);border-radius:20px;background:#fff;cursor:pointer;color:var(--crd);font-weight:500;transition:all .15s}
+.filter-btn:hover{border-color:var(--cr)}
+.filter-btn.active{border-color:var(--cr);color:#fff;background:var(--cr)}
+
+/* PROJECT CARDS */
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.project-card{background:#fff;border:1.5px solid var(--cb);border-radius:var(--r);padding:16px;cursor:pointer;transition:border-color .15s}
+.project-card:hover{border-color:var(--cr)}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px}
+.badge-ano{font-size:10px;padding:3px 8px;border-radius:20px;font-weight:600}
+.b6,.b8{background:var(--crl);color:var(--crd)}
+.b7,.b9{background:var(--cyl);color:var(--cyd)}
+.sem-badge{font-size:10px;color:var(--cyd);background:var(--cyl);padding:3px 8px;border-radius:20px;font-weight:500}
+.card-title{font-size:14px;font-weight:600;margin-bottom:6px;line-height:1.4}
+.card-desc{font-size:12px;color:var(--cyd);line-height:1.5;margin-bottom:12px}
+.progress-wrap{margin-bottom:8px}
+.progress-label{display:flex;justify-content:space-between;font-size:11px;color:var(--cyd);margin-bottom:4px}
+.progress-bar{height:4px;background:#f0e0e0;border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:var(--cr);border-radius:2px;transition:width .3s}
+.card-footer{display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--cyd)}
+.team-size{background:var(--cyl);color:var(--cyd);padding:2px 8px;border-radius:20px;font-weight:500}
+
+/* TEACHER */
+.summary-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-bottom:24px}
+.sum-card{background:#fff;border:1.5px solid var(--cb);border-radius:var(--r);padding:12px}
+.sum-val{font-size:22px;font-weight:700;color:var(--cr);margin-bottom:2px}
+.sum-lbl{font-size:11px;color:var(--cyd)}
+.turma-block{background:#fff;border:1.5px solid var(--cb);border-radius:var(--r);margin-bottom:14px;overflow:hidden}
+.turma-header{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1.5px solid var(--cb);background:var(--crl)}
+.turma-name{font-size:14px;font-weight:700;color:var(--crd)}
+.turma-avg{font-size:12px;color:var(--cr);font-weight:700}
+.project-row{display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:1px solid var(--cb);flex-wrap:wrap;cursor:pointer}
+.project-row:last-child{border-bottom:none}
+.project-row:hover{background:var(--crl)}
+.proj-name{font-size:12px;flex:1;min-width:140px;font-weight:500}
+.proj-prog{flex:1;min-width:100px}
+.proj-pct{font-size:11px;color:var(--cyd);min-width:32px;text-align:right;font-weight:600}
+.mini-bar{height:4px;background:#f0e0e0;border-radius:2px;overflow:hidden;margin-top:3px}
+.mini-fill{height:100%;border-radius:2px;background:var(--cr)}
+.fw{background:var(--cy)}.fl{background:#ddd}
+.group-rows{background:#fdf5f5}
+.group-sub-row{display:flex;align-items:center;gap:10px;padding:7px 28px;border-bottom:1px solid var(--cb);font-size:11px;cursor:pointer}
+.group-sub-row:hover{background:var(--crl)}
+.group-sub-row:last-child{border-bottom:none}
+.gsub-name{flex:1;color:var(--crd);font-weight:500}
+.gsub-members{color:var(--cyd);font-size:10px}
+.gsub-pct{color:var(--cr);min-width:28px;text-align:right;font-weight:600}
+.log-wrap{background:#fff;border:1.5px solid var(--cb);border-radius:var(--r);padding:16px;margin-top:20px}
+.log-title{font-size:14px;font-weight:700;color:var(--crd);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+.log-list{max-height:260px;overflow-y:auto;font-size:11px;color:#5a3030;line-height:1.8}
+.log-item{border-bottom:1px solid var(--cb);padding:4px 0}
+.log-item:last-child{border-bottom:none}
+.log-ts{color:var(--cyd);font-weight:500;margin-right:6px}
+.log-clear{font-size:11px;background:transparent;border:1px solid var(--cb2);border-radius:20px;padding:3px 10px;color:var(--crd)}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:flex;align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto}
+.modal-overlay.hidden{display:none}
+.modal{background:#fff;border-radius:14px;width:100%;max-width:700px;overflow:hidden;position:relative;margin:auto;border:2px solid var(--cr)}
+.modal-stripe{height:5px;background:linear-gradient(90deg,var(--cr) 60%,var(--cy) 100%)}
+.modal-header{padding:20px 44px 16px 20px;border-bottom:1px solid var(--cb)}
+.modal-badges{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.modal-title{font-size:18px;font-weight:700;margin-bottom:6px}
+.modal-desc{font-size:13px;color:var(--cyd);line-height:1.6}
+.modal-meta{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.meta-chip{font-size:12px;color:var(--cyd);background:var(--cyl);padding:4px 10px;border-radius:20px;font-weight:500}
+.modal-body{padding:20px}
+.etapa{border:1px solid var(--cb);border-radius:var(--r);margin-bottom:12px;overflow:hidden}
+.etapa-header{padding:12px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;background:#fff}
+.etapa-header:hover{background:var(--crl)}
+.etapa-check{width:20px;height:20px;border-radius:50%;border:2px solid var(--cb2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
+.etapa-check.done{background:var(--cr);border-color:var(--cr)}
+.etapa-check.done::after{content:'';width:6px;height:10px;border:2px solid #fff;border-top:none;border-left:none;transform:rotate(45deg) translateY(-1px);display:block}
+.etapa-label{font-size:13px;font-weight:600;flex:1}
+.etapa-week{font-size:11px;color:var(--cyd);font-weight:500}
+.etapa-body{padding:0 14px 14px;border-top:1px solid var(--cb);background:#fdf5f5}
+.etapa-body.hidden{display:none}
+.task-list{padding:10px 0 0}
+.task-item{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--cyd);margin-bottom:6px;line-height:1.5}
+.task-dot{width:4px;height:4px;border-radius:50%;background:var(--cr);flex-shrink:0;margin-top:6px}
+.teacher-obs-box{margin-top:12px;background:#fff3f3;border:1.5px solid var(--cr);border-radius:8px;padding:10px 12px}
+.teacher-obs-label{font-size:11px;font-weight:700;color:var(--crd);margin-bottom:5px}
+.teacher-obs-text{font-size:12px;color:#1a0a0a;line-height:1.6;white-space:pre-wrap}
+.teacher-obs-input{width:100%;border:1px solid var(--cb2);border-radius:6px;padding:7px;font-size:12px;resize:vertical;min-height:50px;background:#fff;color:#1a0a0a;font-family:inherit;margin-top:5px}
+.obs-actions{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.obs-save-btn{background:var(--cr);color:#fff;border:none;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600}
+.obs-del-btn{background:transparent;border:1px solid var(--cb2);color:var(--crd);padding:4px 10px;border-radius:20px;font-size:11px}
+.notes-section{margin-top:12px}
+.notes-label{font-size:11px;color:var(--cyd);margin-bottom:4px;font-weight:500}
+.notes-input{width:100%;border:1px solid var(--cb2);border-radius:6px;padding:8px;font-size:12px;resize:vertical;min-height:60px;background:#fff;color:#1a0a0a;font-family:inherit}
+.drive-box{margin-top:10px;background:var(--cyl);border:1px solid var(--cy);border-radius:8px;padding:10px 12px;display:flex;align-items:flex-start;gap:10px}
+.drive-box-text strong{font-size:12px;font-weight:600;color:var(--cyd);display:block;margin-bottom:3px}
+.drive-box-text span{font-size:11px;color:var(--cyd);line-height:1.6;display:block;margin-bottom:6px}
+.drive-btn{display:inline-flex;align-items:center;gap:5px;background:var(--cr);color:#fff;font-size:11px;font-weight:600;padding:5px 12px;border-radius:20px;text-decoration:none;cursor:pointer;border:none}
+.modal-close{position:absolute;top:12px;right:12px;width:28px;height:28px;border-radius:50%;border:1.5px solid var(--cb2);background:var(--crl);font-size:14px;display:flex;align-items:center;justify-content:center;color:var(--crd)}
+.modal-overall{padding:0 20px 20px}
+.overall-label{font-size:12px;color:var(--cyd);margin-bottom:6px;font-weight:500}
+.overall-bar{height:6px;background:#f0e0e0;border-radius:3px;overflow:hidden}
+.overall-fill{height:100%;background:var(--cr);border-radius:3px;transition:width .4s}
+.modal-group-tag{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:12px;color:var(--cyd)}
+.modal-group-tag span{background:var(--crl);color:var(--crd);padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600}
+.mi{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:600;margin-left:6px}
+.mi-t{background:var(--crd);color:#fff}
+.mi-s{background:var(--cyl);color:var(--cyd)}
+
+/* DIALOGS */
+.dialog-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;display:flex;align-items:center;justify-content:center;padding:16px}
+.dialog-overlay.hidden{display:none}
+.dialog{background:#fff;border-radius:14px;width:100%;max-width:480px;padding:24px;position:relative;border:2px solid var(--cr)}
+.dialog h2{font-size:16px;font-weight:700;color:var(--crd);margin-bottom:18px}
+.field{margin-bottom:14px}
+.field label{font-size:12px;color:var(--cyd);display:block;margin-bottom:5px;font-weight:500}
+.field input,.field select{width:100%;border:1.5px solid var(--cb2);border-radius:8px;padding:8px 10px;font-size:13px;background:#fff;color:#1a0a0a;font-family:inherit}
+.field input:focus,.field select:focus{outline:none;border-color:var(--cr)}
+.members-row{display:flex;gap:6px;margin-bottom:6px}
+.members-row input{flex:1}
+.dialog-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:20px;flex-wrap:wrap}
+.btn-cancel{background:transparent;border:1.5px solid var(--cb2);padding:8px 16px;border-radius:20px;font-size:13px;color:var(--cyd)}
+.btn-save{background:var(--cr);color:#fff;border:none;padding:8px 20px;border-radius:20px;font-size:13px;font-weight:600}
+.btn-danger{background:var(--crd);color:#fff;border:none;padding:8px 16px;border-radius:20px;font-size:13px}
+.dialog-close{position:absolute;top:12px;right:12px;width:26px;height:26px;border-radius:50%;border:1.5px solid var(--cb2);background:var(--crl);font-size:13px;color:var(--cr);display:flex;align-items:center;justify-content:center}
+.auth-error{font-size:12px;color:var(--cr);margin-top:8px;font-weight:500;display:none}
+.hidden{display:none!important}
+.panel-title{font-size:16px;font-weight:700;color:var(--crd);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-wrap" onclick="setView('landing')">
+    <div class="logo-shield">CSM</div>
+    <div class="logo-text">
+      <strong>Empreendedores Exponenciais</strong>
+      <span>Colégio Santa Mônica · Limoeiro/PE</span>
+    </div>
+  </div>
+  <div class="nav-btns">
+    <button class="nav-btn" onclick="setView('landing')">Início</button>
+    <button class="nav-btn" onclick="setView('groups')">Grupos</button>
+    <button class="nav-btn" onclick="setView('projects')">Projetos</button>
+    <button class="nav-btn" onclick="openTeoria()">Teoria</button>
+    <button class="nav-btn" onclick="requireAuth('professor',()=>setView('teacher'))">Professor</button>
+  </div>
+</header>
+
+<div class="main">
+
+<!-- LANDING -->
+<div class="view" id="view-landing">
+  <div class="hero">
+    <div class="hero-badge">⭐ Colégio Santa Mônica · Limoeiro/PE · 2025</div>
+    <h1>Aprenda empreendendo.<br><em>Transforme Limoeiro.</em></h1>
+    <p>O programa Empreendedores Exponenciais leva estudantes do 6º ao 9º ano a vivenciar projetos reais de negócios, finanças, inovação e comunicação ao longo do ano letivo.</p>
+    <div class="hero-btns">
+      <button class="btn-p" onclick="setView('projects')">Explorar projetos</button>
+      <button class="btn-s" onclick="setView('groups')">Meu grupo</button>
+      <button class="btn-t" onclick="openTeoria()">📚 Acessar Teoria</button>
+    </div>
+  </div>
+  <div class="stats-bar" id="landingStats"></div>
+  <div class="teoria-banner">
+    <div class="teoria-banner-text">
+      <strong>📚 Material Teórico do Programa</strong>
+      <span>Acesse o dashboard completo com todo o conteúdo curricular do 6º ao 9º ano</span>
+    </div>
+    <button class="btn-tb" onclick="openTeoria()">Abrir Teoria →</button>
+  </div>
+  <div class="section-title">Por que participar?</div>
+  <div class="features-grid">
+    <div class="feat-card"><div class="feat-icon" style="background:var(--crl)">💡</div><div class="feat-title">Projetos reais</div><div class="feat-desc">Você vende, investe, cria e apresenta — não só estuda teoria.</div></div>
+    <div class="feat-card"><div class="feat-icon" style="background:var(--cyl)">🤝</div><div class="feat-title">Trabalho em equipe</div><div class="feat-desc">Grupos de 3–4 alunos com papéis definidos e responsabilidade compartilhada.</div></div>
+    <div class="feat-card"><div class="feat-icon" style="background:var(--crl)">📊</div><div class="feat-title">Finanças na prática</div><div class="feat-desc">DRE, custos, precificação e investimentos com dinheiro de verdade.</div></div>
+    <div class="feat-card"><div class="feat-icon" style="background:var(--cyl)">🎤</div><div class="feat-title">Comunicação e pitch</div><div class="feat-desc">TED talks, Shark Tank e podcasts desenvolvem sua voz pública.</div></div>
+    <div class="feat-card"><div class="feat-icon" style="background:var(--crl)">🌍</div><div class="feat-title">Impacto local</div><div class="feat-desc">Projetos conectados à realidade de Limoeiro e do sertão pernambucano.</div></div>
+    <div class="feat-card"><div class="feat-icon" style="background:var(--cyl)">🚀</div><div class="feat-title">Progressão por ano</div><div class="feat-desc">Do 6º ao 9º ano a complexidade cresce — você avança junto.</div></div>
+  </div>
+  <div class="section-title">O que você vai fazer por ano</div>
+  <div class="anos-grid">
+    <div class="ano-card ano-6"><div class="ano-label">6º ANO</div><div class="ano-title">Primeiros passos no empreendedorismo</div><div class="ano-projects">Feira do Centavo · Detetives Financeiros · Jogo Educativo · Inventor da Escola · Campanha Social · Talk Show</div></div>
+    <div class="ano-card ano-7"><div class="ano-label">7º ANO</div><div class="ano-title">Negócios e inovação para a comunidade</div><div class="ano-projects">Consultoria Mirim · Mapa Empreendedor · Shark Tank · Hackathon · Agência CSM · TEDx</div></div>
+    <div class="ano-card ano-8"><div class="ano-label">8º ANO</div><div class="ano-title">Startups, fintechs e tecnologia</div><div class="ano-projects">Startup Weekend · Fintech da Escola · Economia Circular · Lab de Tecnologia · Redesign UX · Podcast</div></div>
+    <div class="ano-card ano-9"><div class="ano-label">9º ANO</div><div class="ano-title">Liderança, impacto e legado</div><div class="ano-projects">Startup Real · Fundo de Investimento · Incubadora Social · Demo Day · Limoeiro 2040 · Mentor de Futuro</div></div>
+  </div>
+</div>
+
+<!-- GROUPS -->
+<div class="view" id="view-groups">
+  <div class="groups-header">
+    <div class="panel-title" style="margin-bottom:0">Meus Grupos</div>
+    <button class="add-btn" onclick="openGroupForm()">+ Novo grupo</button>
+  </div>
+  <div class="groups-grid" id="groupsGrid"></div>
+</div>
+
+<!-- PROJECTS (student) -->
+<div class="view" id="view-projects">
+  <div class="filter-bar" id="filterBar">
+    <button class="filter-btn active" onclick="setFilter('all',this)">Todos</button>
+    <button class="filter-btn" onclick="setFilter('6',this)">6º Ano</button>
+    <button class="filter-btn" onclick="setFilter('7',this)">7º Ano</button>
+    <button class="filter-btn" onclick="setFilter('8',this)">8º Ano</button>
+    <button class="filter-btn" onclick="setFilter('9',this)">9º Ano</button>
+    <button class="filter-btn" onclick="setFilter('s1',this)">1º Sem</button>
+    <button class="filter-btn" onclick="setFilter('s2',this)">2º Sem</button>
+  </div>
+  <div class="projects-grid" id="projectsGrid"></div>
+</div>
+
+<!-- TEACHER -->
+<div class="view" id="view-teacher">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+    <div class="panel-title" style="margin-bottom:0">Painel do Professor <span class="mi mi-t">acesso ativo</span></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn-p" style="font-size:12px;padding:6px 14px;border-radius:20px" onclick="setView('projects-teacher')">Ver todos os projetos</button>
+      <button class="btn-danger" style="font-size:12px;padding:6px 14px;border-radius:20px" onclick="openMasterPanel()">👑 Acesso master</button>
+    </div>
+  </div>
+  <div class="summary-cards" id="sumCards"></div>
+  <div id="turmasContainer"></div>
+  <div class="log-wrap">
+    <div class="log-title">📋 Registro de atividades
+      <button class="log-clear" onclick="requireAuth('master',clearLog)">Limpar log</button>
+    </div>
+    <div class="log-list" id="logList"></div>
+  </div>
+</div>
+
+<!-- PROJECTS (teacher) -->
+<div class="view" id="view-projects-teacher">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px">
+    <div class="panel-title" style="margin-bottom:0">Todos os projetos <span class="mi mi-t">professor</span></div>
+    <button class="btn-cancel" onclick="setView('teacher')">← Voltar</button>
+  </div>
+  <div class="filter-bar" id="filterBarT">
+    <button class="filter-btn active" onclick="setFilterT('all',this)">Todos</button>
+    <button class="filter-btn" onclick="setFilterT('6',this)">6º Ano</button>
+    <button class="filter-btn" onclick="setFilterT('7',this)">7º Ano</button>
+    <button class="filter-btn" onclick="setFilterT('8',this)">8º Ano</button>
+    <button class="filter-btn" onclick="setFilterT('9',this)">9º Ano</button>
+    <button class="filter-btn" onclick="setFilterT('s1',this)">1º Sem</button>
+    <button class="filter-btn" onclick="setFilterT('s2',this)">2º Sem</button>
+  </div>
+  <div class="projects-grid" id="projectsGridT"></div>
+</div>
+
+</div>
+
+<!-- PROJECT MODAL -->
+<div class="modal-overlay hidden" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-stripe"></div>
+    <button class="modal-close" onclick="closeModalBtn()">✕</button>
+    <div class="modal-header">
+      <div class="modal-badges" id="mBadges"></div>
+      <div class="modal-title" id="mTitle"></div>
+      <div class="modal-desc" id="mDesc"></div>
+      <div class="modal-meta" id="mMeta"></div>
+      <div class="modal-group-tag" id="mGroupTag"></div>
+    </div>
+    <div class="modal-overall">
+      <div class="overall-label" id="mPctLabel">Progresso: 0%</div>
+      <div class="overall-bar"><div class="overall-fill" id="mOverallBar" style="width:0%"></div></div>
+    </div>
+    <div class="modal-body" id="mBody"></div>
+  </div>
+</div>
+
+<!-- GROUP FORM -->
+<div class="dialog-overlay hidden" id="groupDialog">
+  <div class="dialog">
+    <button class="dialog-close" onclick="closeGroupDialog()">✕</button>
+    <h2 id="groupDialogTitle">Novo grupo</h2>
+    <div class="field"><label>Nome do grupo</label><input id="gName" placeholder="Ex: Equipe Inovação"></div>
+    <div class="field"><label>Ano escolar</label>
+      <select id="gAno"><option value="6">6º Ano</option><option value="7">7º Ano</option><option value="8">8º Ano</option><option value="9">9º Ano</option></select>
+    </div>
+    <div class="field"><label>Projeto</label><select id="gProject"></select></div>
+    <div class="field"><label>Membros</label>
+      <div id="membersFields">
+        <div class="members-row"><input placeholder="Nome do membro 1"></div>
+        <div class="members-row"><input placeholder="Nome do membro 2"></div>
+        <div class="members-row"><input placeholder="Nome do membro 3"></div>
+        <div class="members-row"><input placeholder="Nome do membro 4 (opcional)"></div>
+      </div>
+    </div>
+    <div class="dialog-actions">
+      <button class="btn-cancel" onclick="closeGroupDialog()">Cancelar</button>
+      <button class="btn-danger hidden" id="btnDeleteGroup" onclick="askDeleteGroup()">Excluir grupo</button>
+      <button class="btn-save" onclick="saveGroup()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- AUTH -->
+<div class="dialog-overlay hidden" id="authDialog">
+  <div class="dialog" style="max-width:380px">
+    <button class="dialog-close" onclick="closeAuthDialog()">✕</button>
+    <div style="font-size:22px;text-align:center;margin-bottom:8px">🔒</div>
+    <h2 style="text-align:center" id="authTitle">Acesso restrito</h2>
+    <p style="font-size:12px;color:var(--cyd);text-align:center;margin-bottom:16px" id="authSubtitle"></p>
+    <div class="field">
+      <label>Senha</label>
+      <input type="password" id="authPassword" placeholder="••••••••" autocomplete="off" onkeydown="if(event.key==='Enter')submitAuth()">
+      <div class="auth-error" id="authError">Senha incorreta. Acesso negado.</div>
+    </div>
+    <div class="dialog-actions" style="justify-content:center">
+      <button class="btn-cancel" onclick="closeAuthDialog()">Cancelar</button>
+      <button class="btn-save" onclick="submitAuth()">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MASTER PANEL -->
+<div class="dialog-overlay hidden" id="masterDialog">
+  <div class="dialog" style="max-width:500px">
+    <button class="dialog-close" onclick="closeMasterDialog()">✕</button>
+    <div style="font-size:22px;text-align:center;margin-bottom:8px">👑</div>
+    <h2 style="text-align:center">Painel Master</h2>
+    <p style="font-size:11px;background:var(--cyl);color:var(--cyd);border-radius:20px;padding:3px 12px;display:inline-block;margin:0 auto 16px;font-weight:500">Acesso total — Adelino CSM</p>
+    <div style="display:flex;flex-direction:column;gap:10px" id="masterActions"></div>
+    <div class="dialog-actions" style="margin-top:20px"><button class="btn-cancel" onclick="closeMasterDialog()">Fechar</button></div>
+  </div>
+</div>
+
+<script>
+const TEORIA_URL='https://claude.ai/public/artifacts/7c23c233-a288-45ff-8339-4e43d59a15e8';
+const DRIVE_URL='https://drive.google.com/drive/folders/1Pkxd6CRWMOaLIGzNMZvzdgNt3IoKae1h?usp=sharing';
+const SP='empreendedorismocsm2026';
+const SM='adelino_csm@santamonicaceq';
+const LS='ee_csm_v5';
+const SK='ee_csm_sess';
+const MAX_LOG=200;
+
+// ── LINKS EXTERNOS ──
+function openTeoria(){showLinkModal('📚 Material Teórico do Programa',TEORIA_URL);}
+function openDrive(){showLinkModal('📁 Google Drive — Evidências',DRIVE_URL);}
+function showLinkModal(title,url){
+  let ov=document.getElementById('linkModal');
+  if(!ov){
+    ov=document.createElement('div');
+    ov.id='linkModal';
+    ov.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:500;display:flex;align-items:center;justify-content:center;padding:16px';
+    ov.innerHTML=`<div style="background:#fff;border-radius:14px;border:2px solid var(--cr);padding:24px;max-width:460px;width:100%;position:relative">
+      <button onclick="document.getElementById('linkModal').style.display='none'" style="position:absolute;top:10px;right:12px;background:var(--crl);border:1px solid var(--cb2);border-radius:50%;width:26px;height:26px;font-size:13px;color:var(--crd);cursor:pointer">✕</button>
+      <div id="lmTitle" style="font-size:15px;font-weight:700;color:var(--crd);margin-bottom:12px"></div>
+      <p style="font-size:12px;color:var(--cyd);margin-bottom:12px;line-height:1.6">Clique no link abaixo para abrir em nova aba, ou copie o endereço:</p>
+      <a id="lmLink" href="#" target="_blank" rel="noopener noreferrer" style="display:block;font-size:12px;color:var(--cr);word-break:break-all;background:var(--crl);border:1px solid var(--cb2);border-radius:8px;padding:10px 12px;margin-bottom:14px;text-decoration:underline"></a>
+      <button onclick="navigator.clipboard&&navigator.clipboard.writeText(document.getElementById('lmLink').href).then(()=>alert('Link copiado!'))" style="background:var(--cy);color:#1a0a0a;border:none;padding:7px 16px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer">Copiar link</button>
+    </div>`;
+    document.body.appendChild(ov);
+  }
+  document.getElementById('lmTitle').textContent=title;
+  const lnk=document.getElementById('lmLink');
+  lnk.href=url;lnk.textContent=url;
+  ov.style.display='flex';
+}
+
+// ── AUTH ──
+let authCB=null;
+function gs(){try{return JSON.parse(sessionStorage.getItem(SK))||{};}catch(e){return {};}}
+function setSession(l){sessionStorage.setItem(SK,JSON.stringify({l,t:Date.now()}));}
+function clearSession(){sessionStorage.removeItem(SK);}
+function getLevel(){const s=gs();return(s.l&&(Date.now()-s.t)<1800000)?s.l:null;}
+function isMaster(){return getLevel()==='master';}
+function isProf(){const l=getLevel();return l==='master'||l==='professor';}
+
+function requireAuth(need,cb){
+  if(need==='professor'&&isProf()){cb();return;}
+  if(need==='master'&&isMaster()){cb();return;}
+  authCB=cb;
+  document.getElementById('authTitle').textContent=need==='master'?'Acesso Master':'Área do Professor';
+  document.getElementById('authSubtitle').textContent=need==='master'?'Digite a senha master.':'Digite a senha do professor.';
+  document.getElementById('authPassword').value='';
+  document.getElementById('authError').style.display='none';
+  document.getElementById('authDialog').classList.remove('hidden');
+  setTimeout(()=>document.getElementById('authPassword').focus(),80);
+}
+function submitAuth(){
+  const v=document.getElementById('authPassword').value;
+  if(v===SM){setSession('master');closeAuthDialog();if(authCB){authCB();authCB=null;}return;}
+  if(v===SP){setSession('professor');closeAuthDialog();if(authCB){authCB();authCB=null;}return;}
+  document.getElementById('authError').style.display='block';
+  document.getElementById('authPassword').value='';
+  document.getElementById('authPassword').focus();
+}
+function closeAuthDialog(){document.getElementById('authDialog').classList.add('hidden');authCB=null;}
+
+// ── MASTER PANEL ──
+function openMasterPanel(){
+  requireAuth('master',()=>{
+    document.getElementById('masterActions').innerHTML=`
+      <div style="background:var(--crl);border:1px solid var(--cb2);border-radius:var(--r);padding:14px;display:flex;align-items:center;justify-content:space-between;gap:10px">
+        <div><div style="font-size:13px;font-weight:600">Excluir todos os grupos</div><div style="font-size:11px;color:var(--cyd);margin-top:2px">Remove todos os grupos e seus progressos.</div></div>
+        <button class="btn-danger" style="font-size:12px" onclick="masterDelAll()">Excluir tudo</button>
+      </div>
+      <div style="background:var(--crl);border:1px solid var(--cb2);border-radius:var(--r);padding:14px;display:flex;align-items:center;justify-content:space-between;gap:10px">
+        <div><div style="font-size:13px;font-weight:600">Resetar todo o progresso</div><div style="font-size:11px;color:var(--cyd);margin-top:2px">Zera etapas e anotações de todos os projetos.</div></div>
+        <button class="btn-danger" style="font-size:12px" onclick="masterReset()">Resetar</button>
+      </div>
+      <div style="background:var(--cyl);border:1px solid var(--cy);border-radius:var(--r);padding:14px;display:flex;align-items:center;justify-content:space-between;gap:10px">
+        <div><div style="font-size:13px;font-weight:600">Encerrar sessão master</div><div style="font-size:11px;color:var(--cyd);margin-top:2px">Sai do acesso privilegiado desta sessão.</div></div>
+        <button class="btn-cancel" style="font-size:12px" onclick="masterLogout()">Sair</button>
+      </div>`;
+    document.getElementById('masterDialog').classList.remove('hidden');
+  });
+}
+function closeMasterDialog(){document.getElementById('masterDialog').classList.add('hidden');}
+function masterDelAll(){if(!confirm('Excluir TODOS os grupos?'))return;state.groups=[];saveState();closeMasterDialog();renderGroups();renderLanding();if(state.view==='teacher')renderTeacher();addLog('Master: todos os grupos excluídos');}
+function masterReset(){if(!confirm('Resetar TODO o progresso e anotações?'))return;state.progress={};state.notes={};state.openEtapas={};state.teacherObs={};saveState();closeMasterDialog();renderCards();renderGroups();if(state.view==='teacher')renderTeacher();addLog('Master: progresso e anotações resetados');}
+function masterLogout(){clearSession();closeMasterDialog();alert('Sessão master encerrada.');}
+
+// ── STATE ──
+// Merge-safe load: preserves existing keys and only adds missing ones
+function loadSt(){try{return JSON.parse(localStorage.getItem(LS))||{};}catch(e){return {};}}
+function saveState(){
+  try{
+    const toSave={
+      view:state.view,filter:state.filter,filterT:state.filterT,
+      progress:state.progress,notes:state.notes,openEtapas:state.openEtapas,
+      teacherObs:state.teacherObs,groups:state.groups,log:state.log,gic:gic
+    };
+    localStorage.setItem(LS,JSON.stringify(toSave));
+  }catch(e){}
+}
+
+const saved=loadSt();
+let gic=saved.gic||1;
+const state={
+  view:saved.view||'landing',
+  filter:saved.filter||'all',
+  filterT:saved.filterT||'all',
+  progress:saved.progress||{},
+  notes:saved.notes||{},
+  openEtapas:saved.openEtapas||{},
+  teacherObs:saved.teacherObs||{},
+  groups:saved.groups||[],
+  log:saved.log||[],
+  editingGid:null,
+  curModal:null
+};
+
+// ── LOG ──
+function addLog(msg){
+  const now=new Date();
+  const ts=now.toLocaleDateString('pt-BR')+' '+now.toTimeString().slice(0,5);
+  state.log.unshift({ts,msg});
+  if(state.log.length>MAX_LOG)state.log=state.log.slice(0,MAX_LOG);
+  saveState();
+}
+function clearLog(){if(!confirm('Limpar o registro de atividades?'))return;state.log=[];saveState();renderLog();}
+function renderLog(){
+  const el=document.getElementById('logList');if(!el)return;
+  if(!state.log.length){el.innerHTML='<span style="color:var(--cyd);font-size:11px">Nenhuma atividade registrada ainda.</span>';return;}
+  el.innerHTML=state.log.map(l=>`<div class="log-item"><span class="log-ts">${l.ts}</span>${l.msg}</div>`).join('');
+}
+
+// ── HELPERS ──
+function bc(a){return(a===7||a===9)?'b7 b9':'b6 b8'}
+function getProgress(pid,gid){
+  const p=PROJECTS.find(x=>x.id===pid);if(!p)return 0;
+  const ns=gid?`${gid}_${pid}`:pid;
+  return Math.round(p.etapas.filter((_,i)=>state.progress[ns+'_'+i]).length/p.etapas.length*100);
+}
+function enrolledPids(){return new Set(state.groups.map(g=>g.projectId));}
+
+// ── VIEWS ──
+function setView(v){
+  if((v==='teacher'||v==='projects-teacher')&&!isProf()){requireAuth('professor',()=>setView(v));return;}
+  state.view=v;saveState();
+  document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
+  const el=document.getElementById('view-'+v);if(el)el.classList.add('active');
+  const lbl={landing:'Início',groups:'Grupos',projects:'Projetos',teacher:'Professor','projects-teacher':'Professor'};
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.textContent.trim()===lbl[v]));
+  if(v==='landing')renderLanding();
+  if(v==='groups')renderGroups();
+  if(v==='projects')renderCards();
+  if(v==='teacher'){renderTeacher();renderLog();}
+  if(v==='projects-teacher')renderCardsT();
+}
+
+// ── LANDING ──
+function renderLanding(){
+  const g=state.groups.length;
+  document.getElementById('landingStats').innerHTML=[
+    {n:PROJECTS.length,l:'projetos no programa'},
+    {n:'6º–9º',l:'anos do ensino fundamental'},
+    {n:2,l:'semestres por ano'},
+    {n:g,l:`grupo${g!==1?'s':''} cadastrado${g!==1?'s':''}`},
+  ].map(s=>`<div class="stat-c"><div class="stat-n">${s.n}</div><div class="stat-l">${s.l}</div></div>`).join('');
+}
+
+// ── GROUPS ──
+function renderGroups(){
+  const g=document.getElementById('groupsGrid');
+  if(!state.groups.length){g.innerHTML=`<div class="empty-state"><p>Nenhum grupo cadastrado ainda.</p><button class="btn-p" onclick="openGroupForm()">Criar primeiro grupo</button></div>`;return;}
+  g.innerHTML=state.groups.map(gr=>{
+    const pct=getProgress(gr.projectId,gr.id);
+    const p=PROJECTS.find(x=>x.id===gr.projectId);
+    return `<div class="group-card" onclick="openModal('${gr.projectId}','${gr.id}',false)">
+      <div class="group-card-top"><div class="group-name">${gr.name}</div><span class="badge-ano ${(gr.ano===7||gr.ano===9)?'b7':'b6'}">${gr.ano}º Ano</span></div>
+      <div class="group-project">${p?p.title:'—'}</div>
+      <div class="group-members">${gr.members.filter(Boolean).map(m=>`<span class="member-chip">${m}</span>`).join('')}</div>
+      <div class="group-prog-label"><span>Progresso</span><span>${pct}%</span></div>
+      <div class="group-prog-bar"><div class="group-prog-fill" style="width:${pct}%"></div></div>
+      <div style="margin-top:10px;text-align:right">
+        <button style="font-size:11px;background:transparent;border:1.5px solid var(--cb2);border-radius:20px;padding:3px 10px;color:var(--crd);font-weight:500" onclick="event.stopPropagation();openGroupForm('${gr.id}')">Editar</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function populateProjectSelect(ano){
+  document.getElementById('gProject').innerHTML=PROJECTS.filter(p=>p.ano===+ano).map(p=>`<option value="${p.id}">${p.sem}º Sem · Op. ${p.opt} — ${p.title}</option>`).join('');
+}
+function openGroupForm(gid){
+  const ano=document.getElementById('gAno');
+  ano.onchange=()=>populateProjectSelect(ano.value);
+  if(gid){
+    const gr=state.groups.find(g=>g.id===gid);
+    state.editingGid=gid;
+    document.getElementById('groupDialogTitle').textContent='Editar grupo';
+    document.getElementById('gName').value=gr.name;
+    ano.value=gr.ano;populateProjectSelect(gr.ano);
+    document.getElementById('gProject').value=gr.projectId;
+    document.getElementById('membersFields').querySelectorAll('input').forEach((inp,i)=>inp.value=gr.members[i]||'');
+    document.getElementById('btnDeleteGroup').classList.remove('hidden');
+  }else{
+    state.editingGid=null;
+    document.getElementById('groupDialogTitle').textContent='Novo grupo';
+    document.getElementById('gName').value='';ano.value='6';populateProjectSelect('6');
+    document.getElementById('membersFields').querySelectorAll('input').forEach(inp=>inp.value='');
+    document.getElementById('btnDeleteGroup').classList.add('hidden');
+  }
+  document.getElementById('groupDialog').classList.remove('hidden');
+}
+function closeGroupDialog(){document.getElementById('groupDialog').classList.add('hidden');state.editingGid=null;}
+function saveGroup(){
+  const name=document.getElementById('gName').value.trim();
+  if(!name){alert('Informe o nome do grupo.');return;}
+  const ano=document.getElementById('gAno').value;
+  const projectId=document.getElementById('gProject').value;
+  const members=Array.from(document.getElementById('membersFields').querySelectorAll('input')).map(i=>i.value.trim()).filter(Boolean);
+  if(state.editingGid){
+    const gr=state.groups.find(g=>g.id===state.editingGid);
+    // preserve progress/notes — only update metadata
+    if(gr){gr.name=name;gr.ano=+ano;gr.projectId=projectId;gr.members=members;}
+    addLog(`Grupo editado: "${name}" (${ano}º Ano)`);
+  }else{
+    const id='g'+(gic++);
+    state.groups.push({id,name,ano:+ano,projectId,members});
+    addLog(`Novo grupo: "${name}" (${ano}º Ano) → ${PROJECTS.find(p=>p.id===projectId)?.title||projectId}`);
+  }
+  saveState();closeGroupDialog();renderGroups();renderLanding();
+}
+function askDeleteGroup(){
+  requireAuth('master',()=>{
+    if(!confirm('Excluir este grupo permanentemente?'))return;
+    const gr=state.groups.find(g=>g.id===state.editingGid);
+    addLog(`Grupo excluído: "${gr?.name||state.editingGid}"`);
+    state.groups=state.groups.filter(g=>g.id!==state.editingGid);
+    saveState();closeGroupDialog();renderGroups();renderLanding();
+    if(state.view==='teacher')renderTeacher();
+  });
+}
+
+// ── FILTERS ──
+function setFilter(f,el){state.filter=f;saveState();document.querySelectorAll('#filterBar .filter-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');renderCards();}
+function setFilterT(f,el){state.filterT=f;saveState();document.querySelectorAll('#filterBarT .filter-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');renderCardsT();}
+function matchF(p,f){
+  if(f==='all')return true;
+  if(['6','7','8','9'].includes(f))return p.ano===+f;
+  if(f==='s1')return p.sem===1;if(f==='s2')return p.sem===2;return true;
+}
+
+// ── CARDS (student) ──
+function renderCards(){
+  const enrolled=enrolledPids();
+  const list=PROJECTS.filter(p=>enrolled.has(p.id)&&matchF(p,state.filter));
+  const g=document.getElementById('projectsGrid');
+  if(!list.length){g.innerHTML=`<div class="empty-state" style="grid-column:1/-1"><p style="font-size:13px">Nenhum projeto com grupo inscrito.<br>Peça ao professor para cadastrar o seu grupo.</p></div>`;return;}
+  g.innerHTML=list.map(p=>{
+    const pct=getProgress(p.id);
+    const grps=state.groups.filter(g=>g.projectId===p.id);
+    return `<div class="project-card" onclick="openStudentModal('${p.id}')">
+      <div class="card-top"><span class="badge-ano ${(p.ano===7||p.ano===9)?'b7':'b6'}">${p.ano}º Ano</span><span class="sem-badge">${p.sem}º Sem · Op. ${p.opt}</span></div>
+      <div class="card-title">${p.title}</div>
+      <div class="card-desc">${p.desc}</div>
+      ${grps.length?`<div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px">${grps.map(g=>`<span class="member-chip">${g.name}</span>`).join('')}</div>`:''}
+      <div class="progress-wrap">
+        <div class="progress-label"><span>Progresso</span><span>${pct}%</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+      </div>
+      <div class="card-footer"><span>${p.duracao}</span><span class="team-size">${p.equipe}</span></div>
+    </div>`;
+  }).join('');
+}
+
+// ── CARDS (teacher) ──
+function renderCardsT(){
+  document.getElementById('projectsGridT').innerHTML=PROJECTS.filter(p=>matchF(p,state.filterT)).map(p=>{
+    const pct=getProgress(p.id);
+    return `<div class="project-card" onclick="openModal('${p.id}',null,true)">
+      <div class="card-top"><span class="badge-ano ${(p.ano===7||p.ano===9)?'b7':'b6'}">${p.ano}º Ano</span><span class="sem-badge">${p.sem}º Sem · Op. ${p.opt}</span></div>
+      <div class="card-title">${p.title}</div>
+      <div class="card-desc">${p.desc}</div>
+      <div class="progress-wrap">
+        <div class="progress-label"><span>Progresso</span><span>${pct}%</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+      </div>
+      <div class="card-footer"><span>${p.duracao}</span><span class="team-size">${p.equipe}</span></div>
+    </div>`;
+  }).join('');
+}
+
+// ── STUDENT MODAL ──
+function openStudentModal(pid){
+  const grps=state.groups.filter(g=>g.projectId===pid);
+  if(grps.length===0){openModal(pid,null,false);return;}
+  if(grps.length===1){openModal(pid,grps[0].id,false);return;}
+  const names=grps.map(g=>g.name);
+  const sel=window.prompt(`Qual grupo você é?\n${names.map((n,i)=>`${i+1}. ${n}`).join('\n')}\n\nDigite o número:`);
+  const idx=parseInt(sel)-1;
+  if(idx>=0&&idx<grps.length)openModal(pid,grps[idx].id,false);
+}
+
+// ── MODAL ──
+function openModal(pid,gid,isT){
+  const p=PROJECTS.find(x=>x.id===pid);if(!p)return;
+  const teacherMode=isT||isProf();
+  state.curModal={pid,gid:gid||null,isT:teacherMode};
+  document.getElementById('mBadges').innerHTML=`<span class="badge-ano ${(p.ano===7||p.ano===9)?'b7':'b6'}">${p.ano}º Ano</span><span class="sem-badge">${p.sem}º Semestre · Opção ${p.opt}</span>${teacherMode?'<span class="mi mi-t">professor</span>':'<span class="mi mi-s">aluno</span>'}`;
+  document.getElementById('mTitle').textContent=p.title;
+  document.getElementById('mDesc').textContent=p.desc;
+  document.getElementById('mMeta').innerHTML=[`<span class="meta-chip">Equipe: ${p.equipe}</span>`,`<span class="meta-chip">${p.duracao}</span>`,`<span class="meta-chip">${p.formato}</span>`].join('');
+  const gr=gid?state.groups.find(g=>g.id===gid):null;
+  const gt=document.getElementById('mGroupTag');
+  if(gr){gt.innerHTML=`Grupo: <span>${gr.name}</span> &nbsp;·&nbsp; ${gr.members.filter(Boolean).join(', ')}`;gt.style.display='flex';}
+  else gt.style.display='none';
+  const ns=gid?`${gid}_${pid}`:pid;
+  const pct=getProgress(pid,gid);
+  document.getElementById('mPctLabel').textContent=`Progresso: ${pct}%`;
+  document.getElementById('mOverallBar').style.width=pct+'%';
+  document.getElementById('mBody').innerHTML=p.etapas.map((e,i)=>buildEtapa(e,i,ns,pid,gid,teacherMode)).join('');
+  document.getElementById('modalOverlay').classList.remove('hidden');
+}
+
+function buildEtapa(e,i,ns,pid,gid,isT){
+  const key=ns+'_'+i;
+  const obsKey=pid+'_etapa_'+i;
+  const done=!!state.progress[key];
+  const open=!!state.openEtapas[key];
+  const note=state.notes[key]||'';
+  const tObs=state.teacherObs[obsKey]||'';
+
+  // Teacher obs block — editable for teacher, read-only for students (no delete button shown)
+  let obsBlock='';
+  if(isT){
+    obsBlock=`<div class="teacher-obs-box" id="tob_${obsKey}">
+      <div class="teacher-obs-label">📌 Observação do professor</div>
+      <textarea class="teacher-obs-input" id="tobinput_${obsKey}" placeholder="Deixe uma observação para os alunos desta etapa...">${tObs}</textarea>
+      <div class="obs-actions">
+        <button class="obs-save-btn" onclick="saveTeacherObs('${obsKey}','${pid}',${i})">Salvar obs.</button>
+        ${tObs?`<button class="obs-del-btn" id="tobdel_${obsKey}" onclick="delTeacherObs('${obsKey}','${pid}',${i})">Remover</button>`:''}
+      </div>
+    </div>`;
+  } else if(tObs){
+    // Students only see the text — no edit, no delete button whatsoever
+    obsBlock=`<div class="teacher-obs-box">
+      <div class="teacher-obs-label">📌 Observação do professor</div>
+      <div class="teacher-obs-text">${tObs}</div>
+    </div>`;
+  }
+
+  return `<div class="etapa" id="etapa_${key}">
+    <div class="etapa-header" onclick="toggleEtapa('${key}')">
+      <div class="etapa-check ${done?'done':''}" onclick="toggleCheck(event,'${key}','${pid}','${gid||''}')"></div>
+      <div class="etapa-label">${i+1}. ${e.label}</div>
+      <div class="etapa-week">${e.semana}</div>
+    </div>
+    <div class="etapa-body ${open?'':'hidden'}" id="body_${key}">
+      <div class="task-list">${e.tasks.map(t=>`<div class="task-item"><div class="task-dot"></div><span>${t}</span></div>`).join('')}</div>
+      ${obsBlock}
+      <div class="notes-section">
+        <div class="notes-label">Anotações da equipe</div>
+        <textarea class="notes-input" placeholder="Escreva as observações desta etapa..." oninput="saveNote('${key}',this.value,'${gid||''}','${pid}',${i})">${note}</textarea>
+        <div class="drive-box" style="margin-top:10px">
+          <span style="font-size:18px;flex-shrink:0">📁</span>
+          <div class="drive-box-text">
+            <strong>Enviar evidências (fotos, documentos, apresentações)</strong>
+            <span>Faça o upload no Google Drive do programa. Organize em uma pasta com o nome do grupo.</span>
+            <button class="drive-btn" onclick="openDrive()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> Abrir Drive</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function saveTeacherObs(obsKey,pid,i){
+  const val=document.getElementById('tobinput_'+obsKey)?.value||'';
+  state.teacherObs[obsKey]=val;
+  saveState();
+  addLog(`Obs. professor salva: projeto ${pid}, etapa ${i+1}`);
+  // show/hide delete button
+  const delBtn=document.getElementById('tobdel_'+obsKey);
+  const acts=document.getElementById('tob_'+obsKey)?.querySelector('.obs-actions');
+  if(acts){
+    if(val&&!delBtn){
+      const b=document.createElement('button');b.className='obs-del-btn';b.id='tobdel_'+obsKey;
+      b.textContent='Remover';b.setAttribute('onclick',`delTeacherObs('${obsKey}','${pid}',${i})`);
+      acts.appendChild(b);
+    }
+    if(!val&&delBtn)delBtn.remove();
+  }
+}
+
+// Only teacher (master) can delete obs — and only via professor panel, not shown to students
+function delTeacherObs(obsKey,pid,i){
+  requireAuth('master',()=>{
+    if(!confirm('Remover esta observação?'))return;
+    delete state.teacherObs[obsKey];
+    saveState();
+    addLog(`Obs. professor removida: projeto ${pid}, etapa ${i+1}`);
+    const ta=document.getElementById('tobinput_'+obsKey);if(ta)ta.value='';
+    const db=document.getElementById('tobdel_'+obsKey);if(db)db.remove();
+  });
+}
+
+function toggleEtapa(key){
+  state.openEtapas[key]=!state.openEtapas[key];
+  saveState();
+  document.getElementById('body_'+key)?.classList.toggle('hidden',!state.openEtapas[key]);
+}
+
+function toggleCheck(e,key,pid,gid){
+  e.stopPropagation();
+  state.progress[key]=!state.progress[key];
+  saveState();
+  document.getElementById('etapa_'+key)?.querySelector('.etapa-check')?.classList.toggle('done',state.progress[key]);
+  const pct=getProgress(pid,gid||null);
+  document.getElementById('mPctLabel').textContent=`Progresso: ${pct}%`;
+  document.getElementById('mOverallBar').style.width=pct+'%';
+  const grName=gid?state.groups.find(g=>g.id===gid)?.name:'geral';
+  addLog(`Etapa ${state.progress[key]?'concluída':'reaberta'}: ${PROJECTS.find(p=>p.id===pid)?.title||pid} [${grName}]`);
+  renderCards();renderGroups();
+  if(state.view==='teacher')renderTeacher();
+  if(state.view==='projects-teacher')renderCardsT();
+}
+
+function saveNote(key,val,gid,pid,i){
+  state.notes[key]=val;
+  saveState();
+  clearTimeout(saveNote._t);
+  saveNote._t=setTimeout(()=>{
+    const grName=gid?state.groups.find(g=>g.id===gid)?.name:'geral';
+    addLog(`Anotação atualizada: ${PROJECTS.find(p=>p.id===pid)?.title||pid} [${grName}] etapa ${i+1}`);
+  },2000);
+}
+
+function closeModal(e){if(e.target===document.getElementById('modalOverlay'))closeModalBtn();}
+function closeModalBtn(){document.getElementById('modalOverlay').classList.add('hidden');state.curModal=null;}
+
+// ── TEACHER PANEL ──
+function renderTeacher(){
+  const turmas=[6,7,8,9].map(a=>({ano:a,projs:PROJECTS.filter(p=>p.ano===a)}));
+  let tot=0,ini=0;
+  PROJECTS.forEach(p=>{const pct=getProgress(p.id);tot+=pct;if(pct>0)ini++;});
+  document.getElementById('sumCards').innerHTML=[
+    {v:PROJECTS.length,l:'Projetos totais'},{v:state.groups.length,l:'Grupos cadastrados'},
+    {v:ini,l:'Em andamento'},{v:PROJECTS.filter(p=>getProgress(p.id)===100).length,l:'Concluídos'},
+    {v:Math.round(tot/PROJECTS.length)+'%',l:'Progresso médio'},
+  ].map(s=>`<div class="sum-card"><div class="sum-val">${s.v}</div><div class="sum-lbl">${s.l}</div></div>`).join('');
+
+  document.getElementById('turmasContainer').innerHTML=turmas.map(t=>{
+    const avg=Math.round(t.projs.reduce((s,p)=>s+getProgress(p.id),0)/t.projs.length);
+    const gy=state.groups.filter(g=>g.ano===t.ano);
+    return `<div class="turma-block">
+      <div class="turma-header"><div class="turma-name">${t.ano}º Ano</div><div class="turma-avg">${avg}% médio</div></div>
+      ${t.projs.map(p=>{
+        const pct=getProgress(p.id);
+        const fc=pct>=70?'':pct>=40?'fw':'fl';
+        const pg=gy.filter(g=>g.projectId===p.id);
+        return `<div class="project-row" onclick="openModal('${p.id}',null,true)">
+          <div class="proj-name">Op. ${p.opt} · ${p.title}</div>
+          <div class="proj-prog"><div class="mini-bar"><div class="mini-fill ${fc}" style="width:${pct}%"></div></div></div>
+          <div class="proj-pct">${pct}%</div>
+        </div>
+        ${pg.length?`<div class="group-rows">${pg.map(gr=>{
+          const gp=getProgress(gr.projectId,gr.id);
+          const gf=gp>=70?'':gp>=40?'fw':'fl';
+          return `<div class="group-sub-row" onclick="openModal('${gr.projectId}','${gr.id}',true);event.stopPropagation()">
+            <div class="gsub-name">${gr.name}</div>
+            <div class="gsub-members">${gr.members.filter(Boolean).join(' · ')}</div>
+            <div style="flex:1;min-width:60px"><div class="mini-bar"><div class="mini-fill ${gf}" style="width:${gp}%"></div></div></div>
+            <div class="gsub-pct">${gp}%</div>
+          </div>`;
+        }).join('')}</div>`:''}`
+      }).join('')}
+    </div>`;
+  }).join('');
+}
+
+// ── PROJECTS DATA ──
+const PROJECTS=[
+  {id:'6A1',ano:6,sem:1,opt:'A',title:'Feira do Centavo Consciente',desc:'Criem uma mini-empresa real: escolhem produto, calculam custos, definem preço, produzem e vendem na Feira.',duracao:'4 semanas',equipe:'3-4 alunos',formato:'Stand na Feira + painel DRE',etapas:[
+    {label:'Escolha do Produto e Pesquisa de Mercado',semana:'Semana 1',tasks:['Listar 5 ideias de produto','Aplicar questionário com 20 pessoas','Tabular resultados e escolher produto','Definir nome da mini-empresa e slogan']},
+    {label:'Planejamento Financeiro',semana:'Semana 2',tasks:['Listar todos os custos','Calcular custo unitário','Definir preço de venda (custo + 50-100%)','Preencher DRE projetado','Definir meta de vendas']},
+    {label:'Produção e Marketing',semana:'Semana 3',tasks:['Produzir lote-teste (5 unidades)','Ajustar receita/processo','Produzir lote final','Criar cartaz do stand','Preparar sistema de troco']},
+    {label:'Feira + DRE Final',semana:'Semana 4',tasks:['Montar stand','Registrar cada venda','Somar receita e subtrair custos','Preencher DRE final','Apresentar aprendizados']}]},
+  {id:'6B1',ano:6,sem:1,opt:'B',title:'Detetives Financeiros de Limoeiro',desc:'Investigam vida financeira da comunidade: entrevistas, pesquisa de preços e jornal/documentário.',duracao:'4 semanas',equipe:'3-4 alunos',formato:'Painel jornalístico + apresentação oral',etapas:[
+    {label:'Planejamento da Investigação',semana:'Semana 1',tasks:['Escolher tema','Criar 8-10 perguntas','Definir quem entrevistar','Distribuir papéis']},
+    {label:'Pesquisa de Campo',semana:'Semana 2',tasks:['Realizar entrevistas','Comparar preços em 3 lojas','Fotografar locais','Anotar observações']},
+    {label:'Análise e Produção',semana:'Semana 3',tasks:['Tabular dados','Criar 2 gráficos','Escrever 3-4 matérias','Montar jornal mural']},
+    {label:'Apresentação na Feira',semana:'Semana 4',tasks:['Ensaiar (2 min cada)','Preparar dicas financeiras','Montar stand','Interagir com visitantes']}]},
+  {id:'6C1',ano:6,sem:1,opt:'C',title:'O Jogo que Ensina a Poupar',desc:'Criam jogo de tabuleiro original que ensine conceitos de educação financeira.',duracao:'4 semanas',equipe:'3-4 alunos',formato:'Stand com jogo jogável',etapas:[
+    {label:'Game Design',semana:'Semana 1',tasks:['Jogar jogos de referência','Definir tipo e objetivo','Listar 5 conceitos financeiros','Rascunho do tabuleiro']},
+    {label:'Produção das Peças',semana:'Semana 2',tasks:['Desenhar e colorir tabuleiro','Criar 20-30 cartas','Produzir dinheiro do jogo','Criar peões e manual']},
+    {label:'Playtest e Ajustes',semana:'Semana 3',tasks:['Jogar 1 partida completa','Convidar outra equipe','Coletar feedback','Fazer ajustes']},
+    {label:'Finalização e Feira',semana:'Semana 4',tasks:['Acabamento final','Criar cartaz','Preparar 2-3 cópias','Ensaiar explicação de 1 minuto']}]},
+  {id:'6A2',ano:6,sem:2,opt:'A',title:'Inventor da Escola',desc:'Identificam problema real na escola e criam protótipo funcional de solução inovadora.',duracao:'4 semanas',equipe:'3-4 alunos',formato:'Stand com protótipo + painel do processo',etapas:[
+    {label:'Caça ao Problema',semana:'Semana 1',tasks:['Caminhar anotando problemas','Entrevistar 10 pessoas','Listar 5 problemas','Escolher 1']},
+    {label:'Chuva de Ideias + Seleção',semana:'Semana 2',tasks:['3 ideias por membro','Avaliar viabilidade e impacto','Selecionar ideia','Fazer esboço']},
+    {label:'Construção do Protótipo',semana:'Semana 3',tasks:['Listar materiais','Construir protótipo v1','Testar','Versão melhorada']},
+    {label:'Teste + Feira',semana:'Semana 4',tasks:['Testar com 5 pessoas','Coletar feedback','Criar painel do processo','Montar stand']}]},
+  {id:'6B2',ano:6,sem:2,opt:'B',title:'Minha Voz, Nossa Causa',desc:'Escolhem causa social e criam campanha completa: slogan, cartaz, vídeo e ação na escola.',duracao:'4 semanas',equipe:'3-4 alunos',formato:'Stand com campanha + vídeo + panfletos',etapas:[
+    {label:'Escolha da Causa + Pesquisa',semana:'Semana 1',tasks:['2 causas por membro','Votar','Pesquisar dados reais','Entrevistar 5 afetados']},
+    {label:'Criação da Campanha',semana:'Semana 2',tasks:['Criar nome e slogan','Desenhar cartaz','Criar panfleto','Definir mensagem-chave']},
+    {label:'Produção de Vídeo',semana:'Semana 3',tasks:['Escrever roteiro','Gravar cenas','Editar no celular','Ajustes finais']},
+    {label:'Lançamento na Feira',semana:'Semana 4',tasks:['Montar stand','Imprimir panfletos','Definir papéis','Coletar assinaturas']}]},
+  {id:'6C2',ano:6,sem:2,opt:'C',title:'Talk Show Empreendedor',desc:'Criam e gravam talk show entrevistando empreendedor real de Limoeiro.',duracao:'4 semanas',equipe:'3-4 alunos',formato:'Stand com exibição + cenário para fotos',etapas:[
+    {label:'Pré-Produção',semana:'Semana 1',tasks:['Listar 5 empreendedores','Fazer contato','Pesquisar negócio','Criar roteiro 10-12 perguntas']},
+    {label:'Gravação',semana:'Semana 2',tasks:['Montar cenário','Testar áudio','Gravar entrevista','Gravar abertura e encerramento']},
+    {label:'Edição',semana:'Semana 3',tasks:['Selecionar melhores trechos','Montar sequência','Adicionar música e títulos','Exportar versão final']},
+    {label:'Exibição na Feira',semana:'Semana 4',tasks:['Criar cartaz','Montar exibição em loop','Preparar apresentação','Convidar empreendedor']}]},
+  {id:'7A1',ano:7,sem:1,opt:'A',title:'Consultoria Financeira Mirim',desc:'Atuam como consultores: analisam finanças de comerciante e entregam plano profissional.',duracao:'5 semanas',equipe:'3-4 alunos',formato:'Stand profissional + entrega simbólica',etapas:[
+    {label:'Formação da Consultoria',semana:'Semana 1',tasks:['Criar nome e logo','Estudar diagnóstico financeiro','Definir papéis','Preparar formulário']},
+    {label:'Diagnóstico de Campo',semana:'Semana 2',tasks:['Entrevistar comerciante','Fotografar','Preencher formulário','Coletar dados financeiros']},
+    {label:'Análise e Plano',semana:'Semanas 3-4',tasks:['Organizar em planilha','Calcular DRE','Identificar oportunidades','Redigir plano financeiro']},
+    {label:'Apresentação na Feira',semana:'Semana 5',tasks:['Montar stand','Imprimir plano em envelope','Ensaiar','Convidar comerciante']}]},
+  {id:'7B1',ano:7,sem:1,opt:'B',title:'Mapa Empreendedor de Limoeiro',desc:'Mapeamento de negócios de um bairro: tipos, oportunidades e perfil.',duracao:'4 semanas',equipe:'3-4 alunos',formato:'Stand com mapa ilustrado + relatório',etapas:[
+    {label:'Planejamento do Mapeamento',semana:'Semana 1',tasks:['Definir área','Criar categorias','Preparar ficha de coleta']},
+    {label:'Coleta de Campo',semana:'Semana 2',tasks:['Percorrer ruas','Preencher ficha','Fotografar fachadas','Anotar terrenos vazios']},
+    {label:'Análise + Mapa',semana:'Semana 3',tasks:['Tabular dados','Desenhar mapa ilustrado','Calcular por categoria','Listar oportunidades']},
+    {label:'Feira',semana:'Semana 4',tasks:['Montar stand com mapa','Criar mini-relatório','Apresentar']}]},
+  {id:'7C1',ano:7,sem:1,opt:'C',title:'Shark Tank CSM',desc:'Criam negócio completo e apresentam em formato Shark Tank para banca de investidores.',duracao:'4 semanas',equipe:'3-4 alunos',formato:'Pitch 5 min para banca + stand',etapas:[
+    {label:'Ideação + Canvas',semana:'Semana 1',tasks:['Brainstorming: 10 ideias','Selecionar a melhor','Preencher Canvas','Definir nome, logo, slogan']},
+    {label:'Finanças + Marketing',semana:'Semana 2',tasks:['Calcular custos e preço','Projetar DRE 3 meses','Estratégia de marketing','Material visual']},
+    {label:'Protótipo + Pitch',semana:'Semana 3',tasks:['Construir protótipo','Montar slides (máx 8)','Ensaiar pitch','Preparar respostas']},
+    {label:'Shark Tank + Feira',semana:'Semana 4',tasks:['Pitch 5 min + 3 min perguntas','Montar stand','Interagir','Coletar feedback']}]},
+  {id:'7A2',ano:7,sem:2,opt:'A',title:'Hackathon da Comunidade',desc:'Sprint de Design Thinking para resolver problema real da comunidade.',duracao:'4 semanas',equipe:'3-4 alunos',formato:'Stand com painel DT + protótipo',etapas:[
+    {label:'Empatia + Definição',semana:'Semana 1',tasks:['10 entrevistas de empatia','Mapa de Empatia','Definir problema (HMW)','Validar com 5 pessoas']},
+    {label:'Ideação',semana:'Semana 2',tasks:['Brainstorming livre','SCAMPER','Dot-voting','Detalhar ideia']},
+    {label:'Prototipagem + Teste',semana:'Semana 3',tasks:['Construir protótipo','Testar com 5','Coletar feedback','Iterar']},
+    {label:'Feira',semana:'Semana 4',tasks:['Painel DT','Exibir protótipo','Vídeo dos testes','Explicar aprendizados']}]},
+  {id:'7B2',ano:7,sem:2,opt:'B',title:'Agência de Comunicação CSM',desc:'Atuam como agência: atendem comerciante criando marca, posts e estratégia digital.',duracao:'4 semanas',equipe:'3-4 alunos',formato:'Stand com portfólio + depoimento',etapas:[
+    {label:'Briefing do Cliente',semana:'Semana 1',tasks:['Visitar e entrevistar','Preencher briefing','Fotografar','Analisar presença digital']},
+    {label:'Criação de Marca',semana:'Semana 2',tasks:['3 propostas de logo','Apresentar ao cliente','Definir paleta','Criar template']},
+    {label:'Produção de Conteúdo',semana:'Semana 3',tasks:['Calendário semanal','5-8 artes no Canva','Escrever legendas','1 Reels']},
+    {label:'Entrega + Feira',semana:'Semana 4',tasks:['Compilar portfólio','Entregar ao cliente','Stand antes/depois','Mostrar métricas']}]},
+  {id:'7C2',ano:7,sem:2,opt:'C',title:'TEDx CSM',desc:'Cada aluno prepara palestra de 5 minutos no formato TED Talk, gravada profissionalmente.',duracao:'4 semanas',equipe:'4 alunos',formato:'Exibição na Feira + stand com QR code',etapas:[
+    {label:'Escolha do Tema + Roteiro',semana:'Semana 1',tasks:['Escolher tema individual','Escrever roteiro (~700 palavras)','Feedback cruzado']},
+    {label:'Ensaio',semana:'Semana 2',tasks:['Ensaiar 3+ vezes de pé','Gravar e assistir','Receber feedback','Ajustar']},
+    {label:'Gravação',semana:'Semana 3',tasks:['Montar cenário tipo TED','Gravar (máx 2 takes)','Editar e finalizar']},
+    {label:'Exibição na Feira',semana:'Semana 4',tasks:['Criar playlist','Montar espaço','Gerar QR code','Apresentar ao vivo']}]},
+  {id:'8A1',ano:8,sem:1,opt:'A',title:'Startup Weekend Escolar',desc:'Em 5 semanas criam startup real: validação, MVP digital, lançamento e métricas.',duracao:'5 semanas',equipe:'3-4 alunos',formato:'MVP + painel de métricas + pitch 3 min',etapas:[
+    {label:'Validação do Problema',semana:'Semana 1',tasks:['Brainstorming de problemas','Entrevistar 15 pessoas','Criar persona','Calcular validação']},
+    {label:'MVP: Landing Page',semana:'Semanas 2-3',tasks:['Escrever texto da página','Criar (Carrd/Google Sites)','Configurar coleta de emails','Divulgar']},
+    {label:'Métricas e Análise',semana:'Semana 4',tasks:['Coletar dados','Calcular conversão','Criar dashboard','Decidir: pivotar?']},
+    {label:'Feira',semana:'Semana 5',tasks:['Pitch com dados reais','Stand com MVP','Demonstrar ao vivo']}]},
+  {id:'8B1',ano:8,sem:1,opt:'B',title:'Fintech da Escola',desc:'Projetam app financeiro para jovens: wireframes, protótipo clicável e teste de usabilidade.',duracao:'4 semanas',equipe:'3-4 alunos',formato:'Stand com protótipo clicável + painel UX',etapas:[
+    {label:'Pesquisa + Persona',semana:'Semana 1',tasks:['Entrevistar 15 adolescentes','Criar persona','Definir problema','Benchmarking: 3 apps']},
+    {label:'Wireframes',semana:'Semana 2',tasks:['Desenhar fluxo','Wireframes em papel','Testar com 3 colegas','Digitalizar']},
+    {label:'Protótipo + Teste',semana:'Semana 3',tasks:['Criar protótipo clicável','Testar com 5','Documentar','Corrigir 3 maiores problemas']},
+    {label:'Feira',semana:'Semana 4',tasks:['Montar stand','Criar painel UX','Visitantes testam']}]},
+  {id:'8C1',ano:8,sem:1,opt:'C',title:'Economia Circular de Limoeiro',desc:'Identificam resíduo da comunidade e transformam em produto com valor comercial.',duracao:'4 semanas',equipe:'3-4 alunos',formato:'Stand com produtos + painel do ciclo',etapas:[
+    {label:'Diagnóstico de Resíduos',semana:'Semana 1',tasks:['Observar lixeiras','Entrevistar 3 comerciantes','Listar 5 resíduos','Escolher 1']},
+    {label:'Ideação do Produto',semana:'Semana 2',tasks:['Brainstorming: 10 ideias','Pesquisar referências','Selecionar ideia','Calcular custo']},
+    {label:'Produção',semana:'Semana 3',tasks:['Coletar matéria-prima','Lote-teste','Avaliar e ajustar','Lote final + embalagem']},
+    {label:'Feira',semana:'Semana 4',tasks:['Stand antes/depois','Vender produtos','DRE real','Painel de impacto ambiental']}]},
+  {id:'8A2',ano:8,sem:2,opt:'A',title:'Lab de Tecnologia Aplicada',desc:'Escolhem tecnologia exponencial (IA, IoT, RA) e criam aplicação prática para Limoeiro.',duracao:'5 semanas',equipe:'3-4 alunos',formato:'Demonstração funcional + painel explicativo',etapas:[
+    {label:'Escolha da Tecnologia',semana:'Semana 1',tasks:['Pesquisa individual','Apresentação interna','Escolher tecnologia','Definir problema local']},
+    {label:'Projeto Técnico',semana:'Semana 2',tasks:['Desenhar arquitetura','Listar recursos','Definir escopo','Criar cronograma']},
+    {label:'Desenvolvimento',semana:'Semanas 3-4',tasks:['Desenvolver iterativamente','Testar diariamente','Documentar','Preparar demonstração']},
+    {label:'Feira',semana:'Semana 5',tasks:['Demonstração interativa','Painel explicativo','Preparar para leigos','Documentar reações']}]},
+  {id:'8B2',ano:8,sem:2,opt:'B',title:'Redesign de Experiência',desc:'Escolhem serviço escolar e fazem redesign completo da experiência do usuário com UX.',duracao:'4 semanas',equipe:'3-4 alunos',formato:'Painel antes/depois + protótipo + vídeo',etapas:[
+    {label:'Pesquisa UX',semana:'Semana 1',tasks:['Observação silenciosa','Entrevistar 10 usuários','Mapear jornada','Criar persona']},
+    {label:'Ideação + Wireframe',semana:'Semana 2',tasks:['Brainstorming de melhorias','Matriz impacto vs esforço','Criar wireframes','Validar com 3']},
+    {label:'Protótipo + Teste',semana:'Semana 3',tasks:['Criar protótipo','Testar com 5','Documentar','Iterar']},
+    {label:'Feira',semana:'Semana 4',tasks:['Painel antes/depois','Demonstração','Vídeo dos testes','Relatório ao responsável']}]},
+  {id:'8C2',ano:8,sem:2,opt:'C',title:'Podcast Inovação & Futuro',desc:'Produzem 3 episódios de podcast sobre tecnologias exponenciais e Limoeiro.',duracao:'4 semanas',equipe:'3-4 alunos',formato:'Stand com QR code + estúdio montado',etapas:[
+    {label:'Pauta + Roteiro',semana:'Semana 1',tasks:['Escolher 3 temas','Pesquisar','Escrever roteiros','Identificar entrevistados']},
+    {label:'Gravação Ep. 1 e 2',semana:'Semana 2',tasks:['Preparar ambiente','Gravar ep. 1','Gravar ep. 2','Gravar entrevistas']},
+    {label:'Ep. 3 + Edição',semana:'Semana 3',tasks:['Gravar ep. 3','Editar os 3','Criar capa','Publicar']},
+    {label:'Feira',semana:'Semana 4',tasks:['Montar mini-estúdio','QR code','Exibir trechos','Ep. bônus ao vivo']}]},
+  {id:'9A1',ano:9,sem:1,opt:'A',title:'Startup Real: Do Problema ao 1º Cliente',desc:'Criam startup real, validam problema, constroem MVP e realizam pelo menos 1 transação real.',duracao:'6 semanas',equipe:'3-4 alunos',formato:'MVP + métricas reais + pitch 5 min',etapas:[
+    {label:'Discovery',semana:'Semanas 1-2',tasks:['Entrevistar 20+ clientes','Criar persona','Mapear concorrentes','Validar disposição a pagar']},
+    {label:'MVP + Lançamento',semana:'Semanas 3-4',tasks:['Definir MVP mínimo','Construir em 2 semanas','Lançar e divulgar','1 transação real']},
+    {label:'Métricas + Iteração',semana:'Semana 5',tasks:['Compilar métricas','Calcular CAC, conversão, NPS','Dashboard financeiro','Pivotar ou perseverar?']},
+    {label:'Demo Day na Feira',semana:'Semana 6',tasks:['Pitch Deck com dados reais','Ensaiar 5+ vezes','Stand profissional','Pitch para banca']}]},
+  {id:'9B1',ano:9,sem:1,opt:'B',title:'Fundo de Investimento Estudantil',desc:'Simulam fundo com R$100K fictícios. Decisões semanais baseadas em cenários econômicos reais.',duracao:'5 semanas',equipe:'3-4 alunos',formato:'Dashboard + timeline de decisões + pitch',etapas:[
+    {label:'Tese de Investimento',semana:'Semana 1',tasks:['Estudar tipos de ativos','Definir tese','Criar regras do fundo','Alocação inicial R$100K']},
+    {label:'Operações Semanais',semana:'Semanas 2-4',tasks:['Analisar notícias','Decidir comprar/vender','Registrar com justificativa','Calcular saldo']},
+    {label:'Relatório Final',semana:'Semana 4',tasks:['Calcular retorno total','3 melhores e 3 piores','Gráfico de evolução','Escrever relatório']},
+    {label:'Feira',semana:'Semana 5',tasks:['Dashboard visual','Timeline de decisões','Pitch: tese → resultados','Comparar com Ibovespa']}]},
+  {id:'9C1',ano:9,sem:1,opt:'C',title:'Incubadora Social',desc:'Criam startup que gera lucro e impacto social simultaneamente.',duracao:'5 semanas',equipe:'3-4 alunos',formato:'Teoria da Mudança + MVP + métricas duplas',etapas:[
+    {label:'Problema Social + Modelo',semana:'Semanas 1-2',tasks:['Mapear problemas sociais','Entrevistar 15+ afetados','Criar Teoria da Mudança','Modelo de negócio']},
+    {label:'MVP de Impacto',semana:'Semanas 3-4',tasks:['Construir MVP','Lançar e medir','Coletar depoimentos','Antes vs depois']},
+    {label:'Métricas Duplas',semana:'Semana 4',tasks:['DRE do negócio','Métricas sociais','Custo por pessoa','Dashboard duplo']},
+    {label:'Feira',semana:'Semana 5',tasks:['Painel Teoria da Mudança','Depoimentos','Dashboard duplo','Pitch de impacto']}]},
+  {id:'9A2',ano:9,sem:2,opt:'A',title:'Demo Day — O Grande Pitch',desc:'Pitch profissional de 5 minutos para banca de empreendedores reais.',duracao:'5 semanas',equipe:'3-4 alunos',formato:'Pitch para banca + stand profissional',etapas:[
+    {label:'Refinamento da Startup',semana:'Semanas 1-2',tasks:['Revisar Canvas, finanças, MVP','Atualizar métricas','Refinar proposta de valor','Material visual profissional']},
+    {label:'Pitch Deck Profissional',semana:'Semana 3',tasks:['Criar 12 slides','Design limpo','Ensaiar cronometrado (5 min)','10 perguntas difíceis']},
+    {label:'Ensaio Geral',semana:'Semana 4',tasks:['Pitch para a turma','Feedback 360','Ajustar slides e falas','3+ ensaios finais']},
+    {label:'Demo Day + Feira',semana:'Semana 5',tasks:['Pitch 5 min + 5 min perguntas','Stand profissional','Interagir','Coletar contatos']}]},
+  {id:'9B2',ano:9,sem:2,opt:'B',title:'Limoeiro 2040',desc:'Documentário + plano estratégico: como Limoeiro pode se desenvolver nos próximos 15 anos.',duracao:'5 semanas',equipe:'3-4 alunos',formato:'Maquete + documentário + plano impresso',etapas:[
+    {label:'Pesquisa: Limoeiro Hoje',semana:'Semanas 1-2',tasks:['Dados IBGE/Atlas Brasil','Entrevistar 5+ líderes','Mapear forças e fraquezas','Gravar entrevistas']},
+    {label:'Visão 2040',semana:'Semana 3',tasks:['5 eixos estratégicos','Diagnóstico atual + proposta','Criar mapa/maquete','Fundamentar com tecnologias']},
+    {label:'Documentário',semana:'Semana 4',tasks:['Editar com entrevistas e dados','Criar trilha sonora','Exportar versão final (10-15 min)']},
+    {label:'Feira',semana:'Semana 5',tasks:['Exibição do documentário','Expor maquete','Imprimir plano estratégico','Convidar prefeitura']}]},
+  {id:'9C2',ano:9,sem:2,opt:'C',title:'Mentor de Futuro',desc:'Equipes do 9º ano preparam e conduzem oficina de 1 hora para alunos do 6º ano.',duracao:'4 semanas',equipe:'4 alunos',formato:'Oficina ao vivo + stand com material didático',etapas:[
+    {label:'Planejamento Pedagógico',semana:'Semana 1',tasks:['Escolher tema','Pesquisar como crianças aprendem','Criar plano de aula de 1h','Definir materiais']},
+    {label:'Criação de Material',semana:'Semana 2',tasks:['Apresentação visual','Atividade prática','Ficha de atividade','Dinâmica de abertura']},
+    {label:'Ensaio',semana:'Semana 3',tasks:['Ensaiar completo','Feedback de outro grupo','Ajustar tempo','Ensaiar novamente']},
+    {label:'Oficina na Feira',semana:'Semana 4',tasks:['Conduzir oficina de 1h com 6º ano','Coletar feedback','Montar stand','Reflexão final']}]}
+];
+
+setView(state.view);
+</script>
+</body>
+</html>
