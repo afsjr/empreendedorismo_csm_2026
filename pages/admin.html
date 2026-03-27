@@ -454,13 +454,19 @@
         let currentDuvida = null;
         let currentProjeto = null;
 
-        // Verificar autenticação
-        if (!App.isProfessor()) {
-            window.location.href = '../index.html';
-        }
-
         async function init() {
             App.init();
+            
+            // Pequeno delay para garantir que a sessão foi carregada
+            await new Promise(r => setTimeout(r, 100));
+            
+            // Verificar autenticação DEPOIS de carregar a sessão
+            if (!App.isProfessor()) {
+                alert('Você precisa fazer login para acessar esta página.');
+                window.location.href = '../index.html';
+                return;
+            }
+            
             setupTabs();
             setupForms();
             App.initModalClose();
