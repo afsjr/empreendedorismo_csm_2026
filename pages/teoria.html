@@ -231,46 +231,222 @@
     <script src="../js/app.js"></script>
     
     <script>
-        // Dados dos módulos por ano
+        // Dados dos módulos por ano (estrutura completa restaurada do backup)
         const MODULOS = {
             6: {
                 title: "Descoberta e Habilidades do Futuro",
                 theme: "orange",
                 mods: [
-                    { id: 1, name: "Empreendedorismo", icon: "💡", lessons: ["O que é empreendedorismo?", "Características empreendedoras", "Casos inspiradores"] },
-                    { id: 2, name: "Autoconhecimento", icon: "🎯", lessons: ["Conhecendo suas fortalezas", "Corpo e mente saudáveis", "Definindo metas"] },
-                    { id: 3, name: "Inteligência Emocional", icon: "❤️", lessons: ["Entendendo emoções", "Empatia", "Autocontrole"] },
-                    { id: 4, name: "Pensamento Crítico", icon: "🧠", lessons: ["Analisar informações", "Evidência vs opinião", "Tomada de decisão"] }
+                    { id: 1, name: "Negócios", icon: "💼", lessons: [
+                        { title: "Empreendedorismo", page: 8 },
+                        { title: "Conhecer a si mesmo", page: 10 },
+                        { title: "Inteligência emocional", page: 12 },
+                        { title: "Pensamento crítico e empatia", page: 14 },
+                        { title: "Coragem e resiliência", page: 16 },
+                        { title: "Liderança e proatividade", page: 18 },
+                        { title: "Trabalho em equipe", page: 20 },
+                        { title: "Inovação e criatividade", page: 22 },
+                        { title: "Revisão", page: 24, isQuiz: true }
+                    ]},
+                    { id: 2, name: "Educação Financeira", icon: "💰", lessons: [
+                        { title: "Dinheiro e consumo", page: 26 },
+                        { title: "Orçamento familiar", page: 28 },
+                        { title: "Poupança", page: 30 },
+                        { title: "Investimentos basics", page: 32 },
+                        { title: "Custos e preços", page: 34 },
+                        { title: "Marketing de vendas", page: 36 },
+                        { title: "Atendimento ao cliente", page: 38 },
+                        { title: "Gestão de estoque", page: 40 },
+                        { title: "Revisão", page: 42, isQuiz: true }
+                    ]},
+                    { id: 3, name: "Inovação", icon: "💡", lessons: [
+                        { title: "O que é inovação?", page: 44 },
+                        { title: "Identificar problemas", page: 46 },
+                        { title: "Gerar soluções", page: 48 },
+                        { title: "Prototipagem", page: 50 },
+                        { title: "Testes e ajustes", page: 52 },
+                        { title: "Melhoria contínua", page: 54 },
+                        { title: "Design thinking", page: 56 },
+                        { title: "Canvas de inovação", page: 58 },
+                        { title: "Revisão", page: 60, isQuiz: true }
+                    ]},
+                    { id: 4, name: "Pessoas e Comunicação", icon: "👥", lessons: [
+                        { title: "Comunicação verbal", page: 62 },
+                        { title: "Comunicação escrita", page: 64 },
+                        { title: "Oratória", page: 66 },
+                        { title: "Escuta ativa", page: 68 },
+                        { title: "Feedback", page: 70 },
+                        { title: "Gestão de conflitos", page: 72 },
+                        { title: "Networking", page: 74 },
+                        { title: "Presentação pessoal", page: 76 },
+                        { title: "Revisão", page: 78, isQuiz: true }
+                    ]},
+                    { id: 5, name: "Projetos Semestrais", icon: "📋", lessons: [
+                        { title: "Planejamento do projeto", page: 80 },
+                        { title: "Apresentação final", page: 82 }
+                    ]}
                 ]
             },
             7: {
-                title: "Negócios e Comunidade",
+                title: "Fundamentos Empreendedores",
                 theme: "red",
                 mods: [
-                    { id: 1, name: "Identidade de Marca", icon: "🎨", lessons: ["O que é marca?", "Criar identidade visual", "Comunicação"] },
-                    { id: 2, name: "Pesquisa de Mercado", icon: "📊", lessons: ["Conhecer o cliente", "Questionários", "Análise de dados"] },
-                    { id: 3, name: "Modelo de Negócios", icon: "📋", lessons: ["Canvas", "Proposta de valor", "Receitas"] },
-                    { id: 4, name: " Apresentação de Pitch", icon: "🎤", lessons: ["Estrutura do pitch", "Comunicação verbal", "Apresentação"] }
+                    { id: 1, name: "Negócios", icon: "💼", lessons: [
+                        { title: "Empreendedorismo", page: 84 },
+                        { title: "Conhecer a si mesmo", page: 86 },
+                        { title: "Inteligência emocional", page: 88 },
+                        { title: "Pensamento crítico e empatia", page: 90 },
+                        { title: "Coragem e resiliência", page: 92 },
+                        { title: "Liderança e proatividade", page: 94 },
+                        { title: "Trabalho em equipe", page: 96 },
+                        { title: "Inovação e criatividade", page: 98 },
+                        { title: "Revisão", page: 100, isQuiz: true }
+                    ]},
+                    { id: 2, name: "Educação Financeira", icon: "💰", lessons: [
+                        { title: "Dinheiro e consumo", page: 102 },
+                        { title: "Orçamento familiar", page: 104 },
+                        { title: "Poupança", page: 106 },
+                        { title: "Investimentos basics", page: 108 },
+                        { title: "Custos e preços", page: 110 },
+                        { title: "Marketing de vendas", page: 112 },
+                        { title: "Atendimento ao cliente", page: 114 },
+                        { title: "Gestão de estoque", page: 116 },
+                        { title: "Revisão", page: 118, isQuiz: true }
+                    ]},
+                    { id: 3, name: "Inovação", icon: "💡", lessons: [
+                        { title: "O que é inovação?", page: 120 },
+                        { title: "Identificar problemas", page: 122 },
+                        { title: "Gerar soluções", page: 124 },
+                        { title: "Prototipagem", page: 126 },
+                        { title: "Testes e ajustes", page: 128 },
+                        { title: "Melhoria contínua", page: 130 },
+                        { title: "Design thinking", page: 132 },
+                        { title: "Canvas de inovação", page: 134 },
+                        { title: "Revisão", page: 136, isQuiz: true }
+                    ]},
+                    { id: 4, name: "Pessoas e Comunicação", icon: "👥", lessons: [
+                        { title: "Comunicação verbal", page: 138 },
+                        { title: "Comunicação escrita", page: 140 },
+                        { title: "Oratória", page: 142 },
+                        { title: "Escuta ativa", page: 144 },
+                        { title: "Feedback", page: 146 },
+                        { title: "Gestão de conflitos", page: 148 },
+                        { title: "Networking", page: 150 },
+                        { title: "Presentação pessoal", page: 152 },
+                        { title: "Revisão", page: 154, isQuiz: true }
+                    ]},
+                    { id: 5, name: "Projetos Semestrais", icon: "📋", lessons: [
+                        { title: "Planejamento do projeto", page: 156 },
+                        { title: "Apresentação final", page: 158 }
+                    ]}
                 ]
             },
             8: {
-                title: "Inovação e Tecnologia",
+                title: "Startups e Mundo Digital",
                 theme: "blue",
                 mods: [
-                    { id: 1, name: "Startups", icon: "🚀", lessons: ["O que é startup?", "MVP", "Escalabilidade"] },
-                    { id: 2, name: "Tecnologia", icon: "💻", lessons: ["Transformação digital", "Ferramentas digitais", "Coding"] },
-                    { id: 3, name: "Economia Circular", icon: "♻️", lessons: ["Sustentabilidade", "Reutilização", "Impacto ambiental"] },
-                    { id: 4, name: "Finanças", icon: "💰", lessons: ["Fluxo de caixa", "Precificação", "Investimento"] }
+                    { id: 1, name: "Negócios", icon: "💼", lessons: [
+                        { title: "Empreendedorismo", page: 160 },
+                        { title: "Conhecer a si mesmo", page: 162 },
+                        { title: "Inteligência emocional", page: 164 },
+                        { title: "Pensamento crítico e empatia", page: 166 },
+                        { title: "Coragem e resiliência", page: 168 },
+                        { title: "Liderança e proatividade", page: 170 },
+                        { title: "Trabalho em equipe", page: 172 },
+                        { title: "Inovação e criatividade", page: 174 },
+                        { title: "Revisão", page: 176, isQuiz: true }
+                    ]},
+                    { id: 2, name: "Educação Financeira", icon: "💰", lessons: [
+                        { title: "Dinheiro e consumo", page: 178 },
+                        { title: "Orçamento familiar", page: 180 },
+                        { title: "Poupança", page: 182 },
+                        { title: "Investimentos basics", page: 184 },
+                        { title: "Custos e preços", page: 186 },
+                        { title: "Marketing de vendas", page: 188 },
+                        { title: "Atendimento ao cliente", page: 190 },
+                        { title: "Gestão de estoque", page: 192 },
+                        { title: "Revisão", page: 194, isQuiz: true }
+                    ]},
+                    { id: 3, name: "Inovação", icon: "💡", lessons: [
+                        { title: "O que é inovação?", page: 196 },
+                        { title: "Identificar problemas", page: 198 },
+                        { title: "Gerar soluções", page: 200 },
+                        { title: "Prototipagem", page: 202 },
+                        { title: "Testes e ajustes", page: 204 },
+                        { title: "Melhoria contínua", page: 206 },
+                        { title: "Design thinking", page: 208 },
+                        { title: "Canvas de inovação", page: 210 },
+                        { title: "Revisão", page: 212, isQuiz: true }
+                    ]},
+                    { id: 4, name: "Pessoas e Comunicação", icon: "👥", lessons: [
+                        { title: "Comunicação verbal", page: 214 },
+                        { title: "Comunicação escrita", page: 216 },
+                        { title: "Oratória", page: 218 },
+                        { title: "Escuta ativa", page: 220 },
+                        { title: "Feedback", page: 222 },
+                        { title: "Gestão de conflitos", page: 224 },
+                        { title: "Networking", page: 226 },
+                        { title: "Presentação pessoal", page: 228 },
+                        { title: "Revisão", page: 230, isQuiz: true }
+                    ]},
+                    { id: 5, name: "Projetos Semestrais", icon: "📋", lessons: [
+                        { title: "Planejamento do projeto", page: 232 },
+                        { title: "Apresentação final", page: 234 }
+                    ]}
                 ]
             },
             9: {
-                title: "Liderança e Impacto",
+                title: "Mercado e Expansão",
                 theme: "purple",
                 mods: [
-                    { id: 1, name: "Liderança", icon: "👑", lessons: ["Tipos de líder", "Influência", "Trabalho em equipe"] },
-                    { id: 2, name: "Gestão de Projetos", icon: "📁", lessons: ["Planejamento", "Cronograma", "Execução"] },
-                    { id: 3, name: "Impacto Social", icon: "🌍", lessons: ["Empreendedorismo social", "ODSs", "Projetos de impacto"] },
-                    { id: 4, name: "Projeto Final", icon: "🏆", lessons: ["Desenvolvimento", "Apresentação", "Avaliação"] }
+                    { id: 1, name: "Negócios", icon: "💼", lessons: [
+                        { title: "Empreendedorismo", page: 236 },
+                        { title: "Conhecer a si mesmo", page: 238 },
+                        { title: "Inteligência emocional", page: 240 },
+                        { title: "Pensamento crítico e empatia", page: 242 },
+                        { title: "Coragem e resiliência", page: 244 },
+                        { title: "Liderança e proatividade", page: 246 },
+                        { title: "Trabalho em equipe", page: 248 },
+                        { title: "Inovação e criatividade", page: 250 },
+                        { title: "Revisão", page: 252, isQuiz: true }
+                    ]},
+                    { id: 2, name: "Educação Financeira", icon: "💰", lessons: [
+                        { title: "Dinheiro e consumo", page: 254 },
+                        { title: "Orçamento familiar", page: 256 },
+                        { title: "Poupança", page: 258 },
+                        { title: "Investimentos basics", page: 260 },
+                        { title: "Custos e preços", page: 262 },
+                        { title: "Marketing de vendas", page: 264 },
+                        { title: "Atendimento ao cliente", page: 266 },
+                        { title: "Gestão de estoque", page: 268 },
+                        { title: "Revisão", page: 270, isQuiz: true }
+                    ]},
+                    { id: 3, name: "Inovação", icon: "💡", lessons: [
+                        { title: "O que é inovação?", page: 272 },
+                        { title: "Identificar problemas", page: 274 },
+                        { title: "Gerar soluções", page: 276 },
+                        { title: "Prototipagem", page: 278 },
+                        { title: "Testes e ajustes", page: 280 },
+                        { title: "Melhoria contínua", page: 282 },
+                        { title: "Design thinking", page: 284 },
+                        { title: "Canvas de inovação", page: 286 },
+                        { title: "Revisão", page: 288, isQuiz: true }
+                    ]},
+                    { id: 4, name: "Pessoas e Comunicação", icon: "👥", lessons: [
+                        { title: "Comunicação verbal", page: 290 },
+                        { title: "Comunicação escrita", page: 292 },
+                        { title: "Oratória", page: 294 },
+                        { title: "Escuta ativa", page: 296 },
+                        { title: "Feedback", page: 298 },
+                        { title: "Gestão de conflitos", page: 300 },
+                        { title: "Networking", page: 302 },
+                        { title: "Presentação pessoal", page: 304 },
+                        { title: "Revisão", page: 306, isQuiz: true }
+                    ]},
+                    { id: 5, name: "Projetos Semestrais", icon: "📋", lessons: [
+                        { title: "Planejamento do projeto", page: 308 },
+                        { title: "Apresentação final", page: 310 }
+                    ]}
                 ]
             }
         };
@@ -315,8 +491,8 @@
                     <div class="module-lessons" id="mod-${m.id}">
                         ${m.lessons.map((l, i) => `
                             <div class="lesson-item" onclick="showLesson(${grade}, ${m.id}, ${i})">
-                                <span class="lesson-num">${i + 1}</span>
-                                <span>${l}</span>
+                                <span class="lesson-num">${l.isQuiz ? '✓' : i + 1}</span>
+                                <span>${l.title}</span>
                             </div>
                         `).join('')}
                     </div>
@@ -356,57 +532,85 @@
             const mod = data.mods.find(m => m.id === moduleId);
             const lesson = mod.lessons[lessonIndex];
             
+            const isQuiz = lesson.isQuiz;
+            const lessonTitle = lesson.title;
+            const lessonPage = lesson.page;
+            
             const content = document.getElementById('lessonContent');
-            content.innerHTML = `
-                <h2>${lesson}</h2>
-                <p class="page-ref">${mod.name} • Lição ${lessonIndex + 1}</p>
-                
-                <div class="tabs content-tabs">
-                    <button class="tab active" onclick="switchTab(this, 'teoria')">📖 Teoria</button>
-                    <button class="tab" onclick="switchTab(this, 'pratica')">✏️ Prática</button>
-                    <button class="tab" onclick="switchTab(this, 'quiz')">❓ Quiz</button>
-                </div>
-
-                <div id="teoria" class="tab-panel active">
-                    <h3>Objetivo</h3>
-                    <p>Compreender o conceito de <strong>${lesson.toLowerCase()}</strong> e sua aplicação no cotidiano e no empreendedorismo.</p>
+            
+            if (isQuiz) {
+                content.innerHTML = `
+                    <h2>${lessonTitle}</h2>
+                    <p class="page-ref">${mod.name} • Revisão</p>
                     
-                    <h3>Conteúdo Principal</h3>
-                    <p>Esta lição aborda os fundamentos de <strong>${lesson}</strong> com exemplos práticos e casos reais do mercado.</p>
-                    <ul>
-                        <li>Conceitos fundamentais</li>
-                        <li>Exemplos do dia a dia</li>
-                        <li>Application no empreendedorismo</li>
-                        <li>Atividade proposta</li>
-                    </ul>
-                    
-                    <h3>Para Casa</h3>
-                    <p>Pesquise e reflita: Como você pode aplicar este conceito em um projeto real?</p>
-                </div>
-
-                <div id="pratica" class="tab-panel">
-                    <h3>Atividade em Sala</h3>
-                    <p>Em grupos de 4-5 alunos, discutam e respondam:</p>
-                    <ol>
-                        <li>O que vocês entenderam sobre o tema?</li>
-                        <li>De um exemplo de como isso aparece no dia a dia.</li>
-                        <li>Como um empreendedor usaria esse conceito?</li>
-                    </ol>
-                    
-                    <h3>Entrega</h3>
-                    <p>Produzam um resumo de 10 linhas sobre o tema estudado.</p>
-                </div>
-
-                <div id="quiz" class="tab-panel">
-                    <h3>Quiz de Verificação</h3>
-                    <p>Responda para verificar seu aprendizado:</p>
-                    <div style="margin-top: 1rem;">
-                        <p><strong>1.</strong> O que você aprendeu com esta lição?</p>
-                        <textarea style="width:100%;margin-top:0.5rem;padding:0.8rem;background:var(--bg-surface2);border:1px solid var(--bg-surface3);border-radius:8px;color:var(--text);" rows="3" placeholder="Sua resposta..."></textarea>
+                    <div class="quiz-card">
+                        <h3>Quiz de Revisão - ${mod.name}</h3>
+                        <p style="margin-bottom:1rem; color:var(--text-dim)">Teste seus conhecimentos sobre este módulo!</p>
+                        
+                        <div style="margin: 1.5rem 0;">
+                            <p><strong>1.</strong> O que você aprendeu neste módulo?</p>
+                            <textarea style="width:100%;margin-top:0.5rem;padding:0.8rem;background:var(--bg-surface2);border:1px solid var(--bg-surface3);border-radius:8px;color:var(--text);" rows="3" placeholder="Sua resposta..."></textarea>
+                        </div>
+                        
+                        <div style="margin: 1.5rem 0;">
+                            <p><strong>2.</strong> Qual foi o conceito mais importante?</p>
+                            <textarea style="width:100%;margin-top:0.5rem;padding:0.8rem;background:var(--bg-surface2);border:1px solid var(--bg-surface3);border-radius:8px;color:var(--text);" rows="3" placeholder="Sua resposta..."></textarea>
+                        </div>
+                        
+                        <button class="btn btn-primary" style="margin-top:1rem;">Enviar Respostas</button>
                     </div>
-                    <button class="btn btn-primary" style="margin-top:1rem;">Enviar Resposta</button>
-                </div>
-            `;
+                `;
+            } else {
+                content.innerHTML = `
+                    <h2>${lessonTitle}</h2>
+                    <p class="page-ref">${mod.name} • Página ${lessonPage}</p>
+                    
+                    <div class="tabs content-tabs">
+                        <button class="tab active" onclick="switchTab(this, 'teoria')">📖 Teoria</button>
+                        <button class="tab" onclick="switchTab(this, 'pratica')">✏️ Prática</button>
+                        <button class="tab" onclick="switchTab(this, 'quiz')">❓ Quiz</button>
+                    </div>
+
+                    <div id="teoria" class="tab-panel active">
+                        <h3>Objetivo</h3>
+                        <p>Compreender o conceito de <strong>${lessonTitle.toLowerCase()}</strong> e sua aplicação no cotidiano e no empreendedorismo.</p>
+                        
+                        <h3>Conteúdo Principal</h3>
+                        <p>Esta lição aborda os fundamentos de <strong>${lessonTitle}</strong> com exemplos práticos e casos reais.</p>
+                        <ul>
+                            <li>Conceitos fundamentais</li>
+                            <li>Exemplos do dia a dia</li>
+                            <li>Aplicação no empreendedorismo</li>
+                            <li>Atividade proposta</li>
+                        </ul>
+                        
+                        <h3>Para Casa</h3>
+                        <p>Pesquise e reflita: Como você pode aplicar este conceito em um projeto real?</p>
+                    </div>
+
+                    <div id="pratica" class="tab-panel">
+                        <h3>Atividade em Sala</h3>
+                        <p>Em grupos de 4-5 alunos, discutam e respondam:</p>
+                        <ol>
+                            <li>O que vocês entenderam sobre o tema?</li>
+                            <li>De um exemplo de como isso aparece no dia a dia.</li>
+                            <li>Como um empreendedor usaria esse conceito?</li>
+                        </ol>
+                        
+                        <h3>Entrega</h3>
+                        <p>Produzam um resumo de 10 linhas sobre o tema estudado.</p>
+                    </div>
+
+                    <div id="quiz" class="tab-panel">
+                        <h3>Quiz de Verificação</h3>
+                        <p>Responda para verificar seu aprendizado:</p>
+                        <div style="margin-top: 1rem;">
+                            <p><strong>1.</strong> O que você aprendeu com esta lição?</p>
+                            <textarea style="width:100%;margin-top:0.5rem;padding:0.8rem;background:var(--bg-surface2);border:1px solid var(--bg-surface3);border-radius:8px;color:var(--text);" rows="3" placeholder="Sua resposta..."></textarea>
+                        </div>
+                        <button class="btn btn-primary" style="margin-top:1rem;">Enviar Resposta</button>
+                    </div>
+                `;
         }
 
         function switchTab(btn, panelId) {
