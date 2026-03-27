@@ -458,12 +458,27 @@
         // Inicializar
         function init() {
             console.log('Inicializando teoria...');
+            
+            // Verificar se elementos existem
+            const modulesList = document.getElementById('modulesList');
+            const lessonContent = document.getElementById('lessonContent');
+            const gradeBanner = document.getElementById('gradeBanner');
+            
+            if (!modulesList) {
+                console.error('Elemento #modulesList não encontrado!');
+                return;
+            }
+            if (!lessonContent) {
+                console.error('Elemento #lessonContent não encontrado!');
+                return;
+            }
+            
             App.init();
             renderTabs();
             renderSidebar(6);
             updateBanner(6);
             setupEventListeners();
-            console.log('Teoria inicializada. Módulos:', MODULOS[6].mods.length);
+            console.log('Teoria inicializada. Módulos:', MODULOS[6]?.mods?.length || 0);
         }
 
         function renderTabs() {
@@ -485,6 +500,16 @@
             const data = MODULOS[grade];
             const container = document.getElementById('modulesList');
             
+            if (!container) {
+                console.error('modulesList container not found');
+                return;
+            }
+            if (!data || !data.mods) {
+                console.error('Modulos data not found for grade:', grade);
+                container.innerHTML = '<p style="color:red;padding:1rem;">Erro ao carregar módulos</p>';
+                return;
+            }
+            
             container.innerHTML = data.mods.map(m => `
                 <div class="module-section">
                     <div class="module-header" onclick="toggleModule(${m.id})">
@@ -505,8 +530,14 @@
 
         function toggleModule(id) {
             const el = document.getElementById(`mod-${id}`);
+            if (!el) {
+                console.error('Module element not found:', `mod-${id}`);
+                return;
+            }
             el.classList.toggle('open');
-            el.previousElementSibling.classList.toggle('active');
+            if (el.previousElementSibling) {
+                el.previousElementSibling.classList.toggle('active');
+            }
         }
 
         function updateBanner(grade) {
@@ -531,17 +562,36 @@
         }
 
         function showLesson(grade, moduleId, lessonIndex) {
-            const data = MODULOS[grade];
-            const mod = data.mods.find(m => m.id === moduleId);
-            const lesson = mod.lessons[lessonIndex];
-            
-            const isQuiz = lesson.isQuiz;
-            const lessonTitle = lesson.title;
-            const lessonPage = lesson.page;
-            
-            const content = document.getElementById('lessonContent');
-            
-            if (isQuiz) {
+            try {
+                const data = MODULOS[grade];
+                if (!data || !data.mods) {
+                    console.error('Grade data not found:', grade);
+                    return;
+                }
+                const mod = data.mods.find(m => m.id === moduleId);
+                if (!mod) {
+                    console.error('Module not found:', moduleId);
+                    return;
+                }
+                const lesson = mod.lessons[lessonIndex];
+                if (!lesson) {
+                    console.error('Lesson not found:', lessonIndex);
+                    return;
+                }
+                
+                currentModule = moduleId;
+                
+                const isQuiz = lesson.isQuiz;
+                const lessonTitle = lesson.title;
+                const lessonPage = lesson.page;
+                
+                const content = document.getElementById('lessonContent');
+                if (!content) {
+                    console.error('lessonContent not found');
+                    return;
+                }
+                
+                if (isQuiz) {
                 content.innerHTML = `
                     <h2>${lessonTitle}</h2>
                     <p class="page-ref">${mod.name} • Revisão</p>
@@ -614,14 +664,27 @@
                         <button class="btn btn-primary" style="margin-top:1rem;">Enviar Resposta</button>
                     </div>
                 `;
+            } catch (error) {
+                console.error('Erro ao carregar lição:', error);
+                document.getElementById('lessonContent').innerHTML = `
+                    <h2>Erro ao carregar</h2>
+                    <p>Não foi possível carregar o conteúdo. Tente novamente.</p>
+                    <p style="color:var(--text-muted)">${error.message}</p>
+                `;
+            }
         }
 
         function switchTab(btn, panelId) {
-            const parent = btn.closest('.content-card');
-            parent.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            parent.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            const contentCard = btn.closest('.content-card') || document.getElementById('lessonContent');
+            if (!contentCard) {
+                console.error('Content card not found');
+                return;
+            }
+            contentCard.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            contentCard.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
             btn.classList.add('active');
-            parent.querySelector(`#${panelId}`).classList.add('active');
+            const panel = document.getElementById(panelId);
+            if (panel) panel.classList.add('active');
         }
 
         function setupEventListeners() {
