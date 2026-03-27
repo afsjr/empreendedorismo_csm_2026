@@ -457,11 +457,13 @@
 
         // Inicializar
         function init() {
+            console.log('Inicializando teoria...');
             App.init();
             renderTabs();
             renderSidebar(6);
             updateBanner(6);
             setupEventListeners();
+            console.log('Teoria inicializada. Módulos:', MODULOS[6].mods.length);
         }
 
         function renderTabs() {
