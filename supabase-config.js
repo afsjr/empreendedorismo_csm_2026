@@ -138,9 +138,7 @@ CREATE POLICY "Allow all for authenticated" ON observacoes FOR ALL USING (auth.r
 // ========================================
 
 const SUPABASE_URL = 'https://vujjlzgotmeokocfhjah.supabase.co/';
-// ⚠️ SUBSTITUA PELA SUA ANON KEY (vá em Project Settings > API > anon public)
-// A chave correta começa com: eyJhbGciOiJIUzI1NiIs...
-const SUPABASE_ANON_KEY = 'COLE_SUA_ANON_KEY_AQUI';
+const SUPABASE_ANON_KEY = 'sb_publishable_HesgpESGRCAPfuQMkWHt5Q_HtMSwcgc';
 
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
