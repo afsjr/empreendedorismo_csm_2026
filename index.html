@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Empreendedores Exponenciais — CSM</title>
-    
+
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
     <!-- CSS -->
     <link rel="stylesheet" href="css/styles.css">
-    
+
     <style>
         /* Página inicial específica */
         body {
@@ -45,12 +47,21 @@
         }
 
         @keyframes float {
-            0%, 100% {
+
+            0%,
+            100% {
                 transform: translateY(0) translateX(0);
                 opacity: 0;
             }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
             100% {
                 transform: translateY(-100vh) translateX(100px);
                 opacity: 0;
@@ -71,8 +82,15 @@
         }
 
         @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .hero-logo {
@@ -97,8 +115,17 @@
         }
 
         @keyframes pulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 10px 30px rgba(211, 47, 47, 0.3); }
-            50% { transform: scale(1.05); box-shadow: 0 15px 40px rgba(211, 47, 47, 0.5); }
+
+            0%,
+            100% {
+                transform: scale(1);
+                box-shadow: 0 10px 30px rgba(211, 47, 47, 0.3);
+            }
+
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 15px 40px rgba(211, 47, 47, 0.5);
+            }
         }
 
         .hero-title {
@@ -149,12 +176,24 @@
             animation-fill-mode: both;
         }
 
-        .platform-card:nth-child(1) { animation-delay: 0.2s; }
-        .platform-card:nth-child(2) { animation-delay: 0.4s; }
+        .platform-card:nth-child(1) {
+            animation-delay: 0.2s;
+        }
+
+        .platform-card:nth-child(2) {
+            animation-delay: 0.4s;
+        }
 
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .platform-card::before {
@@ -170,7 +209,10 @@
             transition: transform 0.4s ease;
         }
 
-        .platform-card:hover::before { transform: scaleX(1); }
+        .platform-card:hover::before {
+            transform: scaleX(1);
+        }
+
         .platform-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 30px 80px rgba(211, 47, 47, 0.25);
@@ -277,8 +319,13 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         .hero-footer a {
@@ -293,38 +340,103 @@
         }
 
         @media (max-width: 768px) {
-            .cards-grid { grid-template-columns: 1fr; }
-            .platform-card { padding: 25px; }
-            .hero-logo { width: 70px; height: 70px; border-radius: 14px; }
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .platform-card {
+                padding: 25px;
+            }
+
+            .hero-logo {
+                width: 70px;
+                height: 70px;
+                border-radius: 14px;
+            }
         }
 
         @media (min-width: 1200px) {
-            .hero-logo { width: 120px; height: 120px; border-radius: 24px; }
-            .hero-title { font-size: clamp(32px, 5vw, 48px); }
-            .platform-card { padding: 35px; }
-            .card-title { font-size: 1.5rem; }
+            .hero-logo {
+                width: 120px;
+                height: 120px;
+                border-radius: 24px;
+            }
+
+            .hero-title {
+                font-size: clamp(32px, 5vw, 48px);
+            }
+
+            .platform-card {
+                padding: 35px;
+            }
+
+            .card-title {
+                font-size: 1.5rem;
+            }
         }
 
         @media (min-width: 1600px) {
-            .hero-logo { width: 140px; height: 140px; border-radius: 28px; }
-            .hero-title { font-size: clamp(38px, 5vw, 56px); }
-            .hero-subtitle { font-size: 1.3rem; }
-            .platform-card { padding: 38px; }
-            .card-title { font-size: 1.65rem; }
-            .card-description { font-size: 1.05rem; }
+            .hero-logo {
+                width: 140px;
+                height: 140px;
+                border-radius: 28px;
+            }
+
+            .hero-title {
+                font-size: clamp(38px, 5vw, 56px);
+            }
+
+            .hero-subtitle {
+                font-size: 1.3rem;
+            }
+
+            .platform-card {
+                padding: 38px;
+            }
+
+            .card-title {
+                font-size: 1.65rem;
+            }
+
+            .card-description {
+                font-size: 1.05rem;
+            }
         }
 
         @media (min-width: 1920px) {
-            .hero-logo { width: 160px; height: 160px; border-radius: 32px; }
-            .hero-title { font-size: clamp(42px, 5vw, 64px); }
-            .hero-subtitle { font-size: 1.4rem; }
-            .platform-card { padding: 40px; }
-            .card-title { font-size: 1.8rem; }
-            .card-description { font-size: 1.1rem; }
-            .card-features li { font-size: 1rem; }
+            .hero-logo {
+                width: 160px;
+                height: 160px;
+                border-radius: 32px;
+            }
+
+            .hero-title {
+                font-size: clamp(42px, 5vw, 64px);
+            }
+
+            .hero-subtitle {
+                font-size: 1.4rem;
+            }
+
+            .platform-card {
+                padding: 40px;
+            }
+
+            .card-title {
+                font-size: 1.8rem;
+            }
+
+            .card-description {
+                font-size: 1.1rem;
+            }
+
+            .card-features li {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
+
 <body>
     <!-- Partículas -->
     <div class="particles" id="particles"></div>
@@ -348,7 +460,8 @@
                 <div class="card-icon">📚</div>
                 <h2 class="card-title">Painel Pedagógico</h2>
                 <p class="card-description">
-                    Dashboard completo com conteúdo curricular, ilustrações SVG e sistema de submissão de dúvidas para os 4 anos do programa.
+                    Dashboard completo com conteúdo curricular, ilustrações SVG e sistema de submissão de dúvidas para
+                    os 4 anos do programa.
                 </p>
                 <ul class="card-features">
                     <li>Conteúdo completo 6º ao 9º ano</li>
@@ -369,7 +482,8 @@
                 <div class="card-icon">🚀</div>
                 <h2 class="card-title">Plataforma de Projetos</h2>
                 <p class="card-description">
-                    Gestão de grupos, acompanhamento de projetos, progresso individual e sistema de conquistas para engajar os estudantes.
+                    Gestão de grupos, acompanhamento de projetos, progresso individual e sistema de conquistas para
+                    engajar os estudantes.
                 </p>
                 <ul class="card-features">
                     <li>Criação e gestão de grupos</li>
@@ -388,7 +502,7 @@
         <!-- Footer -->
         <footer class="hero-footer">
             <p>
-                © 2026 Colegio Santa Mônica • 
+                © 2026 Colegio Santa Mônica •
                 Desenvolvido com 💡 para transformar educação
             </p>
         </footer>
@@ -415,4 +529,5 @@
         console.log('%cColégio Santa Mônica - Formando empreendedores do futuro!', 'font-size: 12px; color: #ffc107;');
     </script>
 </body>
+
 </html>
