@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Migração de Dados — CSM</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        h1 { color: #1a1a2e; margin-bottom: 10px; font-size: 24px; }
+        p { color: #666; margin-bottom: 20px; line-height: 1.6; }
+        .info-box {
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+        .info-box h3 { color: #0369a1; font-size: 14px; margin-bottom: 8px; }
+        .info-box code { background: #e0f2fe; padding: 2px 6px; border-radius: 4px; font-size: 13px; }
+        .data-preview {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .data-preview h3 { font-size: 14px; color: #475569; margin-bottom: 10px; }
+        .data-preview pre { font-size: 12px; color: #64748b; white-space: pre-wrap; }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: 10px;
+            border: none;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+        }
+        .btn-primary {
+            background: #C8181A;
+            color: white;
+        }
+        .btn-primary:hover { background: #8B0F10; }
+        .btn-primary:disabled { background: #ccc; cursor: not-allowed; }
+        .result {
+            margin-top: 20px;
+            padding: 16px;
+            border-radius: 8px;
+            display: none;
+        }
+        .result.success { background: #dcfce7; border: 1px solid #86efac; color: #166534; }
+        .result.error { background: #fee2e2; border: 1px solid #fca5a5; color: #991b1b; }
+        .result h3 { font-size: 14px; margin-bottom: 8px; }
+        .result ul { margin-left: 20px; font-size: 14px; }
+        .log { margin-top: 10px; font-size: 12px; color: #64748b; max-height: 150px; overflow-y: auto; }
+        .log-item { padding: 4px 0; border-bottom: 1px solid #f1f5f9; }
+        .log-item.error { color: #dc2626; }
+        .log-item.success { color: #16a34a; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔄 Migração de Dados</h1>
+        <p>Esta página irá migrar os dados do localStorage para o banco de dados Supabase.</p>
+        
+        <div class="info-box">
+            <h3>⚠️ Pré-requisitos</h3>
+            <p>Antes de continuar, certifique-se de que:</p>
+            <ul style="margin-left: 20px; margin-top: 8px;">
+                <li>As tabelas foram criadas no Supabase (SQL Editor)</li>
+                <li>A chave API está configurada corretamente</li>
+            </ul>
+        </div>
+
+        <div class="data-preview" id="dataPreview">
+            <h3>📊 Dados encontrados no localStorage:</h3>
+            <pre id="dataContent">Carregando...</pre>
+        </div>
+
+        <button class="btn btn-primary" id="migrateBtn" onclick="startMigration()">
+            🚀 Iniciar Migração
+        </button>
+
+        <div class="result" id="result">
+            <h3 id="resultTitle"></h3>
+            <ul id="resultList"></ul>
+            <div class="log" id="log"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.20.0"></script>
+    <script>
+        // Configuração Supabase
+        const SUPABASE_URL = 'https://vujjlzgotmeokocfhjah.supabase.co/';
+        const SUPABASE_ANON_KEY = 'sb_publishable_HesgpESGRCAPfuQMkWHt5Q_HtMSwcgc';
+        
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Chave do localStorage
+        const STORAGE_KEY = 'ee_csm_data';
+
+        // Carregar dados ao iniciar
+        document.addEventListener('DOMContentLoaded', () => {
+            loadDataPreview();
+        });
+
+        function loadDataPreview() {
+            try {
+                const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+                document.getElementById('dataContent').textContent = JSON.stringify(data, null, 2);
+                
+                if (!data.grupos || data.grupos.length === 0) {
+                    document.getElementById('migrateBtn').disabled = true;
+                    document.getElementById('migrateBtn').textContent = 'Nenhum dado para migrar';
+                }
+            } catch (e) {
+                document.getElementById('dataContent').textContent = 'Erro ao carregar: ' + e.message;
+            }
+        }
+
+        function addLog(message, type = 'info') {
+            const log = document.getElementById('log');
+            const item = document.createElement('div');
+            item.className = `log-item ${type}`;
+            item.textContent = message;
+            log.appendChild(item);
+            log.scrollTop = log.scrollHeight;
+        }
+
+        async function startMigration() {
+            const btn = document.getElementById('migrateBtn');
+            const result = document.getElementById('result');
+            
+            btn.disabled = true;
+            btn.textContent = '⏳ Migrando...';
+            result.style.display = 'none';
+            
+            try {
+                // Carregar dados do localStorage
+                const localData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+                
+                if (!localData.grupos || localData.grupos.length === 0) {
+                    throw new Error('Nenhum grupo encontrado para migrar');
+                }
+
+                addLog('📤 Iniciando migração...', 'info');
+                addLog(`📊 Encontrados ${localData.grupos.length} grupos para migrar`, 'info');
+
+                // Migrar grupos
+                let gruposMigrados = 0;
+                let gruposErros = 0;
+
+                for (const grupo of localData.grupos) {
+                    try {
+                        addLog(`  → Migrando grupo: ${grupo.nome}...`, 'info');
+                        
+                        const { data, error } = await supabaseClient.from('grupos').insert([{
+                            nome: grupo.nome,
+                            projeto_id: grupo.projeto,
+                            ano: grupo.ano,
+                            membros: grupo.membros,
+                            created_at: grupo.createdAt || new Date().toISOString()
+                        }]).select();
+
+                        if (error) throw error;
+
+                        gruposMigrados++;
+                        addLog(`  ✅ Grupo "${grupo.nome}" migrado com sucesso!`, 'success');
+                    } catch (e) {
+                        gruposErros++;
+                        addLog(`  ❌ Erro ao migrar "${grupo.nome}": ${e.message}`, 'error');
+                    }
+                }
+
+                // Mostrar resultado
+                result.className = 'result success';
+                result.style.display = 'block';
+                document.getElementById('resultTitle').textContent = '✅ Migração Concluída!';
+                
+                const list = document.getElementById('resultList');
+                list.innerHTML = `
+                    <li>Grupos migrados: ${gruposMigrados}</li>
+                    <li>Erros: ${gruposErros}</li>
+                `;
+
+                if (gruposErros === 0 && gruposMigrados > 0) {
+                    addLog('', 'info');
+                    addLog('🗑️ Removendo dados do localStorage...', 'info');
+                    localStorage.removeItem(STORAGE_KEY);
+                    addLog('✅ Dados removidos do localStorage!', 'success');
+                    document.getElementById('dataContent').textContent = 'Migração concluída!';
+                }
+
+                btn.textContent = '✅ Migração Concluída';
+
+            } catch (e) {
+                result.className = 'result error';
+                result.style.display = 'block';
+                document.getElementById('resultTitle').textContent = '❌ Erro na Migração';
+                document.getElementById('resultList').innerHTML = `<li>${e.message}</li>`;
+                addLog(`❌ ERRO: ${e.message}`, 'error');
+                btn.disabled = false;
+                btn.textContent = '🔄 Tentar Novamente';
+            }
+        }
+    </script>
+</body>
+</html>
