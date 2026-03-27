@@ -592,7 +592,7 @@
                 }
                 
                 if (isQuiz) {
-                content.innerHTML = `
+                    content.innerHTML = `
                     <h2>${lessonTitle}</h2>
                     <p class="page-ref">${mod.name} • Revisão</p>
                     
@@ -612,9 +612,9 @@
                         
                         <button class="btn btn-primary" style="margin-top:1rem;">Enviar Respostas</button>
                     </div>
-                `;
-            } else {
-                content.innerHTML = `
+                    `;
+                } else {
+                    content.innerHTML = `
                     <h2>${lessonTitle}</h2>
                     <p class="page-ref">${mod.name} • Página ${lessonPage}</p>
                     
@@ -663,7 +663,8 @@
                         </div>
                         <button class="btn btn-primary" style="margin-top:1rem;">Enviar Resposta</button>
                     </div>
-                `;
+                    `;
+                }
             } catch (error) {
                 console.error('Erro ao carregar lição:', error);
                 document.getElementById('lessonContent').innerHTML = `
