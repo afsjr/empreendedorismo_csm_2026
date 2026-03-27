@@ -198,12 +198,43 @@
                 width: 100%;
             }
         }
+
+        /* Fontes maiores para telas grandes */
+        @media (min-width: 1200px) {
+            .admin-title { font-size: 2rem; }
+            .admin-subtitle { font-size: 1.1rem; }
+            .stats-grid { grid-template-columns: repeat(4, 1fr); }
+            .data-table { font-size: 1rem; }
+            .data-table th, .data-table td { padding: 1rem; }
+            .modal { max-width: 800px; }
+            .form-input, .form-select, .form-textarea { padding: 0.85rem 1rem; font-size: 1rem; }
+        }
+
+        @media (min-width: 1600px) {
+            .admin-title { font-size: 2.3rem; }
+            .admin-subtitle { font-size: 1.2rem; }
+            .stats-grid { grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+            .data-table { font-size: 1.05rem; }
+            .data-table th, .data-table td { padding: 1.2rem; }
+            .modal { max-width: 900px; }
+            .form-input, .form-select, .form-textarea { padding: 1rem 1.2rem; font-size: 1.05rem; }
+        }
+
+        @media (min-width: 1920px) {
+            .admin-title { font-size: 2.6rem; }
+            .admin-subtitle { font-size: 1.3rem; }
+            .data-table { font-size: 1.1rem; }
+            .data-table th, .data-table td { padding: 1.4rem; }
+            .modal { max-width: 1000px; }
+            .form-input, .form-select, .form-textarea { padding: 1.1rem 1.3rem; font-size: 1.1rem; }
+        }
     </style>
 </head>
 <body>
     <!-- Header -->
     <header class="header">
         <div class="logo" onclick="window.location.href='../index.html'">
+            <img src="../CSM.png" alt="Logo CSM">
             CSM <span>| Painel Professor</span>
         </div>
         

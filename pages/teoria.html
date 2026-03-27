@@ -159,13 +159,56 @@
             .grade-banner h1 { font-size: 1.4rem; }
             .content-card { padding: 1.2rem; }
         }
+
+        /* Fontes maiores para telas grandes */
+        @media (min-width: 1200px) {
+            .grade-banner { padding: 3rem 3.5rem; }
+            .grade-banner h1 { font-size: 2.3rem; }
+            .grade-banner p { font-size: 1.1rem; }
+            .content-card { padding: 2.5rem 3rem; }
+            .content-card h2 { font-size: 1.7rem; }
+            .page-ref { font-size: 0.85rem; }
+            .tab-panel { font-size: 1.05rem; }
+            .tab-panel h3 { font-size: 1.15rem; }
+            .question-box { padding: 2rem 2.5rem; }
+            .question-box h3 { font-size: 1.15rem; }
+        }
+
+        @media (min-width: 1600px) {
+            .grade-banner { padding: 3.5rem 4rem; }
+            .grade-banner h1 { font-size: 2.6rem; }
+            .grade-banner p { font-size: 1.2rem; }
+            .content-card { padding: 3rem 3.5rem; }
+            .content-card h2 { font-size: 1.9rem; }
+            .page-ref { font-size: 0.9rem; }
+            .tab-panel { font-size: 1.15rem; }
+            .tab-panel h3 { font-size: 1.25rem; }
+            .question-box { padding: 2.5rem 3rem; }
+            .question-box h3 { font-size: 1.25rem; }
+        }
+
+        @media (min-width: 1920px) {
+            .grade-banner { padding: 4rem 5rem; }
+            .grade-banner h1 { font-size: 2.9rem; }
+            .grade-banner p { font-size: 1.3rem; }
+            .content-card { padding: 3.5rem 4rem; }
+            .content-card h2 { font-size: 2.1rem; }
+            .page-ref { font-size: 1rem; }
+            .tab-panel { font-size: 1.25rem; }
+            .tab-panel h3 { font-size: 1.4rem; }
+            .question-box { padding: 3rem 3.5rem; }
+            .question-box h3 { font-size: 1.35rem; }
+        }
     </style>
 </head>
 <body>
     <!-- Header -->
     <header class="header">
         <button class="mobile-toggle" onclick="toggleSidebar()" aria-label="Menu">☰</button>
-        <div class="logo">CSM <span>| Limoeiro–PE</span></div>
+        <div class="logo">
+            <img src="../CSM.png" alt="Logo CSM">
+            CSM <span>| Limoeiro–PE</span>
+        </div>
         
         <nav class="nav" id="gradeTabs">
             <button class="nav-btn active" data-grade="6">6º Ano</button>
