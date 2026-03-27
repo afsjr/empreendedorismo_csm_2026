@@ -138,7 +138,7 @@ CREATE POLICY "Allow all for authenticated" ON observacoes FOR ALL USING (auth.r
 // ========================================
 
 const SUPABASE_URL = 'https://vujjlzgotmeokocfhjah.supabase.co/';
-const SUPABASE_ANON_KEY = 'sua_anon_key_aqui';
+const SUPABASE_ANON_KEY = 'sb_publishable_HesgpESGRCAPfuQMkWHt5Q_HtMSwcgc';
 
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -287,7 +287,7 @@ const DB = {
         let query = supabase.from('conquistas').select('nome_aluno, turma, pontos');
         if (turma) query = query.eq('turma', turma);
         const { data } = await query;
-        
+
         const ranking = {};
         (data || []).forEach(c => {
             if (!ranking[c.nome_aluno]) {
@@ -296,7 +296,7 @@ const DB = {
             ranking[c.nome_aluno].pontos += c.pontos || 0;
             ranking[c.nome_aluno].conquistas++;
         });
-        
+
         return Object.values(ranking).sort((a, b) => b.pontos - a.pontos);
     },
 
@@ -359,7 +359,7 @@ const DB = {
             totalConquistas: (conquistas.data || []).length,
             alunosAtivos: new Set((conquistas.data || []).map(c => c.nome_aluno)).size
         };
-        
+
         return stats;
     }
 };
