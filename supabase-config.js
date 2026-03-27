@@ -140,7 +140,7 @@ CREATE POLICY "Allow all for authenticated" ON observacoes FOR ALL USING (auth.r
 const SUPABASE_URL = 'https://vujjlzgotmeokocfhjah.supabase.co/';
 const SUPABASE_ANON_KEY = 'sb_publishable_HesgpESGRCAPfuQMkWHt5Q_HtMSwcgc';
 
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // ========================================
 // BANCO DE DADOS
@@ -149,46 +149,46 @@ const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const DB = {
     // ALUNOS
     async listarAlunos(turma = null) {
-        let query = supabase.from('alunos').select('*').order('nome');
+        let query = supabaseClient.from('alunos').select('*').order('nome');
         if (turma) query = query.eq('turma', turma);
         const { data } = await query;
         return data || [];
     },
 
     async criarAluno(dados) {
-        const { data, error } = await supabase.from('alunos').insert([dados]).select();
+        const { data, error } = await supabaseClient.from('alunos').insert([dados]).select();
         if (error) throw error;
         return data[0];
     },
 
     // GRUPOS
     async listarGrupos(turma = null) {
-        let query = supabase.from('grupos').select('*').order('created_at', { ascending: false });
+        let query = supabaseClient.from('grupos').select('*').order('created_at', { ascending: false });
         if (turma) query = query.eq('ano', turma);
         const { data } = await query;
         return data || [];
     },
 
     async criarGrupo(dados) {
-        const { data, error } = await supabase.from('grupos').insert([dados]).select();
+        const { data, error } = await supabaseClient.from('grupos').insert([dados]).select();
         if (error) throw error;
         return data[0];
     },
 
     async atualizarGrupo(id, dados) {
-        const { data, error } = await supabase.from('grupos').update(dados).eq('id', id).select();
+        const { data, error } = await supabaseClient.from('grupos').update(dados).eq('id', id).select();
         if (error) throw error;
         return data[0];
     },
 
     async excluirGrupo(id) {
-        const { error } = await supabase.from('grupos').delete().eq('id', id);
+        const { error } = await supabaseClient.from('grupos').delete().eq('id', id);
         if (error) throw error;
     },
 
     // DÚVIDAS
     async listarDuvidas(filtros = {}) {
-        let query = supabase.from('duvidas').select('*').order('created_at', { ascending: false });
+        let query = supabaseClient.from('duvidas').select('*').order('created_at', { ascending: false });
         if (filtros.turma) query = query.eq('turma', filtros.turma);
         if (filtros.status) query = query.eq('status', filtros.status);
         const { data } = await query;
@@ -196,7 +196,7 @@ const DB = {
     },
 
     async enviarDuvida(dados) {
-        const { data, error } = await supabase.from('duvidas').insert([{
+        const { data, error } = await supabaseClient.from('duvidas').insert([{
             nome_aluno: dados.nome,
             turma: dados.turma,
             ano: dados.ano,
@@ -209,7 +209,7 @@ const DB = {
     },
 
     async responderDuvida(id, resposta, professor) {
-        const { data, error } = await supabase.from('duvidas').update({
+        const { data, error } = await supabaseClient.from('duvidas').update({
             resposta,
             status: 'respondida',
             respondido_por: professor,
@@ -220,13 +220,13 @@ const DB = {
     },
 
     async excluirDuvida(id) {
-        const { error } = await supabase.from('duvidas').delete().eq('id', id);
+        const { error } = await supabaseClient.from('duvidas').delete().eq('id', id);
         if (error) throw error;
     },
 
     // PROJETOS
     async listarProjetos(filtros = {}) {
-        let query = supabase.from('projetos').select('*').order('created_at', { ascending: false });
+        let query = supabaseClient.from('projetos').select('*').order('created_at', { ascending: false });
         if (filtros.turma) query = query.eq('turma', filtros.turma);
         if (filtros.tipo) query = query.eq('tipo', filtros.tipo);
         const { data } = await query;
@@ -234,7 +234,7 @@ const DB = {
     },
 
     async enviarProjeto(dados) {
-        const { data, error } = await supabase.from('projetos').insert([{
+        const { data, error } = await supabaseClient.from('projetos').insert([{
             nome_aluno: dados.nome,
             turma: dados.turma,
             ano: dados.ano,
@@ -249,7 +249,7 @@ const DB = {
     },
 
     async avaliarProjeto(id, nota, feedback, professor) {
-        const { data, error } = await supabase.from('projetos').update({
+        const { data, error } = await supabaseClient.from('projetos').update({
             nota,
             feedback,
             avaliado_por: professor,
@@ -262,14 +262,14 @@ const DB = {
 
     // CONQUISTAS
     async listarConquistas(filtros = {}) {
-        let query = supabase.from('conquistas').select('*').order('created_at', { ascending: false });
+        let query = supabaseClient.from('conquistas').select('*').order('created_at', { ascending: false });
         if (filtros.turma) query = query.eq('turma', filtros.turma);
         const { data } = await query;
         return data || [];
     },
 
     async concederConquista(dados) {
-        const { data, error } = await supabase.from('conquistas').insert([{
+        const { data, error } = await supabaseClient.from('conquistas').insert([{
             nome_aluno: dados.aluno,
             turma: dados.turma,
             ano: dados.ano,
@@ -284,7 +284,7 @@ const DB = {
     },
 
     async getRanking(turma = null) {
-        let query = supabase.from('conquistas').select('nome_aluno, turma, pontos');
+        let query = supabaseClient.from('conquistas').select('nome_aluno, turma, pontos');
         if (turma) query = query.eq('turma', turma);
         const { data } = await query;
 
@@ -302,7 +302,7 @@ const DB = {
 
     // PROGRESSO
     async getProgresso(grupoId, projetoId) {
-        const { data } = await supabase.from('progresso')
+        const { data } = await supabaseClient.from('progresso')
             .select('*')
             .eq('grupo_id', grupoId)
             .eq('projeto_id', projetoId);
@@ -310,7 +310,7 @@ const DB = {
     },
 
     async atualizarProgresso(grupoId, projetoId, etapa, concluida, anotações = '') {
-        const { data, error } = await supabase.from('progresso').upsert({
+        const { data, error } = await supabaseClient.from('progresso').upsert({
             grupo_id: grupoId,
             projeto_id: projetoId,
             etapa,
@@ -324,7 +324,7 @@ const DB = {
 
     // OBSERVAÇÕES
     async getObservacao(projetoId, etapa) {
-        const { data } = await supabase.from('observacoes')
+        const { data } = await supabaseClient.from('observacoes')
             .select('*')
             .eq('projeto_id', projetoId)
             .eq('etapa', etapa)
@@ -333,7 +333,7 @@ const DB = {
     },
 
     async salvarObservacao(projetoId, etapa, texto) {
-        const { data, error } = await supabase.from('observacoes').upsert({
+        const { data, error } = await supabaseClient.from('observacoes').upsert({
             projeto_id: projetoId,
             etapa,
             observacao: texto,
@@ -346,9 +346,9 @@ const DB = {
     // ESTATÍSTICAS
     async getEstatisticas() {
         const [duvidas, projetos, conquistas] = await Promise.all([
-            supabase.from('duvidas').select('status'),
-            supabase.from('projetos').select('status'),
-            supabase.from('conquistas').select('nome_aluno')
+            supabaseClient.from('duvidas').select('status'),
+            supabaseClient.from('projetos').select('status'),
+            supabaseClient.from('conquistas').select('nome_aluno')
         ]);
 
         const stats = {
