@@ -12,7 +12,7 @@
 // 5. Copie a URL e a anon key e cole abaixo
 
 const SUPABASE_URL = 'https://vujjlzgotmeokocfhjah.supabase.co/';
-const SUPABASE_ANON_KEY = 'sb_publishable_HesgpESGRCAPfuQMkWHt5Q_HtMSwcgc';
+const SUPABASE_ANON_KEY = 'sb_secret_9KDs1V7Hjx02NTSja7Of7w__bJsljCG';
 
 // Inicializar Supabase
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
