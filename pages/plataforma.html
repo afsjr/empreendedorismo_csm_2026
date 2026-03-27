@@ -353,16 +353,36 @@
     <script src="../js/app.js"></script>
     
     <script>
-        // Dados dos projetos
+        // Dados dos projetos (24 projetos - 6 por ano)
         const PROJETOS = [
-            { id: 'p6-1', title: 'Feira do Centavo', desc: 'Primeiro projeto de vendas', ano: 6, sem: 1 },
-            { id: 'p6-2', title: 'Detetives Financeiros', desc: 'Educação financeira básica', ano: 6, sem: 2 },
-            { id: 'p7-1', title: 'Shark Tank Mirim', desc: 'Apresentação de ideias', ano: 7, sem: 1 },
-            { id: 'p7-2', title: 'TEDx Escola', desc: 'Palestras inspiradoras', ano: 7, sem: 2 },
-            { id: 'p8-1', title: 'Startup Weekend', desc: 'Criação de startup em 48h', ano: 8, sem: 1 },
-            { id: 'p8-2', title: 'Fintech da Escola', desc: 'Soluções financeiras tech', ano: 8, sem: 2 },
-            { id: 'p9-1', title: 'Startup Real', desc: 'Negócio completo', ano: 9, sem: 1 },
-            { id: 'p9-2', title: 'Demo Day', desc: 'Apresentação final', ano: 9, sem: 2 }
+            // 6º Ano
+            { id: 'p6-1', title: 'Feira do Centavo', desc: 'Primeiro projeto de vendas - aprenda precificação e atendimento', ano: 6, sem: 1 },
+            { id: 'p6-2', title: 'Detetives Financeiros', desc: 'Educação financeira básica - controle de gastos e orçamento', ano: 6, sem: 1 },
+            { id: 'p6-3', title: 'Jogo Educativo', desc: 'Crie um jogo que ensine algo sobre empreendedorismo', ano: 6, sem: 2 },
+            { id: 'p6-4', title: 'Inventor da Escola', desc: 'Identifique problemas e crie soluções inovadoras', ano: 6, sem: 2 },
+            { id: 'p6-5', title: 'Campanha Social', desc: 'Planeje uma campanha para ajudar a comunidade', ano: 6, sem: 2 },
+            { id: 'p6-6', title: 'Talk Show', desc: 'Entreviste entrepreneurs locais sobre suas histórias', ano: 6, sem: 2 },
+            // 7º Ano
+            { id: 'p7-1', title: 'Consultoria Mirim', desc: 'Ofereça soluções para pequenos negócios da região', ano: 7, sem: 1 },
+            { id: 'p7-2', title: 'Mapa Empreendedor', desc: 'Mapeie negócios locais e identifique oportunidades', ano: 7, sem: 1 },
+            { id: 'p7-3', title: 'Shark Tank', desc: 'Apresente sua ideia para uma banca de avaliadores', ano: 7, sem: 1 },
+            { id: 'p7-4', title: 'Hackathon', desc: 'Maratona de criação de soluções em 48 horas', ano: 7, sem: 2 },
+            { id: 'p7-5', title: 'Agência CSM', desc: 'Crie campanhas de marketing para empresas parceiras', ano: 7, sem: 2 },
+            { id: 'p7-6', title: 'TEDx Escola', desc: 'Prepare e apresente uma palestra inspiradora', ano: 7, sem: 2 },
+            // 8º Ano
+            { id: 'p8-1', title: 'Startup Weekend', desc: 'Crie uma startup completa em um final de semana', ano: 8, sem: 1 },
+            { id: 'p8-2', title: 'Fintech da Escola', desc: 'Desenvolva soluções financeiras tecnológicas', ano: 8, sem: 1 },
+            { id: 'p8-3', title: 'Economia Circular', desc: 'Projetos sustentáveis de reutilização e recycle', ano: 8, sem: 1 },
+            { id: 'p8-4', title: 'Lab de Tecnologia', desc: 'Explore ferramentas digitais para negócios', ano: 8, sem: 2 },
+            { id: 'p8-5', title: 'Redesign UX', desc: 'Melhore a experiência de usuário de um produto', ano: 8, sem: 2 },
+            { id: 'p8-6', title: 'Podcast', desc: 'Crie um podcast sobre empreendedorismo', ano: 8, sem: 2 },
+            // 9º Ano
+            { id: 'p9-1', title: 'Startup Real', desc: 'Crie um negócio de verdade com estrutura completa', ano: 9, sem: 1 },
+            { id: 'p9-2', title: 'Fundo de Investimento', desc: 'Gestão de investimentos para projetos da escola', ano: 9, sem: 1 },
+            { id: 'p9-3', title: 'Incubadora Social', desc: 'Apoie projetos sociais com mentoria', ano: 9, sem: 1 },
+            { id: 'p9-4', title: 'Demo Day', desc: 'Apresente seu projeto para investidores reais', ano: 9, sem: 2 },
+            { id: 'p9-5', title: 'Limoeiro 2040', desc: 'Planeje o futuro da cidade com soluções inovadoras', ano: 9, sem: 2 },
+            { id: 'p9-6', title: 'Mentor de Futuro', desc: 'Seja mentor de alunos mais novos', ano: 9, sem: 2 }
         ];
 
         let currentView = 'landing';
