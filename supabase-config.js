@@ -126,7 +126,7 @@ CREATE POLICY "Allow public read" ON conquistas FOR SELECT USING (true);
 CREATE POLICY "Allow public read" ON progresso FOR SELECT USING (true);
 CREATE POLICY "Allow public read" ON observacoes FOR SELECT USING (true);
 
-CREATE POLICY "Allow all for authenticated" ONduvidas FOR ALL USING (auth.role() = 'authenticated');
+CREATE POLICY "Allow all for authenticated" ON duvidas FOR ALL USING (auth.role() = 'authenticated');
 CREATE POLICY "Allow all for authenticated" ON projetos FOR ALL USING (auth.role() = 'authenticated');
 CREATE POLICY "Allow all for authenticated" ON conquistas FOR ALL USING (auth.role() = 'authenticated');
 CREATE POLICY "Allow all for authenticated" ON progresso FOR ALL USING (auth.role() = 'authenticated');
@@ -138,7 +138,9 @@ CREATE POLICY "Allow all for authenticated" ON observacoes FOR ALL USING (auth.r
 // ========================================
 
 const SUPABASE_URL = 'https://vujjlzgotmeokocfhjah.supabase.co/';
-const SUPABASE_ANON_KEY = 'sb_publishable_HesgpESGRCAPfuQMkWHt5Q_HtMSwcgc';
+// ⚠️ SUBSTITUA PELA SUA ANON KEY (vá em Project Settings > API > anon public)
+// A chave correta começa com: eyJhbGciOiJIUzI1NiIs...
+const SUPABASE_ANON_KEY = 'COLE_SUA_ANON_KEY_AQUI';
 
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
