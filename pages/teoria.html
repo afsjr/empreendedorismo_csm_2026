@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Pedagógico — CSM</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/styles.css">
+    
+    <style>
+        /* Teoria específicos */
+        :root {
+            --grade-accent: #f97316;
+            --grade-glow: rgba(249,115,22,.12);
+            --grade-surface: rgba(249,115,22,.06);
+        }
+
+        .theme-orange { --grade-accent: #f97316; --grade-glow: rgba(249,115,22,.12); --grade-surface: rgba(249,115,22,.06) }
+        .theme-red { --grade-accent: #ef4444; --grade-glow: rgba(239,68,68,.12); --grade-surface: rgba(239,68,68,.06) }
+        .theme-blue { --grade-accent: #3b82f6; --grade-glow: rgba(59,130,246,.12); --grade-surface: rgba(59,130,246,.06) }
+        .theme-purple { --grade-accent: #a855f7; --grade-glow: rgba(168,85,247,.12); --grade-surface: rgba(168,85,247,.06) }
+
+        .grade-banner {
+            border-radius: var(--radius);
+            padding: 2.5rem 3rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, var(--grade-surface), transparent 70%);
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .grade-banner::before {
+            content: '';
+            position: absolute;
+            top: -60%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, var(--grade-glow), transparent 70%);
+            pointer-events: none;
+        }
+
+        .grade-banner h1 {
+            font-family: 'Source Serif 4', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+            position: relative;
+        }
+
+        .grade-banner p {
+            color: var(--text-dim);
+            font-size: 0.95rem;
+            position: relative;
+        }
+
+        .content-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 2rem 2.5rem;
+            margin-bottom: 1.5rem;
+            animation: fadeUp 0.4s ease;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: none; }
+        }
+
+        .content-card h2 {
+            font-family: 'Source Serif 4', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+
+        .page-ref {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: var(--bg-surface2);
+            padding: 3px 10px;
+            border-radius: 100px;
+        }
+
+        .tab-panel {
+            font-size: 0.92rem;
+            line-height: 1.7;
+            color: var(--text-dim);
+        }
+
+        .tab-panel b { color: var(--text); font-weight: 600; }
+        .tab-panel h3 { color: var(--text); margin-top: 1.2rem; margin-bottom: 0.5rem; font-size: 1rem; }
+        .tab-panel ul { margin-left: 1.2rem; margin-top: 0.4rem; margin-bottom: 0.6rem; }
+        .tab-panel li { margin-bottom: 0.3rem; }
+        .tab-panel p { margin-bottom: 0.7rem; }
+        .tab-panel i { font-style: italic; opacity: 0.85; }
+
+        .question-box {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .question-box h3 {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .qb-form {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .qb-send {
+            align-self: flex-end;
+            padding: 0.6rem 1.5rem;
+            border-radius: 100px;
+            border: none;
+            background: var(--grade-accent);
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .qb-send:hover { opacity: 0.85; }
+        .qb-success {
+            padding: 0.8rem 1rem;
+            border-radius: var(--radius-sm);
+            background: rgba(34,197,94,0.1);
+            border: 1px solid rgba(34,197,94,0.2);
+            color: #4ade80;
+            font-size: 0.88rem;
+            display: none;
+            text-align: center;
+        }
+
+        .qb-success.show { display: block; }
+
+        @media (max-width: 900px) {
+            .grade-banner { padding: 1.5rem; }
+            .grade-banner h1 { font-size: 1.4rem; }
+            .content-card { padding: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <button class="mobile-toggle" onclick="toggleSidebar()" aria-label="Menu">☰</button>
+        <div class="logo">CSM <span>| Limoeiro–PE</span></div>
+        
+        <nav class="nav" id="gradeTabs">
+            <button class="nav-btn active" data-grade="6">6º Ano</button>
+            <button class="nav-btn" data-grade="7">7º Ano</button>
+            <button class="nav-btn" data-grade="8">8º Ano</button>
+            <button class="nav-btn" data-grade="9">9º Ano</button>
+        </nav>
+        
+        <button class="theme-toggle" onclick="toggleTheme()" title="Modo claro/escuro">☀️</button>
+        <button class="nav-btn" onclick="window.location.href='../index.html'">🏠 Início</button>
+    </header>
+
+    <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+    <div class="app-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div id="modulesList"></div>
+        </aside>
+
+        <!-- Main -->
+        <main class="main">
+            <div class="grade-banner" id="gradeBanner">
+                <h1>Descoberta e Habilidades do Futuro</h1>
+                <p>Aprenda conceitos fundamentais de empreendedorismo de forma prática e divertida.</p>
+            </div>
+
+            <div id="contentArea">
+                <div class="content-card" id="lessonContent">
+                    <h2>Bem-vindo ao Painel Pedagógico</h2>
+                    <p class="page-ref">Selecione um ano e um módulo no menu ao lado</p>
+                    
+                    <div class="tab-panel active" style="margin-top: 1rem;">
+                        <p>Este painel contém todo o conteúdo curricular do programa <strong>Empreendedores Exponenciais</strong> do Colegio Santa Mônica.</p>
+                        <p>Selecione o <strong>ano</strong> na aba acima e clique em um <strong>módulo</strong> no menu lateral para começar a estudar.</p>
+                    </div>
+                </div>
+
+                <!-- Question Box -->
+                <div class="question-box" id="questionBox">
+                    <h3>❓ Tem alguma dúvida?</h3>
+                    <form class="qb-form" id="duvidaForm">
+                        <input type="text" name="nome" placeholder="Seu nome" required>
+                        <select name="turma" required>
+                            <option value="">Selecione sua turma</option>
+                            <option value="6º Ano">6º Ano</option>
+                            <option value="7º Ano">7º Ano</option>
+                            <option value="8º Ano">8º Ano</option>
+                            <option value="9º Ano">9º Ano</option>
+                        </select>
+                        <textarea name="pergunta" placeholder="Digite sua dúvida..." rows="3" required></textarea>
+                        <button type="submit" class="qb-send">Enviar Dúvida</button>
+                    </form>
+                    <div class="qb-success" id="duvidaSuccess">✅ Dúvida enviada com sucesso! O professor responderá em breve.</div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../supabase-config.js"></script>
+    <script src="../js/app.js"></script>
+    
+    <script>
+        // Dados dos módulos por ano
+        const MODULOS = {
+            6: {
+                title: "Descoberta e Habilidades do Futuro",
+                theme: "orange",
+                mods: [
+                    { id: 1, name: "Empreendedorismo", icon: "💡", lessons: ["O que é empreendedorismo?", "Características empreendedoras", "Casos inspiradores"] },
+                    { id: 2, name: "Autoconhecimento", icon: "🎯", lessons: ["Conhecendo suas fortalezas", "Corpo e mente saudáveis", "Definindo metas"] },
+                    { id: 3, name: "Inteligência Emocional", icon: "❤️", lessons: ["Entendendo emoções", "Empatia", "Autocontrole"] },
+                    { id: 4, name: "Pensamento Crítico", icon: "🧠", lessons: ["Analisar informações", "Evidência vs opinião", "Tomada de decisão"] }
+                ]
+            },
+            7: {
+                title: "Negócios e Comunidade",
+                theme: "red",
+                mods: [
+                    { id: 1, name: "Identidade de Marca", icon: "🎨", lessons: ["O que é marca?", "Criar identidade visual", "Comunicação"] },
+                    { id: 2, name: "Pesquisa de Mercado", icon: "📊", lessons: ["Conhecer o cliente", "Questionários", "Análise de dados"] },
+                    { id: 3, name: "Modelo de Negócios", icon: "📋", lessons: ["Canvas", "Proposta de valor", "Receitas"] },
+                    { id: 4, name: " Apresentação de Pitch", icon: "🎤", lessons: ["Estrutura do pitch", "Comunicação verbal", "Apresentação"] }
+                ]
+            },
+            8: {
+                title: "Inovação e Tecnologia",
+                theme: "blue",
+                mods: [
+                    { id: 1, name: "Startups", icon: "🚀", lessons: ["O que é startup?", "MVP", "Escalabilidade"] },
+                    { id: 2, name: "Tecnologia", icon: "💻", lessons: ["Transformação digital", "Ferramentas digitais", "Coding"] },
+                    { id: 3, name: "Economia Circular", icon: "♻️", lessons: ["Sustentabilidade", "Reutilização", "Impacto ambiental"] },
+                    { id: 4, name: "Finanças", icon: "💰", lessons: ["Fluxo de caixa", "Precificação", "Investimento"] }
+                ]
+            },
+            9: {
+                title: "Liderança e Impacto",
+                theme: "purple",
+                mods: [
+                    { id: 1, name: "Liderança", icon: "👑", lessons: ["Tipos de líder", "Influência", "Trabalho em equipe"] },
+                    { id: 2, name: "Gestão de Projetos", icon: "📁", lessons: ["Planejamento", "Cronograma", "Execução"] },
+                    { id: 3, name: "Impacto Social", icon: "🌍", lessons: ["Empreendedorismo social", "ODSs", "Projetos de impacto"] },
+                    { id: 4, name: "Projeto Final", icon: "🏆", lessons: ["Desenvolvimento", "Apresentação", "Avaliação"] }
+                ]
+            }
+        };
+
+        let currentGrade = 6;
+        let currentModule = null;
+
+        // Inicializar
+        function init() {
+            renderTabs();
+            renderSidebar(6);
+            updateBanner(6);
+            setupEventListeners();
+        }
+
+        function renderTabs() {
+            document.querySelectorAll('.nav-btn[data-grade]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.nav-btn[data-grade]').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    const grade = parseInt(btn.dataset.grade);
+                    currentGrade = grade;
+                    currentModule = null;
+                    renderSidebar(grade);
+                    updateBanner(grade);
+                    renderWelcome();
+                });
+            });
+        }
+
+        function renderSidebar(grade) {
+            const data = MODULOS[grade];
+            const container = document.getElementById('modulesList');
+            
+            container.innerHTML = data.mods.map(m => `
+                <div class="module-section">
+                    <div class="module-header" onclick="toggleModule(${m.id})">
+                        <span class="module-icon">${m.icon}</span>
+                        <span>${m.name}</span>
+                    </div>
+                    <div class="module-lessons" id="mod-${m.id}">
+                        ${m.lessons.map((l, i) => `
+                            <div class="lesson-item" onclick="showLesson(${grade}, ${m.id}, ${i})">
+                                <span class="lesson-num">${i + 1}</span>
+                                <span>${l}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleModule(id) {
+            const el = document.getElementById(`mod-${id}`);
+            el.classList.toggle('open');
+            el.previousElementSibling.classList.toggle('active');
+        }
+
+        function updateBanner(grade) {
+            const data = MODULOS[grade];
+            const banner = document.getElementById('gradeBanner');
+            banner.className = `grade-banner theme-${data.theme}`;
+            banner.innerHTML = `
+                <h1>${data.title}</h1>
+                <p>Selecione um módulo no menu lateral para começar</p>
+            `;
+        }
+
+        function renderWelcome() {
+            document.getElementById('lessonContent').innerHTML = `
+                <h2>Bem-vindo ao ${MODULOS[currentGrade].title}</h2>
+                <p class="page-ref">Ano ${currentGrade}º</p>
+                <div class="tab-panel active" style="margin-top: 1rem;">
+                    <p>Selecione um <strong>módulo</strong> no menu lateral para acessar o conteúdo.</p>
+                    <p>Após estudar, pode enviar sua dúvida no formulário abaixo.</p>
+                </div>
+            `;
+        }
+
+        function showLesson(grade, moduleId, lessonIndex) {
+            const data = MODULOS[grade];
+            const mod = data.mods.find(m => m.id === moduleId);
+            const lesson = mod.lessons[lessonIndex];
+            
+            const content = document.getElementById('lessonContent');
+            content.innerHTML = `
+                <h2>${lesson}</h2>
+                <p class="page-ref">${mod.name} • Lição ${lessonIndex + 1}</p>
+                
+                <div class="tabs content-tabs">
+                    <button class="tab active" onclick="switchTab(this, 'teoria')">📖 Teoria</button>
+                    <button class="tab" onclick="switchTab(this, 'pratica')">✏️ Prática</button>
+                    <button class="tab" onclick="switchTab(this, 'quiz')">❓ Quiz</button>
+                </div>
+
+                <div id="teoria" class="tab-panel active">
+                    <h3>Objetivo</h3>
+                    <p>Compreender o conceito de <strong>${lesson.toLowerCase()}</strong> e sua aplicação no cotidiano e no empreendedorismo.</p>
+                    
+                    <h3>Conteúdo Principal</h3>
+                    <p>Esta lição aborda os fundamentos de <strong>${lesson}</strong> com exemplos práticos e casos reais do mercado.</p>
+                    <ul>
+                        <li>Conceitos fundamentais</li>
+                        <li>Exemplos do dia a dia</li>
+                        <li>Application no empreendedorismo</li>
+                        <li>Atividade proposta</li>
+                    </ul>
+                    
+                    <h3>Para Casa</h3>
+                    <p>Pesquise e reflita: Como você pode aplicar este conceito em um projeto real?</p>
+                </div>
+
+                <div id="pratica" class="tab-panel">
+                    <h3>Atividade em Sala</h3>
+                    <p>Em grupos de 4-5 alunos, discutam e respondam:</p>
+                    <ol>
+                        <li>O que vocês entenderam sobre o tema?</li>
+                        <li>De um exemplo de como isso aparece no dia a dia.</li>
+                        <li>Como um empreendedor usaria esse conceito?</li>
+                    </ol>
+                    
+                    <h3>Entrega</h3>
+                    <p>Produzam um resumo de 10 linhas sobre o tema estudado.</p>
+                </div>
+
+                <div id="quiz" class="tab-panel">
+                    <h3>Quiz de Verificação</h3>
+                    <p>Responda para verificar seu aprendizado:</p>
+                    <div style="margin-top: 1rem;">
+                        <p><strong>1.</strong> O que você aprendeu com esta lição?</p>
+                        <textarea style="width:100%;margin-top:0.5rem;padding:0.8rem;background:var(--bg-surface2);border:1px solid var(--bg-surface3);border-radius:8px;color:var(--text);" rows="3" placeholder="Sua resposta..."></textarea>
+                    </div>
+                    <button class="btn btn-primary" style="margin-top:1rem;">Enviar Resposta</button>
+                </div>
+            `;
+        }
+
+        function switchTab(btn, panelId) {
+            const parent = btn.closest('.content-card');
+            parent.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            parent.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            btn.classList.add('active');
+            parent.querySelector(`#${panelId}`).classList.add('active');
+        }
+
+        function setupEventListeners() {
+            // Formulário de dúvida
+            document.getElementById('duvidaForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const form = e.target;
+                const dados = {
+                    nome: form.nome.value,
+                    turma: form.turma.value,
+                    ano: currentGrade.toString(),
+                    modulo: currentModule ? MODULOS[currentGrade].mods.find(m => m.id === currentModule)?.name : 'Geral',
+                    pergunta: form.pergunta.value
+                };
+
+                try {
+                    await DB.enviarDuvida(dados);
+                    form.reset();
+                    document.getElementById('duvidaSuccess').classList.add('show');
+                    setTimeout(() => {
+                        document.getElementById('duvidaSuccess').classList.remove('show');
+                    }, 5000);
+                } catch (err) {
+                    alert('Erro ao enviar dúvida: ' + err.message);
+                }
+            });
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('light');
+            localStorage.setItem('ee_csm_theme', document.body.classList.contains('light') ? 'light' : 'dark');
+        }
+
+        function toggleSidebar() {
+            document.querySelector('.sidebar').classList.toggle('open');
+            document.querySelector('.overlay').classList.toggle('show');
+        }
+
+        // Iniciar
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

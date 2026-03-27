@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataforma de Projetos — CSM</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/styles.css">
+    
+    <style>
+        /* Plataforma específica */
+        .hero-section {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: linear-gradient(135deg, var(--bg-surface2), transparent);
+            border-radius: var(--radius);
+            margin-bottom: 2rem;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--csm-gold-light);
+            color: var(--csm-gold-dark);
+            font-size: 0.75rem;
+            padding: 5px 14px;
+            border-radius: 20px;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .hero-section h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .hero-section h1 em {
+            color: var(--csm-red);
+            font-style: normal;
+        }
+
+        .hero-section p {
+            color: var(--text-dim);
+            max-width: 500px;
+            margin: 0 auto 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .project-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.25rem;
+            transition: var(--transition);
+        }
+
+        .project-card:hover {
+            border-color: var(--csm-red);
+            transform: translateY(-2px);
+        }
+
+        .project-card-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+
+        .project-title {
+            font-size: 1rem;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .project-desc {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .progress-wrap {
+            margin-bottom: 0.75rem;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 0.3rem;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: var(--bg-surface3);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--csm-red);
+            border-radius: 2px;
+            transition: width 0.3s;
+        }
+
+        .group-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.25rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .group-card:hover {
+            border-color: var(--csm-gold);
+        }
+
+        .group-name {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .group-members {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+            margin-bottom: 0.75rem;
+        }
+
+        .member-chip {
+            font-size: 0.7rem;
+            background: var(--csm-red-light);
+            color: var(--csm-red-dark);
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-c {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .stat-n {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--csm-red);
+        }
+
+        .stat-l {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 0.2rem;
+        }
+
+        .groups-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section { padding: 2rem 1rem; }
+            .hero-section h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo" onclick="setView('landing')" style="cursor:pointer;">
+            CSM <span>| Projetos</span>
+        </div>
+        
+        <nav class="nav">
+            <button class="nav-btn active" data-view="landing">Início</button>
+            <button class="nav-btn" data-view="groups">Meus Grupos</button>
+            <button class="nav-btn" data-view="projects">Projetos</button>
+            <button class="nav-btn" onclick="requireAuth('professor')">Professor</button>
+        </nav>
+        
+        <button class="theme-toggle" onclick="toggleTheme()">☀️</button>
+        <button class="nav-btn" onclick="window.location.href='../index.html'">🏠</button>
+    </header>
+
+    <div class="container" style="padding-top: 2rem; padding-bottom: 2rem;">
+        
+        <!-- LANDING VIEW -->
+        <div id="view-landing" class="view">
+            <div class="hero-section">
+                <div class="hero-badge">⭐ Colegio Santa Mônica · Limoeiro/PE · 2026</div>
+                <h1>Aprenda empreendendo.<br><em>Transforme Limoeiro.</em></h1>
+                <p>O programa Empreendedores Exponenciais leva estudantes do 6º ao 9º ano a vivenciar projetos reais de negócios, finanças, inovação e comunicação.</p>
+                <div class="hero-btns">
+                    <button class="btn btn-primary" onclick="setView('projects')">Explorar Projetos</button>
+                    <button class="btn btn-secondary" onclick="setView('groups')">Meu Grupo</button>
+                </div>
+            </div>
+
+            <div class="stats-bar" id="landingStats"></div>
+
+            <div class="section-title" style="font-size: 1rem; font-weight: 700; margin-bottom: 1rem; color: var(--csm-red-dark);">
+                Por que participar?
+            </div>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-title">💡 Projetos Reais</div>
+                    <div class="project-desc">Você vende, investe, cria e apresenta — não só estuda teoria.</div>
+                </div>
+                <div class="project-card">
+                    <div class="project-title">🤝 Trabalho em Equipe</div>
+                    <div class="project-desc">Grupos de 3-4 alunos com papéis definidos.</div>
+                </div>
+                <div class="project-card">
+                    <div class="project-title">📊 Finanças na Prática</div>
+                    <div class="project-desc">DRE, custos, precificação e investimentos.</div>
+                </div>
+                <div class="project-card">
+                    <div class="project-title">🎤 Comunicação e Pitch</div>
+                    <div class="project-desc">TED talks, Shark Tank e apresentações.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- GROUPS VIEW -->
+        <div id="view-groups" class="view" style="display: none;">
+            <div class="groups-header">
+                <h2 style="font-size: 1.25rem; font-weight: 700;">Meus Grupos</h2>
+                <button class="btn btn-primary btn-sm" onclick="openGroupForm()">+ Novo Grupo</button>
+            </div>
+            <div class="projects-grid" id="groupsGrid"></div>
+        </div>
+
+        <!-- PROJECTS VIEW -->
+        <div id="view-projects" class="view" style="display: none;">
+            <div class="groups-header">
+                <h2 style="font-size: 1.25rem; font-weight: 700;">Projetos do Programa</h2>
+            </div>
+            
+            <div class="tabs" style="margin-bottom: 1.5rem;">
+                <button class="tab active" onclick="filterProjects('all', this)">Todos</button>
+                <button class="tab" onclick="filterProjects('6', this)">6º Ano</button>
+                <button class="tab" onclick="filterProjects('7', this)">7º Ano</button>
+                <button class="tab" onclick="filterProjects('8', this)">8º Ano</button>
+                <button class="tab" onclick="filterProjects('9', this)">9º Ano</button>
+            </div>
+            
+            <div class="projects-grid" id="projectsGrid"></div>
+        </div>
+
+    </div>
+
+    <!-- Modal Grupo -->
+    <div class="modal-overlay" id="groupModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="groupModalTitle">Novo Grupo</h3>
+                <button class="modal-close" onclick="closeModal('groupModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="groupForm">
+                    <div class="form-group">
+                        <label class="form-label">Nome do Grupo</label>
+                        <input type="text" name="nome" class="form-input" placeholder="Ex: Equipe Inovação" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Ano Escolar</label>
+                        <select name="ano" class="form-select" required>
+                            <option value="6">6º Ano</option>
+                            <option value="7">7º Ano</option>
+                            <option value="8">8º Ano</option>
+                            <option value="9">9º Ano</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Projeto</label>
+                        <select name="projeto" class="form-select" id="projetoSelect" required>
+                            <option value="">Selecione...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Membros (um por linha)</label>
+                        <textarea name="membros" class="form-textarea" rows="4" placeholder="Aluno 1&#10;Aluno 2&#10;Aluno 3"></textarea>
+                    </div>
+                    <div class="flex gap-1" style="justify-content: flex-end;">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('groupModal')">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div class="modal-overlay" id="authModal">
+        <div class="modal" style="max-width: 400px;">
+            <div class="modal-header">
+                <h3 class="modal-title">🔒 Área Restrita</h3>
+                <button class="modal-close" onclick="closeModal('authModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <p style="margin-bottom: 1rem; color: var(--text-dim);">Digite a senha de acesso:</p>
+                <form id="authForm">
+                    <div class="form-group">
+                        <input type="password" id="authPassword" class="form-input" placeholder="Senha" required>
+                    </div>
+                    <div id="authError" style="color: var(--accent-red); font-size: 0.85rem; margin-bottom: 1rem; display: none;">
+                        Senha incorreta. Tente novamente.
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Entrar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../supabase-config.js"></script>
+    <script src="../js/app.js"></script>
+    
+    <script>
+        // Dados dos projetos
+        const PROJETOS = [
+            { id: 'p6-1', title: 'Feira do Centavo', desc: 'Primeiro projeto de vendas', ano: 6, sem: 1 },
+            { id: 'p6-2', title: 'Detetives Financeiros', desc: 'Educação financeira básica', ano: 6, sem: 2 },
+            { id: 'p7-1', title: 'Shark Tank Mirim', desc: 'Apresentação de ideias', ano: 7, sem: 1 },
+            { id: 'p7-2', title: 'TEDx Escola', desc: 'Palestras inspiradoras', ano: 7, sem: 2 },
+            { id: 'p8-1', title: 'Startup Weekend', desc: 'Criação de startup em 48h', ano: 8, sem: 1 },
+            { id: 'p8-2', title: 'Fintech da Escola', desc: 'Soluções financeiras tech', ano: 8, sem: 2 },
+            { id: 'p9-1', title: 'Startup Real', desc: 'Negócio completo', ano: 9, sem: 1 },
+            { id: 'p9-2', title: 'Demo Day', desc: 'Apresentação final', ano: 9, sem: 2 }
+        ];
+
+        let currentView = 'landing';
+        let currentFilter = 'all';
+        let editingGroupId = null;
+
+        // Carregar dados locais
+        let localData = App.loadLocalData();
+        let grupos = localData.grupos || [];
+        let progresso = localData.progresso || {};
+
+        function init() {
+            populateProjetoSelect();
+            renderStats();
+            renderProjects();
+            renderGroups();
+            setupEvents();
+            App.initModalClose();
+        }
+
+        function setupEvents() {
+            // Navigation
+            document.querySelectorAll('.nav-btn[data-view]').forEach(btn => {
+                btn.addEventListener('click', () => setView(btn.dataset.view));
+            });
+
+            // Auth
+            document.getElementById('authForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const pass = document.getElementById('authPassword').value;
+                App.submitAuth(pass);
+                if (App.isProfessor()) {
+                    window.location.href = 'admin.html';
+                }
+            });
+
+            // Group Form
+            document.getElementById('groupForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const form = e.target;
+                const dados = {
+                    nome: form.nome.value,
+                    ano: parseInt(form.ano.value),
+                    projeto: form.projeto.value,
+                    membros: form.membros.value.split('\n').filter(m => m.trim())
+                };
+
+                if (editingGroupId) {
+                    const idx = grupos.findIndex(g => g.id === editingGroupId);
+                    if (idx >= 0) grupos[idx] = { ...grupos[idx], ...dados };
+                } else {
+                    grupos.push({ id: 'g' + Date.now(), ...dados, createdAt: new Date().toISOString() });
+                }
+
+                App.saveLocalData({ grupos, progresso });
+                closeModal('groupModal');
+                renderGroups();
+                renderStats();
+                form.reset();
+            });
+        }
+
+        function setView(view) {
+            currentView = view;
+            document.querySelectorAll('.view').forEach(v => v.style.display = 'none');
+            document.getElementById(`view-${view}`).style.display = 'block';
+            document.querySelectorAll('.nav-btn[data-view]').forEach(b => {
+                b.classList.toggle('active', b.dataset.view === view);
+            });
+        }
+
+        function requireAuth(level) {
+            if (App.isProfessor()) {
+                window.location.href = 'admin.html';
+                return;
+            }
+            App.requireAuth(level, () => {
+                window.location.href = 'admin.html';
+            });
+        }
+
+        function renderStats() {
+            document.getElementById('landingStats').innerHTML = `
+                <div class="stat-c"><div class="stat-n">${PROJETOS.length}</div><div class="stat-l">projetos</div></div>
+                <div class="stat-c"><div class="stat-n">6º-9º</div><div class="stat-l">anos</div></div>
+                <div class="stat-c"><div class="stat-n">2</div><div class="stat-l">semestres</div></div>
+                <div class="stat-c"><div class="stat-n">${grupos.length}</div><div class="stat-l">grupos</div></div>
+            `;
+        }
+
+        function populateProjetoSelect() {
+            const select = document.getElementById('projetoSelect');
+            select.innerHTML = PROJETOS.map(p => 
+                `<option value="${p.id}">${p.ano}º Ano - ${p.title}</option>`
+            ).join('');
+        }
+
+        function renderProjects() {
+            const filtered = currentFilter === 'all' 
+                ? PROJETOS 
+                : PROJETOS.filter(p => p.ano === parseInt(currentFilter));
+            
+            const container = document.getElementById('projectsGrid');
+            
+            if (!filtered.length) {
+                container.innerHTML = App.renderEmpty('Nenhum projeto encontrado');
+                return;
+            }
+
+            container.innerHTML = filtered.map(p => {
+                const projProgress = progresso[p.id] || 0;
+                return `
+                    <div class="project-card" onclick="openProject('${p.id}')">
+                        <div class="project-card-top">
+                            <span class="badge badge-${p.ano}">${p.ano}º Ano</span>
+                            <span class="badge" style="background:var(--bg-surface2);color:var(--text-muted)">${p.sem}º Sem</span>
+                        </div>
+                        <div class="project-title">${p.title}</div>
+                        <div class="project-desc">${p.desc}</div>
+                        <div class="progress-wrap">
+                            <div class="progress-label"><span>Progresso</span><span>${projProgress}%</span></div>
+                            <div class="progress-bar"><div class="progress-fill" style="width:${projProgress}%"></div></div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderGroups() {
+            const container = document.getElementById('groupsGrid');
+            
+            if (!grupos.length) {
+                container.innerHTML = App.renderEmpty('Nenhum grupo criado ainda');
+                return;
+            }
+
+            container.innerHTML = grupos.map(g => {
+                const p = PROJETOS.find(proj => proj.id === g.projeto);
+                const projProgress = progresso[g.projeto] || 0;
+                return `
+                    <div class="group-card" onclick="openGroup('${g.id}')">
+                        <div class="group-name">${g.nome}</div>
+                        <div class="group-members">
+                            ${g.membros.map(m => `<span class="member-chip">${m}</span>`).join('')}
+                        </div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+                            ${p ? p.title : 'Projeto não selecionado'} - ${g.ano}º Ano
+                        </div>
+                        <div class="progress-wrap">
+                            <div class="progress-label"><span>Progresso</span><span>${projProgress}%</span></div>
+                            <div class="progress-bar"><div class="progress-fill" style="width:${projProgress}%"></div></div>
+                        </div>
+                        <button class="btn btn-secondary btn-sm" onclick="event.stopPropagation();openGroupForm('${g.id}')">Editar</button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterProjects(filter, btn) {
+            currentFilter = filter;
+            document.querySelectorAll('.tabs .tab').forEach(t => t.classList.remove('active'));
+            btn.classList.add('active');
+            renderProjects();
+        }
+
+        function openGroupForm(id = null) {
+            editingGroupId = id;
+            const title = document.getElementById('groupModalTitle');
+            const form = document.getElementById('groupForm');
+            
+            if (id) {
+                const g = grupos.find(gr => gr.id === id);
+                title.textContent = 'Editar Grupo';
+                form.nome.value = g.nome;
+                form.ano.value = g.ano;
+                form.projeto.value = g.projeto;
+                form.membros.value = g.membros.join('\n');
+            } else {
+                title.textContent = 'Novo Grupo';
+                form.reset();
+            }
+            
+            openModal('groupModal');
+        }
+
+        function openGroup(id) {
+            const g = grupos.find(gr => gr.id === id);
+            const p = PROJETOS.find(proj => proj.id === g.projeto);
+            alert(`Grupo: ${g.nome}\nProjeto: ${p ? p.title : 'Nenhum'}\nMembros: ${g.membros.join(', ')}`);
+        }
+
+        function openProject(id) {
+            const p = PROJETOS.find(proj => proj.id === id);
+            alert(`Projeto: ${p.title}\nAno: ${p.ano}º\nSemestre: ${p.sem}º\n\nEm breve você podrá acompanhar o progresso deste projeto.`);
+        }
+
+        function toggleTheme() {
+            App.toggleTheme();
+        }
+
+        function closeModal(id) {
+            App.closeModal(id);
+        }
+
+        function openModal(id) {
+            App.openModal(id);
+        }
+
+        // Iniciar
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

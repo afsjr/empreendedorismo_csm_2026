@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Professor — CSM</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/styles.css">
+    
+    <style>
+        /* Admin específico */
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .admin-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .admin-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filters {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .filter-group label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .filter-group select {
+            padding: 0.5rem 1rem;
+            background: var(--bg-surface2);
+            border: 1px solid var(--bg-surface3);
+            border-radius: var(--radius-sm);
+            color: var(--text);
+            font-size: 0.85rem;
+        }
+
+        .item-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: var(--transition);
+        }
+
+        .item-card:hover {
+            border-color: var(--border-active);
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 0.75rem;
+        }
+
+        .item-meta {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .item-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .item-content {
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .item-actions {
+            display: flex;
+            gap: 0.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .response-box {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: var(--radius-sm);
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .response-box strong {
+            color: var(--accent-green);
+            font-size: 0.85rem;
+        }
+
+        .feedback-box {
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: var(--radius-sm);
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .feedback-box strong {
+            color: var(--accent-purple);
+        }
+
+        .ranking-table {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .ranking-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .ranking-table th {
+            background: var(--bg-surface2);
+            padding: 1rem;
+            text-align: left;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .ranking-table td {
+            padding: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .ranking-table tr:hover {
+            background: var(--bg-surface2);
+        }
+
+        .rank-position {
+            font-weight: 800;
+            font-size: 1.25rem;
+        }
+
+        .rank-1 { color: var(--csm-gold); }
+        .rank-2 { color: #c0c0c0; }
+        .rank-3 { color: #cd7f32; }
+
+        @media (max-width: 768px) {
+            .admin-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .filter-group {
+                width: 100%;
+            }
+            .filter-group select {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo" onclick="window.location.href='../index.html'">
+            CSM <span>| Painel Professor</span>
+        </div>
+        
+        <nav class="nav">
+            <button class="nav-btn active" data-tab="duvidas">📝 Dúvidas</button>
+            <button class="nav-btn" data-tab="projetos">📚 Projetos</button>
+            <button class="nav-btn" data-tab="conquistas">🏆 Conquistas</button>
+            <button class="nav-btn" data-tab="ranking">📊 Ranking</button>
+        </nav>
+        
+        <button class="theme-toggle" onclick="App.toggleTheme()">☀️</button>
+        <button class="nav-btn" onclick="window.location.href='../index.html'">🏠</button>
+    </header>
+
+    <div class="container" style="padding-top: 2rem; padding-bottom: 2rem;">
+        
+        <!-- Header -->
+        <div class="admin-header">
+            <div>
+                <h1 class="admin-title">Painel do Professor</h1>
+                <p class="admin-subtitle">Empreendedores Exponenciais • Colegio Santa Mônica</p>
+            </div>
+            <div class="admin-actions">
+                <button class="btn btn-secondary btn-sm" onclick="loadAll()">🔄 Atualizar</button>
+                <button class="btn btn-secondary btn-sm" onclick="exportData()">📥 Exportar</button>
+                <button class="btn btn-secondary btn-sm" onclick="App.logout()">🚪 Sair</button>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card red">
+                <div class="stat-value" id="statDuvidasP">-</div>
+                <div class="stat-label">Dúvidas Pendentes</div>
+            </div>
+            <div class="stat-card green">
+                <div class="stat-value" id="statDuvidasR">-</div>
+                <div class="stat-label">Dúvidas Respondidas</div>
+            </div>
+            <div class="stat-card blue">
+                <div class="stat-value" id="statProjetos">-</div>
+                <div class="stat-label">Projetos Enviados</div>
+            </div>
+            <div class="stat-card purple">
+                <div class="stat-value" id="statConquistas">-</div>
+                <div class="stat-label">Conquistas</div>
+            </div>
+            <div class="stat-card orange">
+                <div class="stat-value" id="statAlunos">-</div>
+                <div class="stat-label">Alunos Ativos</div>
+            </div>
+        </div>
+
+        <!-- DÚVIDAS TAB -->
+        <div id="tab-duvidas" class="tab-content active">
+            <div class="filters">
+                <div class="filter-group">
+                    <label>Turma</label>
+                    <select id="filterDuvidasTurma" onchange="loadDuvidas()">
+                        <option value="">Todas</option>
+                        <option value="6º Ano">6º Ano</option>
+                        <option value="7º Ano">7º Ano</option>
+                        <option value="8º Ano">8º Ano</option>
+                        <option value="9º Ano">9º Ano</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Status</label>
+                    <select id="filterDuvidasStatus" onchange="loadDuvidas()">
+                        <option value="">Todos</option>
+                        <option value="pendente">Pendente</option>
+                        <option value="respondida">Respondida</option>
+                    </select>
+                </div>
+            </div>
+            <div id="duvidasList"></div>
+        </div>
+
+        <!-- PROJETOS TAB -->
+        <div id="tab-projetos" class="tab-content">
+            <div class="filters">
+                <div class="filter-group">
+                    <label>Turma</label>
+                    <select id="filterProjetosTurma" onchange="loadProjetos()">
+                        <option value="">Todas</option>
+                        <option value="6º Ano">6º Ano</option>
+                        <option value="7º Ano">7º Ano</option>
+                        <option value="8º Ano">8º Ano</option>
+                        <option value="9º Ano">9º Ano</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Status</label>
+                    <select id="filterProjetosStatus" onchange="loadProjetos()">
+                        <option value="">Todos</option>
+                        <option value="enviado">Enviado</option>
+                        <option value="avaliado">Avaliado</option>
+                    </select>
+                </div>
+            </div>
+            <div id="projetosList"></div>
+        </div>
+
+        <!-- CONQUISTAS TAB -->
+        <div id="tab-conquistas" class="tab-content">
+            <div class="filters">
+                <div class="filter-group">
+                    <label>Turma</label>
+                    <select id="filterConquistasTurma" onchange="loadConquistas()">
+                        <option value="">Todas</option>
+                        <option value="6º Ano">6º Ano</option>
+                        <option value="7º Ano">7º Ano</option>
+                        <option value="8º Ano">8º Ano</option>
+                        <option value="9º Ano">9º Ano</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary btn-sm" onclick="openConquistaModal()">➕ Nova Conquista</button>
+            </div>
+            <div id="conquistasList"></div>
+        </div>
+
+        <!-- RANKING TAB -->
+        <div id="tab-ranking" class="tab-content">
+            <div class="filters">
+                <div class="filter-group">
+                    <label>Turma</label>
+                    <select id="filterRankingTurma" onchange="loadRanking()">
+                        <option value="">Todas</option>
+                        <option value="6º Ano">6º Ano</option>
+                        <option value="7º Ano">7º Ano</option>
+                        <option value="8º Ano">8º Ano</option>
+                        <option value="9º Ano">9º Ano</option>
+                    </select>
+                </div>
+            </div>
+            <div id="rankingList"></div>
+        </div>
+
+    </div>
+
+    <!-- Modal Responder Dúvida -->
+    <div class="modal-overlay" id="duvidaModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Responder Dúvida</h3>
+                <button class="modal-close" onclick="closeModal('duvidaModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <div id="duvidaDetalhes"></div>
+                <div class="form-group">
+                    <label class="form-label">Sua Resposta</label>
+                    <textarea id="respostaInput" class="form-textarea" rows="4" placeholder="Digite sua resposta..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Seu Nome</label>
+                    <input type="text" id="professorInput" class="form-input" placeholder="Prof. Nome">
+                </div>
+                <div class="flex gap-1" style="justify-content: flex-end;">
+                    <button class="btn btn-secondary" onclick="closeModal('duvidaModal')">Cancelar</button>
+                    <button class="btn btn-primary" onclick="submitResposta()">📤 Enviar Resposta</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Avaliar Projeto -->
+    <div class="modal-overlay" id="projetoModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Avaliar Projeto</h3>
+                <button class="modal-close" onclick="closeModal('projetoModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <div id="projetoDetalhes"></div>
+                <div class="form-group">
+                    <label class="form-label">Nota (0-10)</label>
+                    <input type="number" id="notaInput" class="form-input" min="0" max="10" step="0.5" placeholder="9.5">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Feedback</label>
+                    <textarea id="feedbackInput" class="form-textarea" rows="4" placeholder="Escreva seu feedback..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Seu Nome</label>
+                    <input type="text" id="avaliadorInput" class="form-input" placeholder="Prof. Nome">
+                </div>
+                <div class="flex gap-1" style="justify-content: flex-end;">
+                    <button class="btn btn-secondary" onclick="closeModal('projetoModal')">Cancelar</button>
+                    <button class="btn btn-primary" onclick="submitAvaliacao()">✅ Avaliar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Nova Conquista -->
+    <div class="modal-overlay" id="conquistaModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">🏆 Conceder Conquista</h3>
+                <button class="modal-close" onclick="closeModal('conquistaModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="conquistaForm">
+                    <div class="form-group">
+                        <label class="form-label">Nome do Aluno</label>
+                        <input type="text" name="aluno" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Turma</label>
+                        <select name="turma" class="form-select" required>
+                            <option value="6º Ano">6º Ano</option>
+                            <option value="7º Ano">7º Ano</option>
+                            <option value="8º Ano">8º Ano</option>
+                            <option value="9º Ano">9º Ano</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Título da Conquista</label>
+                        <input type="text" name="titulo" class="form-input" placeholder="Ex: Primeiro Pitch" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Descrição</label>
+                        <textarea name="descricao" class="form-textarea" placeholder="Descreva a conquista..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Ícone (emoji)</label>
+                        <input type="text" name="icone" class="form-input" placeholder="🏆" maxlength="2">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Pontos</label>
+                        <input type="number" name="pontos" class="form-input" placeholder="50" min="0">
+                    </div>
+                    <div class="flex gap-1" style="justify-content: flex-end;">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('conquistaModal')">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">🏆 Conceder</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../supabase-config.js"></script>
+    <script src="../js/app.js"></script>
+    
+    <script>
+        let currentDuvida = null;
+        let currentProjeto = null;
+
+        // Verificar autenticação
+        if (!App.isProfessor()) {
+            window.location.href = '../index.html';
+        }
+
+        async function init() {
+            setupTabs();
+            setupForms();
+            App.initModalClose();
+            await loadAll();
+        }
+
+        function setupTabs() {
+            document.querySelectorAll('.nav-btn[data-tab]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.nav-btn[data-tab]').forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+                    btn.classList.add('active');
+                    document.getElementById(`tab-${btn.dataset.tab}`).classList.add('active');
+                });
+            });
+        }
+
+        function setupForms() {
+            document.getElementById('conquistaForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const form = e.target;
+                const dados = {
+                    aluno: form.aluno.value,
+                    turma: form.turma.value,
+                    ano: '2026',
+                    titulo: form.titulo.value,
+                    descricao: form.descricao.value,
+                    icone: form.icone.value || '🏆',
+                    pontos: parseInt(form.pontos.value) || 0,
+                    concedidoPor: 'Professor'
+                };
+
+                try {
+                    await DB.concederConquista(dados);
+                    App.showToast('🏆 Conquista concedida!');
+                    closeModal('conquistaModal');
+                    form.reset();
+                    loadConquistas();
+                    loadStats();
+                } catch (err) {
+                    alert('Erro: ' + err.message);
+                }
+            });
+        }
+
+        async function loadAll() {
+            await Promise.all([loadStats(), loadDuvidas(), loadProjetos(), loadRanking()]);
+        }
+
+        async function loadStats() {
+            try {
+                const stats = await DB.getEstatisticas();
+                if (stats) {
+                    document.getElementById('statDuvidasP').textContent = stats.duvidasPendentes;
+                    document.getElementById('statDuvidasR').textContent = stats.duvidasRespondidas;
+                    document.getElementById('statProjetos').textContent = stats.projetosEnviados;
+                    document.getElementById('statConquistas').textContent = stats.totalConquistas;
+                    document.getElementById('statAlunos').textContent = stats.alunosAtivos;
+                }
+            } catch (e) {
+                console.error('Erro ao carregar stats:', e);
+            }
+        }
+
+        async function loadDuvidas() {
+            const container = document.getElementById('duvidasList');
+            container.innerHTML = App.renderSpinner();
+
+            const filtros = {
+                turma: document.getElementById('filterDuvidasTurma').value,
+                status: document.getElementById('filterDuvidasStatus').value
+            };
+
+            try {
+                const duvidas = await DB.listarDuvidas(filtros);
+                
+                if (!duvidas.length) {
+                    container.innerHTML = App.renderEmpty('Nenhuma dúvida encontrada');
+                    return;
+                }
+
+                container.innerHTML = duvidas.map(d => `
+                    <div class="item-card">
+                        <div class="item-header">
+                            <span class="badge badge-${d.status === 'pendente' ? 'pendente' : 'respondida'}">
+                                ${d.status === 'pendente' ? '⏳ Pendente' : '✅ Respondida'}
+                            </span>
+                            <span style="font-size: 0.75rem; color: var(--text-muted);">
+                                ${App.formatDateTime(d.created_at)}
+                            </span>
+                        </div>
+                        <div class="item-meta">👤 ${d.nome_aluno} • ${d.turma}</div>
+                        <div class="item-title">${d.pergunta || d.modulo || 'Dúvida'}</div>
+                        <div class="item-content">${d.pergunta}</div>
+                        ${d.resposta ? `
+                            <div class="response-box">
+                                <strong>Resposta (${d.respondido_por}):</strong><br>
+                                ${d.resposta}
+                            </div>
+                        ` : ''}
+                        <div class="item-actions">
+                            ${!d.resposta ? `<button class="btn btn-primary btn-sm" onclick="openResponderDuvida('${d.id}')">💬 Responder</button>` : ''}
+                            <button class="btn btn-secondary btn-sm" onclick="deleteDuvida('${d.id}')">🗑️ Arquivar</button>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (e) {
+                container.innerHTML = App.renderError('Erro ao carregar dúvidas');
+            }
+        }
+
+        async function loadProjetos() {
+            const container = document.getElementById('projetosList');
+            container.innerHTML = App.renderSpinner();
+
+            const filtros = {
+                turma: document.getElementById('filterProjetosTurma').value
+            };
+
+            try {
+                const projetos = await DB.listarProjetos(filtros);
+                
+                if (!projetos.length) {
+                    container.innerHTML = App.renderEmpty('Nenhum projeto encontrado');
+                    return;
+                }
+
+                container.innerHTML = projetos.map(p => `
+                    <div class="item-card">
+                        <div class="item-header">
+                            <span class="badge badge-${p.status === 'avaliado' ? 'avaliado' : 'enviado'}">
+                                ${p.status === 'avaliado' ? '✅ Avaliado' : '📝 Enviado'}
+                            </span>
+                            <span style="font-size: 0.75rem; color: var(--text-muted);">
+                                ${App.formatDateTime(p.created_at)}
+                            </span>
+                        </div>
+                        <div class="item-meta">👤 ${p.nome_aluno} • ${p.turma} • ${p.tipo}</div>
+                        <div class="item-title">${p.titulo}</div>
+                        <div class="item-content">${p.descricao}</div>
+                        ${p.nota ? `
+                            <div class="feedback-box">
+                                <strong>Nota: ${p.nota}/10</strong> (${p.avaliado_por})<br>
+                                ${p.feedback}
+                            </div>
+                        ` : ''}
+                        <div class="item-actions">
+                            ${!p.nota ? `<button class="btn btn-primary btn-sm" onclick="openAvaliarProjeto('${p.id}')">⭐ Avaliar</button>` : ''}
+                        </div>
+                    </div>
+                `).join('');
+            } catch (e) {
+                container.innerHTML = App.renderError('Erro ao carregar projetos');
+            }
+        }
+
+        async function loadConquistas() {
+            const container = document.getElementById('conquistasList');
+            container.innerHTML = App.renderSpinner();
+
+            const filtros = {
+                turma: document.getElementById('filterConquistasTurma').value
+            };
+
+            try {
+                const conquistas = await DB.listarConquistas(filtros);
+                
+                if (!conquistas.length) {
+                    container.innerHTML = App.renderEmpty('Nenhuma conquista concedida ainda');
+                    return;
+                }
+
+                container.innerHTML = conquistas.map(c => `
+                    <div class="item-card">
+                        <div class="item-header">
+                            <span style="font-size: 2rem;">${c.icone}</span>
+                            <span style="font-size: 0.75rem; color: var(--text-muted);">
+                                ${App.formatDateTime(c.created_at)}
+                            </span>
+                        </div>
+                        <div class="item-title">${c.titulo}</div>
+                        <div class="item-meta">👤 ${c.nome_aluno} • ${c.turma}</div>
+                        <div class="item-content">${c.descricao}</div>
+                        <div class="item-actions">
+                            <span class="badge" style="background: var(--csm-gold-light); color: var(--csm-gold-dark);">
+                                +${c.pontos} pontos
+                            </span>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (e) {
+                container.innerHTML = App.renderError('Erro ao carregar conquistas');
+            }
+        }
+
+        async function loadRanking() {
+            const container = document.getElementById('rankingList');
+            container.innerHTML = App.renderSpinner();
+
+            const turma = document.getElementById('filterRankingTurma').value;
+
+            try {
+                const ranking = await DB.getRanking(turma);
+                
+                if (!ranking.length) {
+                    container.innerHTML = App.renderEmpty('Nenhum dado de ranking');
+                    return;
+                }
+
+                container.innerHTML = `
+                    <div class="ranking-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Aluno</th>
+                                    <th>Turma</th>
+                                    <th>Conquistas</th>
+                                    <th>Pontos</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${ranking.map((r, i) => `
+                                    <tr>
+                                        <td class="rank-position rank-${i + 1}">${i + 1}</td>
+                                        <td><strong>${r.nome}</strong></td>
+                                        <td>${r.turma}</td>
+                                        <td>🏆 ${r.conquistas}</td>
+                                        <td><strong>${r.pontos} pts</strong></td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            } catch (e) {
+                container.innerHTML = App.renderError('Erro ao carregar ranking');
+            }
+        }
+
+        function openResponderDuvida(id) {
+            currentDuvida = id;
+            document.getElementById('respostaInput').value = '';
+            openModal('duvidaModal');
+        }
+
+        async function submitResposta() {
+            const resposta = document.getElementById('respostaInput').value;
+            const professor = document.getElementById('professorInput').value;
+
+            if (!resposta || !professor) {
+                alert('Preencha todos os campos!');
+                return;
+            }
+
+            try {
+                await DB.responderDuvida(currentDuvida, resposta, professor);
+                App.showToast('✅ Resposta enviada!');
+                closeModal('duvidaModal');
+                loadDuvidas();
+                loadStats();
+            } catch (e) {
+                alert('Erro: ' + e.message);
+            }
+        }
+
+        async function deleteDuvida(id) {
+            if (!confirm('Arquivar esta dúvida?')) return;
+            try {
+                await DB.excluirDuvida(id);
+                App.showToast('Dúvida arquivada');
+                loadDuvidas();
+                loadStats();
+            } catch (e) {
+                alert('Erro: ' + e.message);
+            }
+        }
+
+        function openAvaliarProjeto(id) {
+            currentProjeto = id;
+            document.getElementById('notaInput').value = '';
+            document.getElementById('feedbackInput').value = '';
+            openModal('projetoModal');
+        }
+
+        async function submitAvaliacao() {
+            const nota = parseFloat(document.getElementById('notaInput').value);
+            const feedback = document.getElementById('feedbackInput').value;
+            const avaliador = document.getElementById('avaliadorInput').value;
+
+            if (!nota || !feedback || !avaliador) {
+                alert('Preencha todos os campos!');
+                return;
+            }
+
+            try {
+                await DB.avaliarProjeto(currentProjeto, nota, feedback, avaliador);
+                App.showToast('✅ Projeto avaliado!');
+                closeModal('projetoModal');
+                loadProjetos();
+                loadStats();
+            } catch (e) {
+                alert('Erro: ' + e.message);
+            }
+        }
+
+        function openConquistaModal() {
+            openModal('conquistaModal');
+        }
+
+        function exportData() {
+            const tabs = ['duvidas', 'projetos', 'conquistas'];
+            const activeTab = document.querySelector('.nav-btn[data-tab].active')?.dataset.tab || 'duvidas';
+            
+            if (activeTab === 'duvidas') {
+                DB.listarDuvidas().then(data => App.exportToCSV(data, 'duvidas.csv'));
+            } else if (activeTab === 'projetos') {
+                DB.listarProjetos().then(data => App.exportToCSV(data, 'projetos.csv'));
+            } else if (activeTab === 'conquistas') {
+                DB.listarConquistas().then(data => App.exportToCSV(data, 'conquistas.csv'));
+            }
+        }
+
+        function closeModal(id) {
+            App.closeModal(id);
+        }
+
+        function openModal(id) {
+            App.openModal(id);
+        }
+
+        // Iniciar
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

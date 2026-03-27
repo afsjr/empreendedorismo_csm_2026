@@ -1,443 +1,370 @@
 // ========================================
 // SUPABASE CONFIGURATION
 // Empreendedores Exponenciais - CSM
-// 100% GRÁTIS - SEM CARTÃO DE CRÉDITO
 // ========================================
 
-// INSTRUÇÕES:
-// 1. Acesse https://supabase.com
-// 2. Clique em "Start your project"
-// 3. Faça login com GitHub (ou crie conta grátis)
-// 4. Crie um novo projeto chamado "empreendedores-csm"
-// 5. Copie a URL e a anon key e cole abaixo
+// INSTRUÇÕES PARA CONFIGURAR O SUPABASE:
+// 1. Acesse https://supabase.com/dashboard
+// 2. Selecione seu projeto "empreendedores-csm"
+// 3. Vá em SQL Editor e execute o script abaixo:
+// ========================================
+
+/*
+-- CRIAÇÃO DE TABELAS
+-- Execute este SQL no Supabase SQL Editor
+
+-- Tabela de Alunos
+CREATE TABLE IF NOT EXISTS alunos (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    nome TEXT NOT NULL,
+    email TEXT UNIQUE,
+    turma TEXT NOT NULL,
+    ano TEXT DEFAULT '2026',
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Tabela de Grupos
+CREATE TABLE IF NOT EXISTS grupos (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    nome TEXT NOT NULL,
+    projeto_id TEXT,
+    ano INTEGER NOT NULL,
+    membros TEXT[] DEFAULT '{}',
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Tabela de Dúvidas
+CREATE TABLE IF NOT EXISTS duvidas (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    nome_aluno TEXT NOT NULL,
+    turma TEXT NOT NULL,
+    ano TEXT DEFAULT '2026',
+    modulo TEXT,
+    pergunta TEXT NOT NULL,
+    resposta TEXT,
+    status TEXT DEFAULT 'pendente' CHECK (status IN ('pendente', 'respondida')),
+    respondido_por TEXT,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    respondida_at TIMESTAMPTZ
+);
+
+-- Tabela de Projetos
+CREATE TABLE IF NOT EXISTS projetos (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    nome_aluno TEXT NOT NULL,
+    turma TEXT NOT NULL,
+    ano TEXT DEFAULT '2026',
+    tipo TEXT NOT NULL,
+    titulo TEXT NOT NULL,
+    descricao TEXT,
+    conteudo JSONB,
+    nota INTEGER CHECK (nota >= 0 AND nota <= 10),
+    feedback TEXT,
+    avaliado_por TEXT,
+    status TEXT DEFAULT 'enviado' CHECK (status IN ('enviado', 'avaliado')),
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    avaliado_at TIMESTAMPTZ
+);
+
+-- Tabela de Conquistas
+CREATE TABLE IF NOT EXISTS conquistas (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    nome_aluno TEXT NOT NULL,
+    turma TEXT NOT NULL,
+    ano TEXT DEFAULT '2026',
+    titulo TEXT NOT NULL,
+    descricao TEXT,
+    icone TEXT DEFAULT '🏆',
+    pontos INTEGER DEFAULT 0,
+    concedido_por TEXT,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Tabela de Progresso (etapas concluídas)
+CREATE TABLE IF NOT EXISTS progresso (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    grupo_id UUID REFERENCES grupos(id),
+    projeto_id TEXT NOT NULL,
+    etapa INTEGER NOT NULL,
+    concluida BOOLEAN DEFAULT FALSE,
+    anotacoes TEXT,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW(),
+    UNIQUE(grupo_id, projeto_id, etapa)
+);
+
+-- Tabela de Observações do Professor
+CREATE TABLE IF NOT EXISTS observacoes (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    projeto_id TEXT NOT NULL,
+    etapa INTEGER NOT NULL,
+    observacao TEXT,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW(),
+    UNIQUE(projeto_id, etapa)
+);
+
+-- CONFIGURAR ROW LEVEL SECURITY (RLS)
+-- Execute estes comandos após criar as tabelas
+
+ALTER TABLE alunos ENABLE ROW LEVEL SECURITY;
+ALTER TABLE grupos ENABLE ROW LEVEL SECURITY;
+ALTER TABLE duvidas ENABLE ROW LEVEL SECURITY;
+ALTER TABLE projetos ENABLE ROW LEVEL SECURITY;
+ALTER TABLE conquistas ENABLE ROW LEVEL SECURITY;
+ALTER TABLE progresso ENABLE ROW LEVEL SECURITY;
+ALTER TABLE observacoes ENABLE ROW LEVEL SECURITY;
+
+-- Política: todos podem ler, apenas authenticated podem inserir/atualizar
+CREATE POLICY "Allow public read" ON alunos FOR SELECT USING (true);
+CREATE POLICY "Allow public read" ON grupos FOR SELECT USING (true);
+CREATE POLICY "Allow public read" ON duvidas FOR SELECT USING (true);
+CREATE POLICY "Allow public read" ON projetos FOR SELECT USING (true);
+CREATE POLICY "Allow public read" ON conquistas FOR SELECT USING (true);
+CREATE POLICY "Allow public read" ON progresso FOR SELECT USING (true);
+CREATE POLICY "Allow public read" ON observacoes FOR SELECT USING (true);
+
+CREATE POLICY "Allow all for authenticated" ONduvidas FOR ALL USING (auth.role() = 'authenticated');
+CREATE POLICY "Allow all for authenticated" ON projetos FOR ALL USING (auth.role() = 'authenticated');
+CREATE POLICY "Allow all for authenticated" ON conquistas FOR ALL USING (auth.role() = 'authenticated');
+CREATE POLICY "Allow all for authenticated" ON progresso FOR ALL USING (auth.role() = 'authenticated');
+CREATE POLICY "Allow all for authenticated" ON observacoes FOR ALL USING (auth.role() = 'authenticated');
+*/
+
+// ========================================
+// CONFIGURAÇÃO DO CLIENTE
+// ========================================
 
 const SUPABASE_URL = 'https://vujjlzgotmeokocfhjah.supabase.co/';
-const SUPABASE_ANON_KEY = 'sb_secret_9KDs1V7Hjx02NTSja7Of7w__bJsljCG';
+const SUPABASE_ANON_KEY = 'sua_anon_key_aqui';
 
-// Inicializar Supabase
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-console.log('✅ Supabase configurado!');
-
 // ========================================
-// FUNÇÕES DE DÚVIDAS
+// BANCO DE DADOS
 // ========================================
 
-/**
- * Enviar nova dúvida do aluno
- */
-async function enviarDuvida(dados) {
-  try {
-    const duvida = {
-      nome: dados.nome,
-      turma: dados.turma,
-      ano: dados.ano,
-      aula: dados.aula,
-      duvida: dados.duvida,
-      status: 'pendente',
-      resposta: null,
-      respondido_por: null,
-      data_resposta: null,
-      created_at: new Date().toISOString()
-    };
+const DB = {
+    // ALUNOS
+    async listarAlunos(turma = null) {
+        let query = supabase.from('alunos').select('*').order('nome');
+        if (turma) query = query.eq('turma', turma);
+        const { data } = await query;
+        return data || [];
+    },
 
-    const { data, error } = await supabase
-      .from('duvidas')
-      .insert([duvida])
-      .select();
+    async criarAluno(dados) {
+        const { data, error } = await supabase.from('alunos').insert([dados]).select();
+        if (error) throw error;
+        return data[0];
+    },
 
-    if (error) throw error;
+    // GRUPOS
+    async listarGrupos(turma = null) {
+        let query = supabase.from('grupos').select('*').order('created_at', { ascending: false });
+        if (turma) query = query.eq('ano', turma);
+        const { data } = await query;
+        return data || [];
+    },
 
-    console.log('✅ Dúvida enviada! ID:', data[0].id);
-    return { success: true, id: data[0].id };
-  } catch (error) {
-    console.error('❌ Erro ao enviar dúvida:', error);
-    return { success: false, error: error.message };
-  }
-}
+    async criarGrupo(dados) {
+        const { data, error } = await supabase.from('grupos').insert([dados]).select();
+        if (error) throw error;
+        return data[0];
+    },
 
-/**
- * Listar todas as dúvidas (para professores)
- */
-async function listarDuvidas(filtros = {}) {
-  try {
-    let query = supabase
-      .from('duvidas')
-      .select('*')
-      .order('created_at', { ascending: false });
+    async atualizarGrupo(id, dados) {
+        const { data, error } = await supabase.from('grupos').update(dados).eq('id', id).select();
+        if (error) throw error;
+        return data[0];
+    },
 
-    // Aplicar filtros
-    if (filtros.turma) {
-      query = query.eq('turma', filtros.turma);
-    }
-    if (filtros.ano) {
-      query = query.eq('ano', filtros.ano);
-    }
-    if (filtros.status) {
-      query = query.eq('status', filtros.status);
-    }
+    async excluirGrupo(id) {
+        const { error } = await supabase.from('grupos').delete().eq('id', id);
+        if (error) throw error;
+    },
 
-    const { data, error } = await query;
+    // DÚVIDAS
+    async listarDuvidas(filtros = {}) {
+        let query = supabase.from('duvidas').select('*').order('created_at', { ascending: false });
+        if (filtros.turma) query = query.eq('turma', filtros.turma);
+        if (filtros.status) query = query.eq('status', filtros.status);
+        const { data } = await query;
+        return data || [];
+    },
 
-    if (error) throw error;
+    async enviarDuvida(dados) {
+        const { data, error } = await supabase.from('duvidas').insert([{
+            nome_aluno: dados.nome,
+            turma: dados.turma,
+            ano: dados.ano,
+            modulo: dados.modulo,
+            pergunta: dados.pergunta,
+            status: 'pendente'
+        }]).select();
+        if (error) throw error;
+        return data[0];
+    },
 
-    return data || [];
-  } catch (error) {
-    console.error('❌ Erro ao listar dúvidas:', error);
-    return [];
-  }
-}
+    async responderDuvida(id, resposta, professor) {
+        const { data, error } = await supabase.from('duvidas').update({
+            resposta,
+            status: 'respondida',
+            respondido_por: professor,
+            respondida_at: new Date().toISOString()
+        }).eq('id', id).select();
+        if (error) throw error;
+        return data[0];
+    },
 
-/**
- * Responder dúvida (professor)
- */
-async function responderDuvida(duvidaId, resposta, professorNome) {
-  try {
-    const { data, error } = await supabase
-      .from('duvidas')
-      .update({
-        resposta: resposta,
-        respondido_por: professorNome,
-        data_resposta: new Date().toISOString(),
-        status: 'respondida'
-      })
-      .eq('id', duvidaId)
-      .select();
+    async excluirDuvida(id) {
+        const { error } = await supabase.from('duvidas').delete().eq('id', id);
+        if (error) throw error;
+    },
 
-    if (error) throw error;
+    // PROJETOS
+    async listarProjetos(filtros = {}) {
+        let query = supabase.from('projetos').select('*').order('created_at', { ascending: false });
+        if (filtros.turma) query = query.eq('turma', filtros.turma);
+        if (filtros.tipo) query = query.eq('tipo', filtros.tipo);
+        const { data } = await query;
+        return data || [];
+    },
 
-    console.log('✅ Dúvida respondida com sucesso!');
-    return { success: true };
-  } catch (error) {
-    console.error('❌ Erro ao responder dúvida:', error);
-    return { success: false, error: error.message };
-  }
-}
+    async enviarProjeto(dados) {
+        const { data, error } = await supabase.from('projetos').insert([{
+            nome_aluno: dados.nome,
+            turma: dados.turma,
+            ano: dados.ano,
+            tipo: dados.tipo,
+            titulo: dados.titulo,
+            descricao: dados.descricao,
+            conteudo: dados.conteudo,
+            status: 'enviado'
+        }]).select();
+        if (error) throw error;
+        return data[0];
+    },
 
-/**
- * Deletar/Arquivar dúvida
- */
-async function deletarDuvida(duvidaId) {
-  try {
-    const { error } = await supabase
-      .from('duvidas')
-      .delete()
-      .eq('id', duvidaId);
+    async avaliarProjeto(id, nota, feedback, professor) {
+        const { data, error } = await supabase.from('projetos').update({
+            nota,
+            feedback,
+            avaliado_por: professor,
+            status: 'avaliado',
+            avaliado_at: new Date().toISOString()
+        }).eq('id', id).select();
+        if (error) throw error;
+        return data[0];
+    },
 
-    if (error) throw error;
+    // CONQUISTAS
+    async listarConquistas(filtros = {}) {
+        let query = supabase.from('conquistas').select('*').order('created_at', { ascending: false });
+        if (filtros.turma) query = query.eq('turma', filtros.turma);
+        const { data } = await query;
+        return data || [];
+    },
 
-    console.log('✅ Dúvida arquivada!');
-    return { success: true };
-  } catch (error) {
-    console.error('❌ Erro ao arquivar dúvida:', error);
-    return { success: false, error: error.message };
-  }
-}
+    async concederConquista(dados) {
+        const { data, error } = await supabase.from('conquistas').insert([{
+            nome_aluno: dados.aluno,
+            turma: dados.turma,
+            ano: dados.ano,
+            titulo: dados.titulo,
+            descricao: dados.descricao,
+            icone: dados.icone,
+            pontos: dados.pontos,
+            concedido_por: dados.concedidoPor
+        }]).select();
+        if (error) throw error;
+        return data[0];
+    },
 
-// ========================================
-// FUNÇÕES DE PROJETOS
-// ========================================
+    async getRanking(turma = null) {
+        let query = supabase.from('conquistas').select('nome_aluno, turma, pontos');
+        if (turma) query = query.eq('turma', turma);
+        const { data } = await query;
+        
+        const ranking = {};
+        (data || []).forEach(c => {
+            if (!ranking[c.nome_aluno]) {
+                ranking[c.nome_aluno] = { nome: c.nome_aluno, turma: c.turma, pontos: 0, conquistas: 0 };
+            }
+            ranking[c.nome_aluno].pontos += c.pontos || 0;
+            ranking[c.nome_aluno].conquistas++;
+        });
+        
+        return Object.values(ranking).sort((a, b) => b.pontos - a.pontos);
+    },
 
-/**
- * Salvar projeto do aluno
- */
-async function salvarProjeto(dados) {
-  try {
-    const projeto = {
-      nome_aluno: dados.nomeAluno,
-      turma: dados.turma,
-      ano: dados.ano,
-      trimestre: dados.trimestre,
-      tipo_projeto: dados.tipoProjeto,
-      titulo: dados.titulo,
-      descricao: dados.descricao,
-      conteudo: dados.conteudo, // JSONB
-      arquivos: dados.arquivos || [],
-      status: 'em_andamento',
-      nota: null,
-      feedback: null,
-      avaliado_por: null,
-      created_at: new Date().toISOString()
-    };
+    // PROGRESSO
+    async getProgresso(grupoId, projetoId) {
+        const { data } = await supabase.from('progresso')
+            .select('*')
+            .eq('grupo_id', grupoId)
+            .eq('projeto_id', projetoId);
+        return data || [];
+    },
 
-    const { data, error } = await supabase
-      .from('projetos')
-      .insert([projeto])
-      .select();
+    async atualizarProgresso(grupoId, projetoId, etapa, concluida, anotações = '') {
+        const { data, error } = await supabase.from('progresso').upsert({
+            grupo_id: grupoId,
+            projeto_id: projetoId,
+            etapa,
+            concluida,
+            anotações,
+            updated_at: new Date().toISOString()
+        }, { onConflict: 'grupo_id,projeto_id,etapa' }).select();
+        if (error) throw error;
+        return data;
+    },
 
-    if (error) throw error;
+    // OBSERVAÇÕES
+    async getObservacao(projetoId, etapa) {
+        const { data } = await supabase.from('observacoes')
+            .select('*')
+            .eq('projeto_id', projetoId)
+            .eq('etapa', etapa)
+            .single();
+        return data;
+    },
 
-    console.log('✅ Projeto salvo! ID:', data[0].id);
-    return { success: true, id: data[0].id };
-  } catch (error) {
-    console.error('❌ Erro ao salvar projeto:', error);
-    return { success: false, error: error.message };
-  }
-}
+    async salvarObservacao(projetoId, etapa, texto) {
+        const { data, error } = await supabase.from('observacoes').upsert({
+            projeto_id: projetoId,
+            etapa,
+            observacao: texto,
+            updated_at: new Date().toISOString()
+        }, { onConflict: 'projeto_id,etapa' }).select();
+        if (error) throw error;
+        return data;
+    },
 
-/**
- * Listar projetos por turma/ano
- */
-async function listarProjetos(filtros = {}) {
-  try {
-    let query = supabase
-      .from('projetos')
-      .select('*')
-      .order('created_at', { ascending: false });
+    // ESTATÍSTICAS
+    async getEstatisticas() {
+        const [duvidas, projetos, conquistas] = await Promise.all([
+            supabase.from('duvidas').select('status'),
+            supabase.from('projetos').select('status'),
+            supabase.from('conquistas').select('nome_aluno')
+        ]);
 
-    if (filtros.turma) {
-      query = query.eq('turma', filtros.turma);
-    }
-    if (filtros.ano) {
-      query = query.eq('ano', filtros.ano);
-    }
-    if (filtros.trimestre) {
-      query = query.eq('trimestre', filtros.trimestre);
-    }
-    if (filtros.tipoProjeto) {
-      query = query.eq('tipo_projeto', filtros.tipoProjeto);
-    }
-
-    const { data, error } = await query;
-
-    if (error) throw error;
-
-    return data || [];
-  } catch (error) {
-    console.error('❌ Erro ao listar projetos:', error);
-    return [];
-  }
-}
-
-/**
- * Avaliar projeto
- */
-async function avaliarProjeto(projetoId, nota, feedback, professorNome) {
-  try {
-    const { data, error } = await supabase
-      .from('projetos')
-      .update({
-        nota: nota,
-        feedback: feedback,
-        avaliado_por: professorNome,
-        status: 'avaliado',
-        data_avaliacao: new Date().toISOString()
-      })
-      .eq('id', projetoId)
-      .select();
-
-    if (error) throw error;
-
-    console.log('✅ Projeto avaliado com sucesso!');
-    return { success: true };
-  } catch (error) {
-    console.error('❌ Erro ao avaliar projeto:', error);
-    return { success: false, error: error.message };
-  }
-}
-
-// ========================================
-// FUNÇÕES DE CONQUISTAS
-// ========================================
-
-/**
- * Adicionar conquista para aluno
- */
-async function adicionarConquista(dados) {
-  try {
-    const conquista = {
-      nome_aluno: dados.nomeAluno,
-      turma: dados.turma,
-      ano: dados.ano,
-      tipo_conquista: dados.tipoConquista,
-      titulo: dados.titulo,
-      descricao: dados.descricao,
-      icone: dados.icone || '🏆',
-      pontos: dados.pontos || 0,
-      concedido_por: dados.concedidoPor || 'Sistema',
-      created_at: new Date().toISOString()
-    };
-
-    const { data, error } = await supabase
-      .from('conquistas')
-      .insert([conquista])
-      .select();
-
-    if (error) throw error;
-
-    console.log('✅ Conquista adicionada! ID:', data[0].id);
-    return { success: true, id: data[0].id };
-  } catch (error) {
-    console.error('❌ Erro ao adicionar conquista:', error);
-    return { success: false, error: error.message };
-  }
-}
-
-/**
- * Listar conquistas de um aluno
- */
-async function listarConquistas(nomeAluno, turma = null) {
-  try {
-    let query = supabase
-      .from('conquistas')
-      .select('*')
-      .eq('nome_aluno', nomeAluno)
-      .order('created_at', { ascending: false });
-
-    if (turma) {
-      query = query.eq('turma', turma);
-    }
-
-    const { data, error } = await query;
-
-    if (error) throw error;
-
-    return data || [];
-  } catch (error) {
-    console.error('❌ Erro ao listar conquistas:', error);
-    return [];
-  }
-}
-
-/**
- * Obter ranking de alunos por pontos
- */
-async function getRanking(filtros = {}) {
-  try {
-    let query = supabase
-      .from('conquistas')
-      .select('*');
-
-    if (filtros.turma) {
-      query = query.eq('turma', filtros.turma);
-    }
-    if (filtros.ano) {
-      query = query.eq('ano', filtros.ano);
-    }
-
-    const { data, error } = await query;
-
-    if (error) throw error;
-
-    // Agrupar por aluno
-    const pontuacoes = {};
-
-    (data || []).forEach(conquista => {
-      const aluno = conquista.nome_aluno;
-
-      if (!pontuacoes[aluno]) {
-        pontuacoes[aluno] = {
-          nome: aluno,
-          turma: conquista.turma,
-          ano: conquista.ano,
-          pontos: 0,
-          conquistas: 0
+        const stats = {
+            duvidasPendentes: (duvidas.data || []).filter(d => d.status === 'pendente').length,
+            duvidasRespondidas: (duvidas.data || []).filter(d => d.status === 'respondida').length,
+            projetosEnviados: (projetos.data || []).filter(p => p.status === 'enviado').length,
+            projetosAvaliados: (projetos.data || []).filter(p => p.status === 'avaliado').length,
+            totalConquistas: (conquistas.data || []).length,
+            alunosAtivos: new Set((conquistas.data || []).map(c => c.nome_aluno)).size
         };
-      }
-
-      pontuacoes[aluno].pontos += conquista.pontos || 0;
-      pontuacoes[aluno].conquistas += 1;
-    });
-
-    // Converter para array e ordenar
-    const ranking = Object.values(pontuacoes)
-      .sort((a, b) => b.pontos - a.pontos);
-
-    return ranking;
-  } catch (error) {
-    console.error('❌ Erro ao obter ranking:', error);
-    return [];
-  }
-}
-
-// ========================================
-// FUNÇÕES AUXILIARES
-// ========================================
-
-/**
- * Obter estatísticas gerais
- */
-async function getEstatisticas() {
-  try {
-    const stats = {
-      totalDuvidas: 0,
-      duvidasPendentes: 0,
-      duvidasRespondidas: 0,
-      totalProjetos: 0,
-      projetosAvaliados: 0,
-      totalConquistas: 0,
-      alunosAtivos: new Set()
-    };
-
-    // Contar dúvidas
-    const { data: duvidas } = await supabase
-      .from('duvidas')
-      .select('nome, status');
-
-    if (duvidas) {
-      stats.totalDuvidas = duvidas.length;
-      duvidas.forEach(d => {
-        if (d.status === 'pendente') stats.duvidasPendentes++;
-        if (d.status === 'respondida') stats.duvidasRespondidas++;
-        stats.alunosAtivos.add(d.nome);
-      });
+        
+        return stats;
     }
-
-    // Contar projetos
-    const { data: projetos } = await supabase
-      .from('projetos')
-      .select('nome_aluno, status');
-
-    if (projetos) {
-      stats.totalProjetos = projetos.length;
-      projetos.forEach(p => {
-        if (p.status === 'avaliado') stats.projetosAvaliados++;
-        stats.alunosAtivos.add(p.nome_aluno);
-      });
-    }
-
-    // Contar conquistas
-    const { data: conquistas } = await supabase
-      .from('conquistas')
-      .select('nome_aluno');
-
-    if (conquistas) {
-      stats.totalConquistas = conquistas.length;
-      conquistas.forEach(c => {
-        stats.alunosAtivos.add(c.nome_aluno);
-      });
-    }
-
-    stats.alunosAtivos = stats.alunosAtivos.size;
-
-    return stats;
-  } catch (error) {
-    console.error('❌ Erro ao obter estatísticas:', error);
-    return null;
-  }
-}
-
-// ========================================
-// EXPORTAR FUNÇÕES
-// ========================================
-
-window.SupabaseDB = {
-  // Dúvidas
-  enviarDuvida,
-  listarDuvidas,
-  responderDuvida,
-  deletarDuvida,
-
-  // Projetos
-  salvarProjeto,
-  listarProjetos,
-  avaliarProjeto,
-
-  // Conquistas
-  adicionarConquista,
-  listarConquistas,
-  getRanking,
-
-  // Auxiliares
-  getEstatisticas
 };
+
+// Exportar para uso global
+window.DB = DB;
+
+console.log('✅ Supabase DB configurado!');
