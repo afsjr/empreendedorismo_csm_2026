@@ -390,19 +390,32 @@
         let currentFilter = 'all';
         let editingGroupId = null;
 
-        // Carregar dados locais
-        let localData = App.loadLocalData();
-        let grupos = localData.grupos || [];
-        let progresso = localData.progresso || {};
+        // Dados do Supabase
+        let grupos = [];
+        let progresso = {};
 
-        function init() {
+        async function init() {
             App.init();
             populateProjetoSelect();
             renderStats();
             renderProjects();
-            renderGroups();
+            await loadGroupsFromSupabase();
             setupEvents();
             App.initModalClose();
+        }
+
+        // Carregar grupos do Supabase
+        async function loadGroupsFromSupabase() {
+            try {
+                const data = await DB.listarGrupos();
+                grupos = data || [];
+                renderGroups();
+                renderStats();
+            } catch (e) {
+                console.error('Erro ao carregar grupos:', e);
+                grupos = [];
+                renderGroups();
+            }
         }
 
         function setupEvents() {
@@ -415,13 +428,10 @@
             document.getElementById('authForm').addEventListener('submit', (e) => {
                 e.preventDefault();
                 const pass = document.getElementById('authPassword').value;
-                App.submitAuth(pass);
-                if (App.isProfessor()) {
-                    window.location.href = 'admin.html';
-                }
+                App.submitAuth(pass, 'admin.html');
             });
 
-            // Group Form
+            // Group Form - Salvar no Supabase
             document.getElementById('groupForm').addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const form = e.target;
@@ -432,18 +442,33 @@
                     membros: form.membros.value.split('\n').filter(m => m.trim())
                 };
 
-                if (editingGroupId) {
-                    const idx = grupos.findIndex(g => g.id === editingGroupId);
-                    if (idx >= 0) grupos[idx] = { ...grupos[idx], ...dados };
-                } else {
-                    grupos.push({ id: 'g' + Date.now(), ...dados, createdAt: new Date().toISOString() });
-                }
+                try {
+                    if (editingGroupId) {
+                        // Atualizar grupo existente
+                        await DB.atualizarGrupo(editingGroupId, {
+                            nome: dados.nome,
+                            projeto_id: dados.projeto,
+                            ano: dados.ano,
+                            membros: dados.membros
+                        });
+                    } else {
+                        // Criar novo grupo
+                        await DB.criarGrupo({
+                            nome: dados.nome,
+                            projeto_id: dados.projeto,
+                            ano: dados.ano,
+                            membros: dados.membros
+                        });
+                    }
 
-                App.saveLocalData({ grupos, progresso });
-                closeModal('groupModal');
-                renderGroups();
-                renderStats();
-                form.reset();
+                    // Recarregar do Supabase
+                    await loadGroupsFromSupabase();
+                    closeModal('groupModal');
+                    form.reset();
+                    App.showToast(editingGroupId ? 'Grupo atualizado!' : 'Grupo criado!');
+                } catch (err) {
+                    alert('Erro ao salvar grupo: ' + err.message);
+                }
             });
         }
 
@@ -516,19 +541,22 @@
         function renderGroups() {
             const container = document.getElementById('groupsGrid');
             
-            if (!grupos.length) {
+            if (!grupos || !grupos.length) {
                 container.innerHTML = App.renderEmpty('Nenhum grupo criado ainda');
                 return;
             }
 
             container.innerHTML = grupos.map(g => {
-                const p = PROJETOS.find(proj => proj.id === g.projeto);
-                const projProgress = progresso[g.projeto] || 0;
+                // Supabase usa projeto_id, membros é array
+                const projetoId = g.projeto_id;
+                const p = PROJETOS.find(proj => proj.id === projetoId);
+                const membrosArray = Array.isArray(g.membros) ? g.membros : [];
+                const projProgress = progresso[projetoId] || 0;
                 return `
                     <div class="group-card" onclick="openGroup('${g.id}')">
                         <div class="group-name">${g.nome}</div>
                         <div class="group-members">
-                            ${g.membros.map(m => `<span class="member-chip">${m}</span>`).join('')}
+                            ${membrosArray.map(m => `<span class="member-chip">${m}</span>`).join('')}
                         </div>
                         <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;">
                             ${p ? p.title : 'Projeto não selecionado'} - ${g.ano}º Ano
@@ -557,11 +585,12 @@
             
             if (id) {
                 const g = grupos.find(gr => gr.id === id);
+                const membrosArray = Array.isArray(g.membros) ? g.membros : [];
                 title.textContent = 'Editar Grupo';
                 form.nome.value = g.nome;
                 form.ano.value = g.ano;
-                form.projeto.value = g.projeto;
-                form.membros.value = g.membros.join('\n');
+                form.projeto.value = g.projeto_id || g.projeto;
+                form.membros.value = membrosArray.join('\n');
             } else {
                 title.textContent = 'Novo Grupo';
                 form.reset();
@@ -572,8 +601,9 @@
 
         function openGroup(id) {
             const g = grupos.find(gr => gr.id === id);
-            const p = PROJETOS.find(proj => proj.id === g.projeto);
-            alert(`Grupo: ${g.nome}\nProjeto: ${p ? p.title : 'Nenhum'}\nMembros: ${g.membros.join(', ')}`);
+            const p = PROJETOS.find(proj => proj.id === g.projeto_id);
+            const membrosArray = Array.isArray(g.membros) ? g.membros : [];
+            alert(`Grupo: ${g.nome}\nProjeto: ${p ? p.title : 'Nenhum'}\nMembros: ${membrosArray.join(', ')}`);
         }
 
         function openProject(id) {

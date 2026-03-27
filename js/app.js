@@ -185,7 +185,7 @@ const App = {
         this.openModal('authModal');
     },
 
-    submitAuth(password) {
+    submitAuth(password, redirectUrl = 'pages/admin.html') {
         const MASTER_PASS = 'empreendedorismocsm2026';
         const PROF_PASS = 'adelino_csm@santamonicaceq';
         
@@ -195,6 +195,8 @@ const App = {
             if (this.authCallback) {
                 this.authCallback();
                 this.authCallback = null;
+            } else if (redirectUrl) {
+                window.location.href = redirectUrl;
             }
         } else if (password === PROF_PASS) {
             this.saveSession('professor', 'Professor');
@@ -202,6 +204,8 @@ const App = {
             if (this.authCallback) {
                 this.authCallback();
                 this.authCallback = null;
+            } else if (redirectUrl) {
+                window.location.href = redirectUrl;
             }
         } else {
             const error = document.getElementById('authError');
