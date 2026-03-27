@@ -271,6 +271,7 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.20.0"></script>
     <script src="../supabase-config.js"></script>
+    <script src="../js/conteudo.js"></script>
     <script src="../js/app.js"></script>
     
     <script>
@@ -634,12 +635,27 @@
                     return;
                 }
                 
+                const modName = mod.name.toLowerCase();
+                let moduleKey = '';
+                
+                if (modName.includes('neg')) moduleKey = 'negocios';
+                else if (modName.includes('fin') || modName.includes('din') || modName.includes('orca')) moduleKey = 'financas';
+                else if (modName.includes('inova')) moduleKey = 'inovacao';
+                else if (modName.includes('pessoa') || modName.includes('comunica')) moduleKey = 'comunicacao';
+                else moduleKey = modName.replace(/[^a-z]/g, '');
+                
+                const lessonTitleLower = lesson.title.toLowerCase();
+                
+                const conteudoRico = window.CONTEUDO_LICOES && 
+                                    window.CONTEUDO_LICOES[grade] && 
+                                    window.CONTEUDO_LICOES[grade][moduleKey] ? 
+                                    window.CONTEUDO_LICOES[grade][moduleKey].find(l => 
+                                        l.title.toLowerCase() === lessonTitleLower ||
+                                        l.title.toLowerCase().includes(lessonTitleLower.split(' ')[0])
+                                    ) : null;
+                
                 if (isQuiz) {
-                    content.innerHTML = `
-                    <h2>${lessonTitle}</h2>
-                    <p class="page-ref">${mod.name} • Revisão</p>
-                    
-                    <div class="quiz-card">
+                    const quizContent = conteudoRico ? conteudoRico.quiz : `
                         <h3>Quiz de Revisão - ${mod.name}</h3>
                         <p style="margin-bottom:1rem; color:var(--text-dim)">Teste seus conhecimentos sobre este módulo!</p>
                         
@@ -654,20 +670,14 @@
                         </div>
                         
                         <button class="btn btn-primary" style="margin-top:1rem;">Enviar Respostas</button>
-                    </div>
                     `;
-                } else {
                     content.innerHTML = `
                     <h2>${lessonTitle}</h2>
-                    <p class="page-ref">${mod.name} • Página ${lessonPage}</p>
-                    
-                    <div class="tabs content-tabs">
-                        <button class="tab active" onclick="switchTab(this, 'teoria')">📖 Teoria</button>
-                        <button class="tab" onclick="switchTab(this, 'pratica')">✏️ Prática</button>
-                        <button class="tab" onclick="switchTab(this, 'quiz')">❓ Quiz</button>
-                    </div>
-
-                    <div id="teoria" class="tab-panel active">
+                    <p class="page-ref">${mod.name} • Revisão</p>
+                    <div class="quiz-card">${quizContent}</div>
+                    `;
+                } else {
+                    const teoriaContent = conteudoRico ? conteudoRico.teoria : `
                         <h3>Objetivo</h3>
                         <p>Compreender o conceito de <strong>${lessonTitle.toLowerCase()}</strong> e sua aplicação no cotidiano e no empreendedorismo.</p>
                         
@@ -679,12 +689,9 @@
                             <li>Aplicação no empreendedorismo</li>
                             <li>Atividade proposta</li>
                         </ul>
-                        
-                        <h3>Para Casa</h3>
-                        <p>Pesquise e reflita: Como você pode aplicar este conceito em um projeto real?</p>
-                    </div>
-
-                    <div id="pratica" class="tab-panel">
+                    `;
+                    
+                    const praticaContent = conteudoRico ? conteudoRico.pratica : `
                         <h3>Atividade em Sala</h3>
                         <p>Em grupos de 4-5 alunos, discutam e respondam:</p>
                         <ol>
@@ -695,9 +702,9 @@
                         
                         <h3>Entrega</h3>
                         <p>Produzam um resumo de 10 linhas sobre o tema estudado.</p>
-                    </div>
-
-                    <div id="quiz" class="tab-panel">
+                    `;
+                    
+                    const quizTabContent = conteudoRico ? conteudoRico.quiz : `
                         <h3>Quiz de Verificação</h3>
                         <p>Responda para verificar seu aprendizado:</p>
                         <div style="margin-top: 1rem;">
@@ -705,6 +712,28 @@
                             <textarea style="width:100%;margin-top:0.5rem;padding:0.8rem;background:var(--bg-surface2);border:1px solid var(--bg-surface3);border-radius:8px;color:var(--text);" rows="3" placeholder="Sua resposta..."></textarea>
                         </div>
                         <button class="btn btn-primary" style="margin-top:1rem;">Enviar Resposta</button>
+                    `;
+                    
+                    content.innerHTML = `
+                    <h2>${lessonTitle}</h2>
+                    <p class="page-ref">${mod.name} • Página ${lessonPage}</p>
+                    
+                    <div class="tabs content-tabs">
+                        <button class="tab active" onclick="switchTab(this, 'teoria')">📖 Teoria</button>
+                        <button class="tab" onclick="switchTab(this, 'pratica')">✏️ Prática</button>
+                        <button class="tab" onclick="switchTab(this, 'quiz')">❓ Quiz</button>
+                    </div>
+
+                    <div id="teoria" class="tab-panel active">
+                        ${teoriaContent}
+                    </div>
+
+                    <div id="pratica" class="tab-panel">
+                        ${praticaContent}
+                    </div>
+
+                    <div id="quiz" class="tab-panel">
+                        ${quizTabContent}
                     </div>
                     `;
                 }
