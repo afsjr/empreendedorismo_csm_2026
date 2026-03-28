@@ -12,6 +12,25 @@
     <link rel="stylesheet" href="../css/styles.css">
     
     <style>
+        /* Toast notifications */
+        .toast {
+            background: #1f2937;
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            animation: slideIn 0.3s ease;
+            font-size: 0.9rem;
+        }
+        .toast-success { background: #059669; }
+        .toast-error { background: #dc2626; }
+        .toast-info { background: #2563eb; }
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
         /* Teoria específicos */
         :root {
             --grade-accent: #f97316;
@@ -150,6 +169,117 @@
             font-size: 0.88rem;
             display: none;
             text-align: center;
+        }
+
+        /* Q&A Section */
+        .qa-section {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .qa-section h3 {
+            margin-bottom: 0.5rem;
+        }
+        .qa-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        .qa-item {
+            background: var(--bg-surface2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 1rem;
+        }
+        .qa-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+            gap: 0.5rem;
+        }
+        .qa-meta {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        .qa-badge {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        .qa-badge.pendente {
+            background: rgba(234,179,8,0.2);
+            color: #eab308;
+        }
+        .qa-badge.respondida {
+            background: rgba(34,197,94,0.2);
+            color: #22c55e;
+        }
+        .qa-question {
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            line-height: 1.5;
+        }
+        .qa-answer {
+            background: rgba(34,197,94,0.1);
+            border-left: 3px solid var(--accent-green);
+            padding: 0.75rem;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin-top: 0.75rem;
+        }
+        .qa-answer-label {
+            font-size: 0.7rem;
+            color: var(--accent-green);
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        .qa-answer-text {
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        .qa-answer-by {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+        .qa-response-form {
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--border);
+        }
+        .qa-response-form textarea {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--text);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            resize: vertical;
+        }
+        .qa-response-form button {
+            padding: 0.5rem 1rem;
+            background: var(--accent-green);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        .qa-response-form button:hover {
+            opacity: 0.9;
+        }
+        .qa-empty {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
         }
 
         .visually-hidden {
@@ -302,6 +432,15 @@
                         <button type="submit" class="qb-send">Enviar Dúvida</button>
                     </form>
                     <div class="qb-success" id="duvidaSuccess">✅ Dúvida enviada com sucesso! O professor responderá em breve.</div>
+                </div>
+
+                <!-- Q&A Section - Perguntas e Respostas -->
+                <div class="qa-section" id="qaSection">
+                    <h3>💬 Perguntas e Respostas</h3>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">Todas as perguntas e respostas dos alunos</p>
+                    <div id="qaList" class="qa-list">
+                        <div style="text-align: center; padding: 2rem; color: var(--text-muted);">Carregando perguntas...</div>
+                    </div>
                 </div>
             </div>
         </main>
@@ -561,6 +700,7 @@
             renderSidebar(6);
             updateBanner(6);
             setupEventListeners();
+            loadQA();
             console.log('Teoria inicializada. Módulos:', MODULOS[6]?.mods?.length || 0);
         }
 
@@ -826,6 +966,79 @@
                     alert('Erro ao enviar dúvida: ' + err.message);
                 }
             });
+        }
+
+        // Q&A Functions - Perguntas e Respostas
+        async function loadQA() {
+            const container = document.getElementById('qaList');
+            if (!container) return;
+
+            try {
+                const duvidas = await DB.listarDuvidas();
+                
+                if (!duvidas || duvidas.length === 0) {
+                    container.innerHTML = '<div class="qa-empty">Nenhuma pergunta enviada ainda. Seja o primeiro a perguntar!</div>';
+                    return;
+                }
+
+                const isProfessor = App.isProfessor();
+
+                container.innerHTML = duvidas.map(d => {
+                    const statusBadge = d.status === 'respondida' 
+                        ? '<span class="qa-badge respondida">✅ Respondida</span>'
+                        : '<span class="qa-badge pendente">⏳ Pendente</span>';
+                    
+                    const answerHTML = d.resposta ? `
+                        <div class="qa-answer">
+                            <div class="qa-answer-label">✅ RESPOSTA DO PROFESSOR</div>
+                            <div class="qa-answer-text">${d.resposta}</div>
+                            <div class="qa-answer-by">Respondido por: ${d.respondido_por || 'Professor'}</div>
+                        </div>
+                    ` : '';
+
+                    const responseForm = (!d.resposta && isProfessor) ? `
+                        <div class="qa-response-form">
+                            <textarea id="resposta-${d.id}" rows="2" placeholder="Digite sua resposta..."></textarea>
+                            <button onclick="responderDuvida('${d.id}')">Responder</button>
+                        </div>
+                    ` : '';
+
+                    return `
+                        <div class="qa-item">
+                            <div class="qa-header">
+                                <div>
+                                    <div class="qa-meta">📚 ${d.aula || 'Geral'} • 👤 ${d.nome} • ${d.turma}</div>
+                                </div>
+                                ${statusBadge}
+                            </div>
+                            <div class="qa-question">❓ ${d.duvida}</div>
+                            ${answerHTML}
+                            ${responseForm}
+                        </div>
+                    `;
+                }).join('');
+            } catch (err) {
+                container.innerHTML = '<div class="qa-empty">Erro ao carregar perguntas. Tente novamente mais tarde.</div>';
+                console.error('Erro ao carregar Q&A:', err);
+            }
+        }
+
+        async function responderDuvida(id) {
+            const textarea = document.getElementById(`resposta-${id}`);
+            const resposta = textarea.value.trim();
+            
+            if (!resposta) {
+                alert('Por favor, digite uma resposta.');
+                return;
+            }
+
+            try {
+                await DB.responderDuvida(id, resposta, App.session?.user || 'Professor');
+                App.showToast('Resposta enviada com sucesso!');
+                loadQA();
+            } catch (err) {
+                alert('Erro ao enviar resposta: ' + err.message);
+            }
         }
 
         function toggleTheme() {
