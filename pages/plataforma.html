@@ -651,7 +651,7 @@
                 <form id="authForm">
                     <div class="form-group">
                         <label for="authPassword" class="form-label">Senha de Acesso</label>
-                        <input type="password" id="authPassword" class="form-input" placeholder="Digite a senha" required>
+                        <input type="password" id="authPassword" class="form-input" placeholder="Digite a senha" autocomplete="current-password" required>
                     </div>
                     <div id="authError" style="color: var(--accent-red); font-size: 0.85rem; margin-bottom: 1rem; display: none;">
                         Senha incorreta. Tente novamente.
@@ -1390,7 +1390,6 @@
                 logsSection.style.display = App.isProfessor() ? 'block' : 'none';
             }
             
-            const statsContainer = document.getElementById('dashboardStats');
             const statsContainer = document.getElementById('dashboardStats');
             
             // Filter groups
