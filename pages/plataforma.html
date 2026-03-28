@@ -282,17 +282,186 @@
             border-radius: 4px;
             transition: width 0.5s ease;
         }
+
+        /* Mobile Navigation - Slide-in from right */
+        .mobile-toggle {
+            display: none;
+            width: 44px;
+            height: 44px;
+            border: none;
+            background: var(--bg-surface2);
+            border-radius: 10px;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+
+        .mobile-toggle:hover {
+            background: var(--bg-surface3);
+        }
+
+        .hamburger {
+            width: 20px;
+            height: 2px;
+            background: var(--text);
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .hamburger::before,
+        .hamburger::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 2px;
+            background: var(--text);
+            left: 0;
+            transition: var(--transition);
+        }
+
+        .hamburger::before { top: -6px; }
+        .hamburger::after { top: 6px; }
+
+        .mobile-toggle.active .hamburger {
+            background: transparent;
+        }
+
+        .mobile-toggle.active .hamburger::before {
+            top: 0;
+            transform: rotate(45deg);
+        }
+
+        .mobile-toggle.active .hamburger::after {
+            top: 0;
+            transform: rotate(-45deg);
+        }
+
+        .mobile-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 90;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .mobile-overlay.show {
+            display: block;
+            opacity: 1;
+        }
+
+        .logo-text {
+            font-weight: 800;
+            font-size: 1rem;
+            letter-spacing: -0.02em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 180px;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 900px) {
+            .mobile-toggle {
+                display: flex;
+            }
+
+            .nav {
+                position: fixed;
+                top: 64px;
+                right: -300px;
+                width: 280px;
+                height: calc(100vh - 64px);
+                background: var(--bg-surface);
+                flex-direction: column;
+                padding: 1rem;
+                gap: 0.5rem;
+                box-shadow: -8px 0 30px rgba(0, 0, 0, 0.3);
+                transition: right 0.3s ease;
+                z-index: 95;
+                overflow-y: auto;
+            }
+
+            .nav.open {
+                right: 0;
+            }
+
+            .nav-btn {
+                width: 100%;
+                text-align: left;
+                padding: 14px 18px;
+                font-size: 1rem;
+                border-radius: 12px;
+                min-height: 48px;
+                display: flex;
+                align-items: center;
+            }
+
+            .nav-btn.active {
+                background: var(--accent-orange);
+                color: #fff;
+            }
+
+            .header {
+                padding: 0 1rem;
+                gap: 0.75rem;
+            }
+
+            .logo {
+                flex: 1;
+                min-width: 0;
+            }
+
+            .logo-text {
+                max-width: 140px;
+            }
+
+            .theme-toggle,
+            .header > .nav-btn:last-child {
+                width: 44px;
+                height: 44px;
+                padding: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-text {
+                font-size: 0.9rem;
+                max-width: 100px;
+            }
+
+            .hero-section {
+                padding: 1.5rem 1rem;
+            }
+
+            .hero-section h1 {
+                font-size: 1.5rem;
+            }
+        }
     </style>
 </head>
 <body>
     <!-- Header -->
     <header class="header">
+        <button class="mobile-toggle" onclick="toggleMobileNav()" aria-label="Menu">
+            <span class="hamburger"></span>
+        </button>
         <div class="logo" onclick="setView('landing')" style="cursor:pointer;">
-            <img src="../CSM.png" alt="Logo CSM">
-            CSM <span>| Projetos</span>
+            <img src="../CSM.png" alt="Logo">
+            <span class="logo-text">Empreendedores Exponenciais</span>
         </div>
         
-        <nav class="nav">
+        <nav class="nav" id="mainNav">
             <button class="nav-btn active" data-view="landing">Início</button>
             <button class="nav-btn" data-view="groups">Meus Grupos</button>
             <button class="nav-btn" data-view="dashboard" id="dashboardNavBtn" style="display: none;">📊 Dashboard</button>
@@ -300,17 +469,19 @@
             <button class="nav-btn" onclick="requireAuth('professor')">Professor</button>
         </nav>
         
-        <button class="theme-toggle" onclick="toggleTheme()">☀️</button>
-        <button class="nav-btn" onclick="window.location.href='../index.html'">🏠</button>
+        <button class="theme-toggle" onclick="toggleTheme()" aria-label="Alternar tema">☀️</button>
+        <button class="nav-btn" onclick="window.location.href='../index.html'" aria-label="Início">🏠</button>
     </header>
+
+    <!-- Mobile Nav Overlay -->
+    <div class="mobile-overlay" id="mobileOverlay" onclick="toggleMobileNav()"></div>
 
     <div class="container" style="padding-top: 2rem; padding-bottom: 2rem;">
         
         <!-- LANDING VIEW -->
         <div id="view-landing" class="view">
             <div class="hero-section">
-                <div class="hero-badge">⭐ Colegio Santa Mônica · Limoeiro/PE · 2026</div>
-                <h1>Aprenda empreendendo.<br><em>Transforme Limoeiro.</em></h1>
+                <h1>Aprenda empreendendo.<br><em>Transforme o futuro.</em></h1>
                 <p>O programa Empreendedores Exponenciais leva estudantes do 6º ao 9º ano a vivenciar projetos reais de negócios, finanças, inovação e comunicação.</p>
                 <div class="hero-btns">
                     <button class="btn btn-primary" onclick="setView('projects')">Explorar Projetos</button>
@@ -321,24 +492,24 @@
             <div class="stats-bar" id="landingStats"></div>
 
             <div class="section-title" style="font-size: 1rem; font-weight: 700; margin-bottom: 1rem; color: var(--csm-red-dark);">
-                Por que participar?
+                Por que participar? (Baseado nas Competências da BNCC)
             </div>
             <div class="projects-grid">
                 <div class="project-card">
                     <div class="project-title">💡 Projetos Reais</div>
-                    <div class="project-desc">Você vende, investe, cria e apresenta — não só estuda teoria.</div>
+                    <div class="project-desc">Competência 6 BNCC - Você vende, investe, cria e apresenta — não só estuda teoria. Desenvolva projetos de vida!</div>
                 </div>
                 <div class="project-card">
                     <div class="project-title">🤝 Trabalho em Equipe</div>
-                    <div class="project-desc">Grupos de 3-4 alunos com papéis definidos.</div>
+                    <div class="project-desc">Competência 9 BNCC - Grupos de 3-4 alunos com papéis definidos. Aprenda cooperação e empatia.</div>
                 </div>
                 <div class="project-card">
                     <div class="project-title">📊 Finanças na Prática</div>
-                    <div class="project-desc">DRE, custos, precificação e investimentos.</div>
+                    <div class="project-desc">Competência 6 BNCC - DRE, custos, precificação e investimentos. Aprenda a lidar com dinheiro!</div>
                 </div>
                 <div class="project-card">
                     <div class="project-title">🎤 Comunicação e Pitch</div>
-                    <div class="project-desc">TED talks, Shark Tank e apresentações.</div>
+                    <div class="project-desc">Competências 9 e 10 BNCC - TED talks, Shark Tank e apresentações. Desenvolva liderança!</div>
                 </div>
             </div>
         </div>
@@ -998,6 +1169,29 @@
             document.querySelectorAll('.nav-btn[data-view]').forEach(b => {
                 b.classList.toggle('active', b.dataset.view === view);
             });
+            closeMobileNav();
+        }
+
+        function toggleMobileNav() {
+            const nav = document.getElementById('mainNav');
+            const overlay = document.getElementById('mobileOverlay');
+            const toggle = document.querySelector('.mobile-toggle');
+            
+            nav.classList.toggle('open');
+            overlay.classList.toggle('show');
+            toggle.classList.toggle('active');
+            document.body.style.overflow = nav.classList.contains('open') ? 'hidden' : '';
+        }
+
+        function closeMobileNav() {
+            const nav = document.getElementById('mainNav');
+            const overlay = document.getElementById('mobileOverlay');
+            const toggle = document.querySelector('.mobile-toggle');
+            
+            nav.classList.remove('open');
+            overlay.classList.remove('show');
+            toggle.classList.remove('active');
+            document.body.style.overflow = '';
         }
 
         function requireAuth(level) {

@@ -206,6 +206,23 @@
                 display: block !important;
             }
         }
+
+        /* Logo text */
+        .logo-text {
+            font-weight: 800;
+            font-size: 1rem;
+            letter-spacing: -0.02em;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 600px) {
+            .logo-text {
+                font-size: 0.85rem;
+                max-width: 120px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
     </style>
 </head>
 <body>
@@ -213,8 +230,8 @@
     <header class="header">
         <button class="mobile-toggle" onclick="toggleSidebar()" aria-label="Menu">☰</button>
         <div class="logo">
-            <img src="../CSM.png" alt="Logo CSM">
-            CSM <span>| Limoeiro–PE</span>
+            <img src="../CSM.png" alt="Logo">
+            <span class="logo-text">Empreendedores Exponenciais</span>
         </div>
         
         <nav class="nav" id="gradeTabs">
