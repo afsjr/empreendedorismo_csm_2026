@@ -591,12 +591,12 @@
             <div class="modal-body">
                 <form id="groupForm">
                     <div class="form-group">
-                        <label class="form-label">Nome do Grupo</label>
-                        <input type="text" name="nome" class="form-input" placeholder="Ex: Equipe Inovação" required>
+                        <label for="grupoNome" class="form-label">Nome do Grupo</label>
+                        <input type="text" id="grupoNome" name="nome" class="form-input" placeholder="Ex: Equipe Inovação" required>
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Ano Escolar</label>
-                        <select name="ano" class="form-select" required>
+                        <label for="grupoAno" class="form-label">Ano Escolar</label>
+                        <select id="grupoAno" name="ano" class="form-select" required>
                             <option value="6">6º Ano</option>
                             <option value="7">7º Ano</option>
                             <option value="8">8º Ano</option>
@@ -604,14 +604,14 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Projeto</label>
+                        <label for="projetoSelect" class="form-label">Projeto</label>
                         <select name="projeto" class="form-select" id="projetoSelect" required>
                             <option value="">Selecione...</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Membros (um por linha)</label>
-                        <textarea name="membros" class="form-textarea" rows="4" placeholder="Aluno 1&#10;Aluno 2&#10;Aluno 3"></textarea>
+                        <label for="grupoMembros" class="form-label">Membros (um por linha)</label>
+                        <textarea id="grupoMembros" name="membros" class="form-textarea" rows="4" placeholder="Aluno 1&#10;Aluno 2&#10;Aluno 3"></textarea>
                     </div>
                     <div class="flex gap-1" style="justify-content: flex-end;">
                         <button type="button" class="btn btn-secondary" onclick="closeModal('groupModal')">Cancelar</button>
@@ -646,7 +646,8 @@
                 <p style="margin-bottom: 1rem; color: var(--text-dim);">Digite a senha de acesso:</p>
                 <form id="authForm">
                     <div class="form-group">
-                        <input type="password" id="authPassword" class="form-input" placeholder="Senha" required>
+                        <label for="authPassword" class="form-label">Senha de Acesso</label>
+                        <input type="password" id="authPassword" class="form-input" placeholder="Digite a senha" required>
                     </div>
                     <div id="authError" style="color: var(--accent-red); font-size: 0.85rem; margin-bottom: 1rem; display: none;">
                         Senha incorreta. Tente novamente.
@@ -1692,14 +1693,14 @@
                                 <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">${etapa.desc}</div>
                                 ${tarefasHTML ? `<div style="background: var(--bg-surface); padding: 0.5rem; border-radius: 6px; margin-top: 0.5rem;"><strong style="font-size: 0.8rem;">Tarefas:</strong><ul style="margin: 0.25rem 0 0 1rem;">${tarefasHTML}</ul></div>` : ''}
                             </div>
-                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; margin-left: 1rem;">
+                            <label for="${checkboxId}" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; margin-left: 1rem;">
                                 <input type="checkbox" id="${checkboxId}" ${concluida ? 'checked' : ''} 
                                     onchange="atualizarProgressoEtapa('${g.id}', '${g.projeto_id}', ${etapa.id}, this.checked, document.getElementById('${textAreaId}')?.value || '')">
                                 <span>${etapaConcluida}</span>
                             </label>
                         </div>
                         <div style="margin-top: 0.5rem;">
-                            <label style="font-size: 0.85rem; color: var(--text-muted);">Anotações:</label>
+                            <label for="${textAreaId}" style="font-size: 0.85rem; color: var(--text-muted);">Anotações:</label>
                             <textarea id="${textAreaId}" rows="2" style="width: 100%; margin-top: 0.25rem; padding: 0.5rem; background: var(--bg-surface); border: 1px solid var(--border); border-radius: 6px; color: var(--text);" 
                                 placeholder="O que você fez nesta etapa?" onchange="atualizarProgressoEtapa('${g.id}', '${g.projeto_id}', ${etapa.id}, document.getElementById('${checkboxId}').checked, this.value)">${anotacao}</textarea>
                         </div>

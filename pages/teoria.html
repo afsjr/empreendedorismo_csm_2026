@@ -152,6 +152,18 @@
             text-align: center;
         }
 
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
         .qb-success.show { display: block; }
 
         @media (max-width: 900px) {
@@ -275,15 +287,18 @@
                 <div class="question-box" id="questionBox">
                     <h3>❓ Tem alguma dúvida?</h3>
                     <form class="qb-form" id="duvidaForm">
-                        <input type="text" name="nome" placeholder="Seu nome" required>
-                        <select name="turma" required>
+                        <label for="duvidaNome" class="visually-hidden">Seu nome</label>
+                        <input type="text" id="duvidaNome" name="nome" placeholder="Seu nome" required>
+                        <label for="duvidaTurma" class="visually-hidden">Selecione sua turma</label>
+                        <select id="duvidaTurma" name="turma" required>
                             <option value="">Selecione sua turma</option>
                             <option value="6º Ano">6º Ano</option>
                             <option value="7º Ano">7º Ano</option>
                             <option value="8º Ano">8º Ano</option>
                             <option value="9º Ano">9º Ano</option>
                         </select>
-                        <textarea name="pergunta" placeholder="Digite sua dúvida..." rows="3" required></textarea>
+                        <label for="duvidaPergunta" class="visually-hidden">Digite sua dúvida</label>
+                        <textarea id="duvidaPergunta" name="pergunta" placeholder="Digite sua dúvida..." rows="3" required></textarea>
                         <button type="submit" class="qb-send">Enviar Dúvida</button>
                     </form>
                     <div class="qb-success" id="duvidaSuccess">✅ Dúvida enviada com sucesso! O professor responderá em breve.</div>
