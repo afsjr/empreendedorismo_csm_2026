@@ -663,36 +663,40 @@
     <script src="../js/app.js"></script>
     
     <script>
-        // Dados dos projetos (24 projetos - 6 por ano)
+        // Dados dos projetos (24 projetos - 6 por ano) - Conforme detalhe_projetos.md
         const PROJETOS = [
-            // 6º Ano
-            { id: 'p6-1', title: 'Feira do Centavo', desc: 'Primeiro projeto de vendas - aprenda precificação e atendimento', ano: 6, sem: 1 },
-            { id: 'p6-2', title: 'Detetives Financeiros', desc: 'Educação financeira básica - controle de gastos e orçamento', ano: 6, sem: 1 },
-            { id: 'p6-3', title: 'Jogo Educativo', desc: 'Crie um jogo que ensine algo sobre empreendedorismo', ano: 6, sem: 2 },
-            { id: 'p6-4', title: 'Inventor da Escola', desc: 'Identifique problemas e crie soluções inovadoras', ano: 6, sem: 2 },
-            { id: 'p6-5', title: 'Campanha Social', desc: 'Planeje uma campanha para ajudar a comunidade', ano: 6, sem: 2 },
-            { id: 'p6-6', title: 'Talk Show', desc: 'Entreviste entrepreneurs locais sobre suas histórias', ano: 6, sem: 2 },
-            // 7º Ano
-            { id: 'p7-1', title: 'Consultoria Mirim', desc: 'Ofereça soluções para pequenos negócios da região', ano: 7, sem: 1 },
-            { id: 'p7-2', title: 'Mapa Empreendedor', desc: 'Mapeie negócios locais e identifique oportunidades', ano: 7, sem: 1 },
-            { id: 'p7-3', title: 'Shark Tank', desc: 'Apresente sua ideia para uma banca de avaliadores', ano: 7, sem: 1 },
-            { id: 'p7-4', title: 'Hackathon', desc: 'Maratona de criação de soluções em 48 horas', ano: 7, sem: 2 },
-            { id: 'p7-5', title: 'Agência CSM', desc: 'Crie campanhas de marketing para empresas parceiras', ano: 7, sem: 2 },
-            { id: 'p7-6', title: 'TEDx Escola', desc: 'Prepare e apresente uma palestra inspiradora', ano: 7, sem: 2 },
-            // 8º Ano
-            { id: 'p8-1', title: 'Startup Weekend', desc: 'Crie uma startup completa em um final de semana', ano: 8, sem: 1 },
-            { id: 'p8-2', title: 'Fintech da Escola', desc: 'Desenvolva soluções financeiras tecnológicas', ano: 8, sem: 1 },
-            { id: 'p8-3', title: 'Economia Circular', desc: 'Projetos sustentáveis de reutilização e recycle', ano: 8, sem: 1 },
-            { id: 'p8-4', title: 'Lab de Tecnologia', desc: 'Explore ferramentas digitais para negócios', ano: 8, sem: 2 },
-            { id: 'p8-5', title: 'Redesign UX', desc: 'Melhore a experiência de usuário de um produto', ano: 8, sem: 2 },
-            { id: 'p8-6', title: 'Podcast', desc: 'Crie um podcast sobre empreendedorismo', ano: 8, sem: 2 },
-            // 9º Ano
-            { id: 'p9-1', title: 'Startup Real', desc: 'Crie um negócio de verdade com estrutura completa', ano: 9, sem: 1 },
-            { id: 'p9-2', title: 'Fundo de Investimento', desc: 'Gestão de investimentos para projetos da escola', ano: 9, sem: 1 },
-            { id: 'p9-3', title: 'Incubadora Social', desc: 'Apoie projetos sociais com mentoria', ano: 9, sem: 1 },
-            { id: 'p9-4', title: 'Demo Day', desc: 'Apresente seu projeto para investidores reais', ano: 9, sem: 2 },
-            { id: 'p9-5', title: 'Limoeiro 2040', desc: 'Planeje o futuro da cidade com soluções inovadoras', ano: 9, sem: 2 },
-            { id: 'p9-6', title: 'Mentor de Futuro', desc: 'Seja mentor de alunos mais novos', ano: 9, sem: 2 }
+            // 6º Ano - 1º Semestre
+            { id: 'p6-1A', title: '💰 Feira do Centavo Consciente', desc: 'Crie uma mini-empresa real: escolha produto, calcule custos, defina preço, produza e venda na Feira. Ao final, apresente o DRE.', ano: 6, sem: 1 },
+            { id: 'p6-1B', title: '🔍 Detetives Financeiros de Limoeiro', desc: 'Investigue a vida financeira da comunidade: interviewe comerciantes, pesquise preços, analise hábitos de consumo e produza um documentário.', ano: 6, sem: 1 },
+            { id: 'p6-1C', title: '🎲 O Jogo que Ensina a Poupar', desc: 'Crie um jogo de tabuleiro original que ensine conceitos de educação financeira. O jogo deve ser jogável e divertido.', ano: 6, sem: 1 },
+            // 6º Ano - 2º Semestre
+            { id: 'p6-2A', title: '💡 Inventor da Escola', desc: 'Identifique um problema real na escola e crie um protótipo funcional de solução inovadora.', ano: 6, sem: 2 },
+            { id: 'p6-2B', title: '📢 Minha Voz, Nossa Causa', desc: 'Escolha uma causa social da comunidade e crie uma campanha de comunicação completa: slogan, cartaz, vídeo e ação na escola.', ano: 6, sem: 2 },
+            { id: 'p6-2C', title: '🎤 Talk Show Empreendedor', desc: 'Crie e grave um talk show entrevistando um empreendedor real de Limoeiro. Pesquise, prepare perguntas, grave e edite o programa.', ano: 6, sem: 2 },
+            // 7º Ano - 1º Semestre
+            { id: 'p7-1A', title: '📊 Consultoria Financeira Mirim', desc: 'Atue como consultor financeiro: analise as finanças de um pequeno comerciante de Limoeiro e entregue um plano com recomendações.', ano: 7, sem: 1 },
+            { id: 'p7-1B', title: '🗺️ Mapa Empreendedor de Limoeiro', desc: 'Mapeamento completo dos negócios de um bairro: tipos de comércio, oportunidades não exploradas, perfil dos empreendedores.', ano: 7, sem: 1 },
+            { id: 'p7-1C', title: '🦈 Shark Tank CSM', desc: 'Crie um negócio completo e apresente em formato Shark Tank para uma banca de investidores.', ano: 7, sem: 1 },
+            // 7º Ano - 2º Semestre
+            { id: 'p7-2A', title: '🚀 Hackathon da Comunidade', desc: 'Sprint de Design Thinking para resolver problema real da comunidade de Limoeiro. Todas as etapas: empatia, definição, ideação, prototipagem e teste.', ano: 7, sem: 2 },
+            { id: 'p7-2B', title: '📱 Agência de Comunicação CSM', desc: 'Atue como agência de marketing: atendam um comerciante real, criando marca, posts para redes sociais e estratégia de divulgação.', ano: 7, sem: 2 },
+            { id: 'p7-2C', title: '🎙️ TEDx CSM', desc: 'Cada aluno prepara e apresenta uma palestra de 5 minutos no formato TED Talk sobre um tema do semestre.', ano: 7, sem: 2 },
+            // 8º Ano - 1º Semestre
+            { id: 'p8-1A', title: '🚀 Startup Weekend Escolar', desc: 'Em 4 semanas, crie uma startup real: identifique problema, crie MVP digital, lance e meça resultados.', ano: 8, sem: 1 },
+            { id: 'p8-1B', title: '💳 Fintech da Escola', desc: 'Projete um app financeiro para jovens: conceito, wireframes, protótipo clicável e teste de usabilidade.', ano: 8, sem: 1 },
+            { id: 'p8-1C', title: '♻️ Economia Circular de Limoeiro', desc: 'Identifique um resíduo da comunidade e transforme em produto com valor. Lixo de um é matéria-prima de outro.', ano: 8, sem: 1 },
+            // 8º Ano - 2º Semestre
+            { id: 'p8-2A', title: '🧠 Lab de Tecnologia Aplicada', desc: 'Escolha uma tecnologia (IA, IoT, RA, blockchain) e crie uma aplicação prática para Limoeiro.', ano: 8, sem: 2 },
+            { id: 'p8-2B', title: '🎨 Redesign de Experiência', desc: 'Escolha um serviço público ou escolar e faça o redesign completo da experiência do usuário usando UX.', ano: 8, sem: 2 },
+            { id: 'p8-2C', title: '🎧 Podcast Inovação & Futuro', desc: 'Produza 3 episódios de podcast sobre como tecnologias exponenciais podem transformar Limoeiro e o sertão.', ano: 8, sem: 2 },
+            // 9º Ano - 1º Semestre
+            { id: 'p9-1A', title: '🌟 Startup Real: Do Problema ao 1º Cliente', desc: 'Crie uma startup REAL: valide problema, construa MVP, lance e realize pelo menos 1 transação real.', ano: 9, sem: 1 },
+            { id: 'p9-1B', title: '📈 Fundo de Investimento Estudantil', desc: 'Simule um fundo de investimentos com R$100K fictícios. Decisões semanais baseadas em cenários econômicos reais.', ano: 9, sem: 1 },
+            { id: 'p9-1C', title: '❤️ Incubadora Social', desc: 'Crie uma startup que gere LUCRO e IMPACTO SOCIAL simultaneamente. Prove que é possível fazer o bem e ter um negócio sustentável.', ano: 9, sem: 1 },
+            // 9º Ano - 2º Semestre
+            { id: 'p9-2A', title: '🏆 Demo Day — O Grande Pitch', desc: 'Apresente seu projeto para banca de empreendedores reais convidados. Pitch de 5 min + stand completo.', ano: 9, sem: 2 },
+            { id: 'p9-2B', title: '🏗️ Limoeiro 2040', desc: 'Planeje o futuro de Limoeiro com soluções inovadoras para desafios da cidade.', ano: 9, sem: 2 },
+            { id: 'p9-2C', title: '🎓 Mentor de Futuro', desc: 'Seja mentor de alunos mais novos, compartilhando conhecimento e experiência.', ano: 9, sem: 2 }
         ];
 
         let currentView = 'landing';
@@ -704,305 +708,309 @@
         let progresso = {};
         let progressoDetalhado = [];
 
-        // Etapas detalhadas para CADA PROJETO específico
+        // Etapas detalhadas para CADA PROJETO específico - Conforme detalhe_projetos.md
         const ETAPAS_POR_PROJETO = {
-            // 6º ANO
-            'p6-1': [ // Feira do Centavo
-                { id: 1, nome: 'Pesquisa de Mercado', desc: 'Entender o que os colegas querem comprar', 
-                  tarefas: ['Pesquisar o que os alunos querem comprar', 'Verificar preço de mercado', 'Definir produtos iniciais', 'Listar 5 produtos mínimos'] },
-                { id: 2, nome: 'Planejamento Financeiro', desc: 'Calcular custos e definir preços',
-                  tarefas: ['Calcular custo de cada produto', 'Definir preço de venda com margem', 'Calcular lucro esperado', 'Criar planilha de custos'] },
-                { id: 3, nome: 'Preparação do Stand', desc: 'Montar o espaço de vendas',
-                  tarefas: ['Definir local da feira', 'Criar décor do stand', 'Preparar sacolas/trocos', 'Organizar produtos'] },
-                { id: 4, nome: 'Dia da Venda', desc: 'Realizar a venda',
-                  tarefas: ['Atender clientes com sorriso', 'Dar troco correto', 'Anotar vendas', 'Contar dinheiro final'] },
-                { id: 5, nome: 'Análise de Resultados', desc: 'Verificar lucros e aprender',
-                  tarefas: ['Calcular lucro real', 'O que vendeu mais?', 'O que faria diferente?', 'Apresentar resultados'] }
+            // 6º ANO - 1º SEMESTRE
+            'p6-1A': [ // 💰 Feira do Centavo Consciente
+                { id: 1, nome: 'Escolha do Produto e Pesquisa de Mercado', desc: 'Semana 1 (2 aulas) - A equipe decide o que vai vender e faz pesquisa com 20 colegas',
+                  tarefas: ['Listar 5 ideias de produto (cada membro traz 1-2 ideias)', 'Aplicar questionário de pesquisa com 20 pessoas', 'Tabular resultados e escolher o produto mais votação', 'Definir nome da mini-empresa e slogan'] },
+                { id: 2, nome: 'Planejamento Financeiro', desc: 'Semana 2 (2 aulas) - Listar custos, definir preço e calcular meta de vendas',
+                  tarefas: ['Listar todos os custos (matéria-prima, embalagem, decoração do stand)', 'Calcular custo unitário de cada produto', 'Definir preço de venda (custo + margem de 50-100%)', 'Preencher planilha de DRE projetado', 'Definir meta de vendas'] },
+                { id: 3, nome: 'Produção e Marketing', desc: 'Semana 3 (2 aulas) - Produzir o produto e criar material visual do stand',
+                  tarefas: ['Produzir lote-teste (5 unidades) e avaliar qualidade', 'Ajustar receita/processo se necessário', 'Produzir lote final para a Feira', 'Criar cartaz do stand (nome, preços, slogan)', 'Preparar sistema de troco e controle de vendas'] },
+                { id: 4, nome: 'Feira + DRE Final', desc: 'Semana 4 (2 aulas) - Dia da Feira! Vender e apresentar resultados',
+                  tarefas: ['Montar stand com produtos, cartaz e troco', 'Registrar CADA venda (quantidade e valor)', 'Ao final: somar receita real, subtrair custos reais', 'Preencher DRE final no painel', 'Apresentar para os visitantes: o que aprenderam?'] },
+                { id: 5, nome: 'Apresentação Final', desc: 'Avaliação e reflexão sobre o projeto',
+                  tarefas: ['Apresentar DRE para a turma', 'Discutir: o que funcionou? O que mudaria?', 'Documentar aprendizados', 'Avaliar desempenho do grupo'] }
             ],
-            'p6-2': [ // Detetives Financeiros
-                { id: 1, nome: 'Mapeamento de Gastos', desc: 'Identificar para onde vai o dinheiro',
-                  tarefas: ['Criar planilha de gastos', 'Registrar gastos por 1 semana', 'Classificar em categorias', 'Identificar desperdícios'] },
-                { id: 2, nome: 'Análise de Padrões', desc: 'Entender comportamentos',
-                  tarefas: ['Criar gráficos de gastos', 'Identificar padrões', 'Detectar hábitos bons e ruins', 'Comparar com colegas'] },
-                { id: 3, nome: 'Propostas de Economia', desc: 'Criar soluções',
-                  tarefas: ['Sugerir mudanças práticas', 'Calcular economia potencial', 'Criar alertas de gastos', 'Estabelecer metas'] },
-                { id: 4, nome: 'Implementação', desc: 'Colocar em prática',
-                  tarefas: ['Aplicar novas regras', 'Acompanhar resultados semanais', 'Ajustar estratégias', 'Manter disciplina'] },
-                { id: 5, nome: 'Apresentação', desc: 'Compartilhar descobertas',
-                  tarefas: ['Criar apresentação visual', 'Mostrar economia realizada', 'Dar dicas para outros', 'Documentar aprendizados'] }
+            'p6-1B': [ // 🔍 Detetives Financeiros de Limoeiro
+                { id: 1, nome: 'Planejamento da Investigação', desc: 'Semana 1 (2 aulas) - Definir foco da investigação e criar roteiro',
+                  tarefas: ['Escolher o tema da investigação', 'Criar 8-10 perguntas para as entrevistas', 'Definir quem será entrevistado (mínimo 5 pessoas)', 'Distribuir papéis: repórter, fotógrafo, editor, analista'] },
+                { id: 2, nome: 'Pesquisa de Campo', desc: 'Semana 2 (2 aulas) - Entrevistar comerciantes e comparar preços',
+                  tarefas: ['Realizar entrevistas (gravar áudio com autorização)', 'Comparar preços de 5 produtos em 3 lojas diferentes', 'Fotografar os locais visitados', 'Anotar observações no caderno de campo'] },
+                { id: 3, nome: 'Análise e Produção', desc: 'Semana 3 (2 aulas) - Organizar dados e criar jornal mural',
+                  tarefas: ['Tabular dados das entrevistas', 'Criar pelo menos 2 gráficos comparativos (preços, hábitos)', 'Escrever 3-4 matérias curtas (máx 1 parágrafo cada)', 'Montar layout do jornal mural com fotos e gráficos'] },
+                { id: 4, nome: 'Apresentação na Feira', desc: 'Semana 4 (2 aulas) - Montar stand e apresentar descobertas',
+                  tarefas: ['Ensaiar apresentação (cada um fala 2 min)', 'Preparar 3-5 dicas financeiras para visitantes (tipo folheto)', 'Montar stand com jornal mural em destaque', 'Interagir com visitantes contando as descobertas'] },
+                { id: 5, nome: 'Apresentação Final', desc: 'Avaliação e reflexão',
+                  tarefas: ['Apresentar jornal mural completo', 'Compartilhar aprendizados', 'Avaliar trabalho em equipe', 'Documentar metodologia'] }
             ],
-            'p6-3': [ // Jogo Educativo
-                { id: 1, nome: 'Conceito do Jogo', desc: 'Definir o que será ensinado',
-                  tarefas: ['Escolher tema empreendedorismo', 'Definir público-alvo', 'Criar objetivo educativo', 'Escolher tipo de jogo'] },
-                { id: 2, nome: 'Mecânicas', desc: 'Como o jogo funciona',
-                  tarefas: ['Criar regras básicas', 'Definir turnos', 'Criar cartas outabuleiro', 'Testar lógica'] },
-                { id: 3, nome: 'Produção', desc: 'Criar o jogo físico',
-                  tarefas: ['Montar tabuleiro/cartas', 'Criar peças', 'Definir estética visual', 'Produzir componentes'] },
-                { id: 4, nome: 'Teste', desc: 'Validar com jogadores',
-                  tarefas: ['Testar com amigos', 'Ajustar dificuldade', 'Corrigir regras', 'Refinar componentes'] },
-                { id: 5, nome: 'Apresentação', desc: 'Mostrar o jogo criado',
-                  regras: ['Explicar objetivo', 'Demonstrar partida', 'Ensinar a jogar', 'Receber feedback'] }
+            'p6-1C': [ // 🎲 O Jogo que Ensina a Poupar
+                { id: 1, nome: 'Game Design', desc: 'Semana 1 (2 aulas) - Definir mecânica e regras do jogo',
+                  tarefas: ['Jogar 1-2 jogos de referência (Banco Imobiliário simplificado, Jogo da Vida)', 'Definir: tipo de jogo, objetivo, nº de jogadores, tempo de partida', 'Listar 5 conceitos financeiros que o jogo deve ensinar', 'Criar rascunho do tabuleiro e regras básicas'] },
+                { id: 2, nome: 'Produção das Peças', desc: 'Semana 2 (2 aulas) - Criar tabuleiro, cartas e componentes',
+                  tarefas: ['Desenhar e colorir o tabuleiro em papelão', 'Criar 20-30 cartas (eventos financeiros, perguntas, surpresas)', 'Produzir dinheiro do jogo (cédulas de papel)', 'Criar peões com tampinhas ou massinhas', 'Escrever manual de regras claro e organizado'] },
+                { id: 3, nome: 'Playtest e Ajustes', desc: 'Semana 3 (2 aulas) - Testar com outra equipe e ajustar',
+                  tarefas: ['Jogar 1 partida completa entre a equipe', 'Convidar outra equipe para jogar (observem sem ajudar)', 'Coletar feedback: O que confundiu? O que divertiu? O que mudaria?', 'Fazer ajustes nas regras, cartas ou tabuleiro'] },
+                { id: 4, nome: 'Finalização e Feira', desc: 'Semana 4 (2 aulas) - Acabamento profissional e apresentação',
+                  tarefas: ['Acabamento final (plastificar cartas, reforçar tabuleiro)', 'Criar cartaz explicativo do jogo (nome, regras resumidas, aprendizados)', 'Preparar 2-3 cópias para jogos simultâneos na Feira', 'Ensaiar como explicar o jogo em 1 minuto para visitantes'] },
+                { id: 5, nome: 'Apresentação Final', desc: 'Avaliação do projeto',
+                  tarefas: ['Demonstrar jogo completo', 'Receber feedback da banca', 'Documentar aprendizados', 'Avaliar colaboração da equipe'] }
             ],
-            'p6-4': [ // Inventor da Escola
-                { id: 1, nome: 'Identificação de Problemas', desc: 'Encontrar dores da escola',
-                  tarefas: ['Observar a escola por 3 dias', 'Listar 10 problemas encontrados', 'Priorizar os mais urgentes', 'Escolher 1 problema'] },
-                { id: 2, nome: 'Pesquisa', desc: 'Entender o problema escolhido',
-                  tarefas: ['Entrevistar afetados', 'Pesquisar soluções existentes', 'Analisar causas raiz', 'Buscar inspirações'] },
-                { id: 3, nome: 'Criação', desc: 'Desenvolver a solução',
-                  tarefas: ['Fazer brainstorming', 'Criar 3 soluções', 'Escolher melhor solução', 'Fazer protótipo simples'] },
-                { id: 4, nome: 'Validação', desc: 'Testar a solução',
-                  tarefas: ['Apresentar para afetados', 'Coletar feedback', 'Ajustar protótipo', 'Refinar ideia'] },
-                { id: 5, nome: 'Apresentação', desc: 'Demonstrar a invenção',
-                  tarefas: ['Criar maquete/protótipo', 'Preparar pitch', 'Apresentar para banca', 'Documentar processo'] }
+            // 6º ANO - 2º SEMESTRE
+            'p6-2A': [ // 💡 Inventor da Escola
+                { id: 1, nome: 'Caça ao Problema', desc: 'Semana 1 (2 aulas) - Identificar problema real na escola',
+                  tarefas: ['Caminhar pela escola anotando problemas observados', 'Entrevistar 10 pessoas sobre problemas do cotidiano escolar', 'Listar os 5 problemas mais citados', 'Escolher 1 problema para resolver (votar na equipe)'] },
+                { id: 2, nome: 'Chuva de Ideias + Seleção', desc: 'Semana 2 (2 aulas) - Brainstorming e seleção de solução',
+                  tarefas: ['Brainstorming: cada um apresenta 3 ideias (total 12+)', 'Avaliar cada ideia nos critérios: viabilidade, criatividade, impacto', 'Selecionar a ideia vencedora', 'Fazer rascunho/esboço da invenção (3 ângulos: frente, lado, cima)'] },
+                { id: 3, nome: 'Construção do Protótipo', desc: 'Semana 3 (2 aulas) - Construir solução com materiais',
+                  tarefas: ['Listar materiais necessários e providenciar', 'Construir protótipo (versão 1)', 'Testar: funciona? O que precisa ajustar?', 'Construir versão melhorada se necessário'] },
+                { id: 4, nome: 'Teste + Feira', desc: 'Semana 4 (2 aulas) - Testar com usuários reais e apresentar',
+                  tarefas: ['Testar protótipo com 5 usuários reais', 'Coletar feedback e anotar melhorias possíveis', 'Criar painel visual do processo de invenção', 'Montar stand e ensaiar apresentação (2 min cada)'] },
+                { id: 5, nome: 'Apresentação Final', desc: 'Avaliação final',
+                  tarefas: ['Apresentar protótipo para banca', 'Demonstrar processo completo', 'Documentar aprendizados', 'Avaliar trabalho em equipe'] }
             ],
-            'p6-5': [ // Campanha Social
-                { id: 1, nome: 'Diagnóstico Social', desc: 'Identificar necessidade da comunidade',
-                  tarefas: ['Pesquisar problemas locais', 'Escolher causa', 'Entender público-alvo', 'Definir objetivo'] },
-                { id: 2, nome: 'Planejamento', desc: 'Criar plano de ação',
-                  tarefas: ['Definir tipo de campanha', 'Criar mensagem', 'Planejar canais', 'Arrecadar recursos'] },
-                { id: 3, nome: 'Execução', desc: 'Implementar a campanha',
-                  tarefas: ['Divulgar nas redes', 'Mobilizar participantes', 'Coletar doações/ajuda', 'Registrar tudo'] },
-                { id: 4, nome: 'Impacto', desc: 'Medir resultados',
-                  tarefas: ['Quantificar resultados', 'Documentar histórias', 'Agradecer participantes', 'Avaliar eficácia'] },
-                { id: 5, nome: 'Apresentação', desc: 'Compartilhar resultados',
-                  tarefas: ['Criar apresentação', 'Mostrar impacto gerado', 'Apresentar à escola', 'Propor continuidade'] }
+            'p6-2B': [ // 📢 Minha Voz, Nossa Causa
+                { id: 1, nome: 'Escolha da Causa + Pesquisa', desc: 'Semana 1 (2 aulas) - Escolher causa social e pesquisar',
+                  tarefas: ['Cada membro sugere 2 causas', 'Votar na causa da equipe', 'Pesquisar dados reais sobre o problema (internet + observação local)', 'Entrevistar 5 pessoas afetadas pelo problema'] },
+                { id: 2, nome: 'Criação da Campanha', desc: 'Semana 2 (2 aulas) - Criar materiais de comunicação',
+                  tarefas: ['Criar nome e slogan da campanha (testar 3-5 opções)', 'Desenhar cartaz principal (A2 ou maior)', 'Criar panfleto informativo (frente e verso)', 'Definir mensagem-chave: em 1 frase, o que querem que as pessoas façam?'] },
+                { id: 3, nome: 'Produção de Vídeo', desc: 'Semana 3 (2 aulas) - Gravar vídeo de 60-90 segundos',
+                  tarefas: ['Escrever roteiro do vídeo (início, meio, chamada para ação)', 'Gravar cenas (mínimo 5 takes)', 'Editar no celular (música, texto, cortes)', 'Assistir juntos e fazer últimos ajustes'] },
+                { id: 4, nome: 'Lançamento na Feira', desc: 'Semana 4 (2 aulas) - Montar stand e fazer campanha ativa',
+                  tarefas: ['Montar stand visual (cartaz + TV/celular com vídeo)', 'Imprimir panfletos (20-30 cópias)', 'Definir quem aborda, quem explica, quem distribui', 'Coletar assinaturas de apoio à causa'] },
+                { id: 5, nome: 'Apresentação Final', desc: 'Avaliação do impacto',
+                  tarefas: ['Apresentar campanha completa', 'Medir engajamento полученный', 'Documentar aprendizados', 'Avaliar trabalho em equipe'] }
             ],
-            'p6-6': [ // Talk Show
-                { id: 1, nome: 'Pesquisa de Entrevistados', desc: 'Encontrar entrepreneurs',
-                  tarefas: ['Listar possíveis entrevistados', 'Pesquisar histórias', 'Fazer convite formal', 'Confirmar presença'] },
-                { id: 2, nome: 'Preparação', desc: 'Organizar a entrevista',
-                  tarefas: ['Criar roteiro de perguntas', 'Definir formato do programa', 'Preparar equipamento', 'Testar áudio/vídeo'] },
-                { id: 3, nome: 'Produção', desc: 'Gravar o episódio',
-                  tarefas: ['Receber convidado', 'Conduzir entrevista', 'Gravar com qualidade', 'Fazer fotos'] },
-                { id: 4, nome: 'Edição', desc: 'Finalizar conteúdo',
-                  tarefas: ['Editar vídeo', 'Adicionar legendas', 'Criar thumbnails', 'Publicar em plataforma'] },
-                { id: 5, nome: 'Divulgação', desc: 'Compartilhar com todos',
-                  tarefas: ['Postar nas redes', 'Enviar para escola', 'Coletar feedback', 'Planejar próximo episódio'] }
+            'p6-2C': [ // 🎤 Talk Show Empreendedor
+                { id: 1, nome: 'Pré-Produção', desc: 'Semana 1 (2 aulas) - Escolher empreendedor e preparar roteiro',
+                  tarefas: ['Listar 5 empreendedores possíveis da comunidade', 'Fazer contato e convite (com apoio do professor)', 'Pesquisar sobre o negócio do convidado', 'Criar roteiro com 10-12 perguntas estratégicas', 'Definir papéis: apresentador(a), entrevistador(a), cinegrafista, editor(a)'] },
+                { id: 2, nome: 'Gravação', desc: 'Semana 2 (2 aulas) - Gravar entrevista completa',
+                  tarefas: ['Montar cenário simples (fundo + cadeiras)', 'Testar áudio e enquadramento antes de começar', 'Gravar entrevista (20-30 min brutos)', 'Gravar abertura e encerramento do programa'] },
+                { id: 3, nome: 'Edição', desc: 'Semana 3 (2 aulas) - Editar programa final de 8-12 min',
+                  tarefas: ['Selecionar os melhores trechos (cortar silêncios e erros)', 'Montar sequência: abertura + entrevista + encerramento', 'Adicionar música de fundo (livre de direitos)', 'Adicionar títulos e créditos finais', 'Exportar versão final (8-12 min)'] },
+                { id: 4, nome: 'Exibição na Feira', desc: 'Semana 4 (2 aulas) - Montar stand e convidar empreendedor',
+                  tarefas: ['Preparar cartaz com foto do convidado e principais frases', 'Montar exibição em loop (notebook/TV)', 'Preparar apresentação oral: 3 maiores aprendizados da entrevista', 'Convidar o empreendedor entrevistado para a Feira'] },
+                { id: 5, nome: 'Apresentação Final', desc: 'Avaliação do projeto',
+                  tarefas: ['Apresentar programa completo', 'Compartilhar aprendizados da entrevista', 'Documentar metodologia', 'Avaliar trabalho em equipe'] }
             ],
-            // 7º ANO
-            'p7-1': [ // Consultoria Mirim
-                { id: 1, nome: 'Diagnóstico', desc: 'Conhecer o negócio cliente',
-                  tarefas: ['Visitar estabelecimento', 'Entrevistar dono', 'Mapear processos', 'Identificar problemas'] },
-                { id: 2, nome: 'Análise', desc: 'Entender profundamente',
-                  tarefas: ['Analisar dados financeiros', 'Observar atendimento', 'Mapear concorrentes', 'Criar relatório'] },
-                { id: 3, nome: 'Proposta', desc: 'Criar soluções',
-                  tarefas: ['Brainstorming de ideias', 'Selecionar 3 soluções', 'Criar proposta', 'Apresentar ao cliente'] },
-                { id: 4, nome: 'Implementação', desc: 'Ajudar a executar',
-                  tarefas: ['Acompanhar execução', 'Ajustar conforme preciso', 'Dar suporte', 'Medir resultados'] },
-                { id: 5, nome: 'Encerramento', desc: 'Finalizar consultoria',
-                  tarefas: ['Avaliar satisfação', 'Documentar caso', 'Receber pagamento', 'Pedir indicação'] }
+            // 7º ANO - 1º SEMESTRE
+            'p7-1A': [ // 📊 Consultoria Financeira Mirim
+                { id: 1, nome: 'Formação da Consultoria', desc: 'Semana 1 (2 aulas) - Criar identidade e preparar ferramentas',
+                  tarefas: ['Criar nome e logo da consultoria', 'Estudar modelo de diagnóstico financeiro', 'Definir papéis: analista financeiro, entrevistador, redator, designer', 'Preparar formulário de perguntas para o comerciante'] },
+                { id: 2, nome: 'Diagnóstico de Campo', desc: 'Semana 2 (2 aulas) - Visitar comerciante e coletar dados',
+                  tarefas: ['Realizar entrevista com o comerciante (40 min)', 'Fotografar o negócio (com autorização)', 'Preencher formulário de diagnóstico completo', 'Coletar dados: faturamento médio, custos fixos/variáveis, lucro estimado'] },
+                { id: 3, nome: 'Análise e Plano', desc: 'Semana 3-4 (4 aulas) - Analisar dados e criar recomendações',
+                  tarefas: ['Organizar dados em planilha', 'Calcular DRE simplificado do negócio', 'Identificar 3-5 oportunidades de melhoria', 'Redigir Plano Financeiro (2-3 páginas): diagnóstico + recomendações', 'Criar gráficos visuais para o painel'] },
+                { id: 4, nome: 'Apresentação na Feira', desc: 'Semana 5 (2 aulas) - Entregar plano e apresentar',
+                  tarefas: ['Montar stand com identidade visual da consultoria', 'Imprimir plano financeiro em envelope profissional', 'Ensaiar apresentação (3 min cada membro)', 'Convidar o comerciante para receber o plano na Feira'] },
+                { id: 5, nome: 'Apresentação Final', desc: 'Avaliação final',
+                  tarefas: ['Apresentar consultoria completa', 'Demonstrar impacto potencial', 'Documentar metodologia', 'Avaliar trabalho em equipe'] }
             ],
-            'p7-2': [ // Mapa Empreendedor
-                { id: 1, nome: 'Levantamento', desc: 'Mapear negócios locais',
-                  tarefas: ['Listar comércios da região', 'Visitar estabelecimentos', 'Fotografar fachadas', 'Entrevistar donos'] },
-                { id: 2, nome: 'Análise', desc: 'Entender o ecossistema',
-                  tarefas: ['Categorizar negócios', 'Identificar tendências', 'Mapear oportunidades', 'Criar banco de dados'] },
-                { id: 3, nome: 'Inteligência', desc: 'Gerar insights',
-                  tarefas: ['Identificar gaps', 'Detectar oportunidades', 'Analisar concorrência', 'Criar relatório'] },
-                { id: 4, nome: 'Validação', desc: 'Confirmar descobertas',
-                  tarefas: ['Apresentar para comerciantes', 'Validar oportunidades', 'Refinar análises', 'Criar mapa visual'] },
-                { id: 5, nome: 'Entrega', desc: 'Disponibilizar resultado',
-                  tarefas: ['Criar mapa interativo', 'Apresentar à comunidade', 'Disponibilizar online', 'Atualizar periodically'] }
+            'p7-1B': [ // 🗺️ Mapa Empreendedor de Limoeiro
+                { id: 1, nome: 'Planejamento do Mapeamento', desc: 'Semana 1 - Definir perímetro e categorias',
+                  tarefas: ['Definir área a ser mapeada', 'Criar categorias e código de cores', 'Preparar ficha de coleta (nome, tipo, tempo de atividade, nº funcionários)'] },
+                { id: 2, nome: 'Coleta de Campo', desc: 'Semana 2 - Registrar cada negócio',
+                  tarefas: ['Percorrer as ruas mapeando cada negócio', 'Preencher ficha para cada estabelecimento', 'Fotografar fachadas', 'Anotar terrenos/imóveis vazios (oportunidades)'] },
+                { id: 3, nome: 'Análise + Mapa', desc: 'Semana 3 - Compilar dados e identificar oportunidades',
+                  tarefas: ['Tabulpar dados coletados', 'Desenhar mapa ilustrado colorido', 'Calcular: quantos negócios por categoria?', 'Listar 3-5 oportunidades de negócios que faltam na região'] },
+                { id: 4, nome: 'Feira', desc: 'Semana 4 - Apresentar mapa e relatório',
+                  tarefas: ['Montar stand com mapa em destaque', 'Criar mini-relatório: descobertas + oportunidades', 'Apresentar para visitantes'] },
+                { id: 5, nome: 'Apresentação Final', desc: 'Avaliação',
+                  tarefas: ['Demonstrar mapa completo', 'Compartilhar insights', 'Documentar metodologia', 'Avaliar trabalho em equipe'] }
             ],
-            'p7-3': [ // Shark Tank
-                { id: 1, nome: 'Pitch Inicial', desc: 'Criar apresentação rápida',
-                  tarefas: ['Criar ideia de negócio', 'Desenvolver conceito', 'Criar protótipo', 'Preparar pitch de 2 min'] },
-                { id: 2, nome: 'Validação', desc: 'Testar com clientes',
-                  tarefas: ['Apresentar para colegas', 'Coletar feedback', 'Ajustar produto', 'Refinar proposta'] },
-                { id: 3, nome: 'Preparação Formal', desc: 'Criar apresentação completa',
-                  tarefas: ['Criar deck de slides', 'Preparar discurso', 'Antecipar perguntas', 'Rehearsar muito'] },
-                { id: 4, nome: 'Apresentação', desc: 'Pitch para banca',
-                  tarefas: ['Apresentar para tubarões', 'Responder perguntas', 'Negociar valores', 'Fechar negócio'] },
-                { id: 5, nome: 'Documentação', desc: 'Registrar tudo',
-                  tarefas: ['Filmar apresentação', 'Documentar propostas', 'Criar caso de sucesso', 'Compartilhar resultados'] }
+            'p7-1C': [ // 🦈 Shark Tank CSM
+                { id: 1, nome: 'Ideação + Canvas', desc: 'Semana 1 - Criar ideia de negócio',
+                  tarefas: ['Brainstorming: 10 ideias em 15 min', 'Selecionar a melhor ideia', 'Preencher Canvas simplificado', 'Definir nome, logo, slogan'] },
+                { id: 2, nome: 'Finanças + Marketing', desc: 'Semana 2 - Calcular custos e criar estratégia',
+                  tarefas: ['Calcular custos e preço de venda', 'Projetar DRE de 3 meses', 'Definir estratégia de marketing (canais, mensagem)', 'Criar material visual (logo, post para rede social)'] },
+                { id: 3, nome: 'Protótipo + Pitch', desc: 'Semana 3 - Criar produto e apresentar',
+                  tarefas: ['Construir protótipo físico ou digital', 'Montar slides do pitch (máx 8 slides)', 'Ensaiar pitch 3-5 vezes (cronometrar!)', 'Preparar respostas para perguntas difíceis'] },
+                { id: 4, nome: 'Shark Tank + Feira', desc: 'Semana 4 - Apresentar para banca',
+                  tarefas: ['Pitch de 5 min + 3 min de perguntas da banca', 'Montar stand com protótipo e material visual', 'Interagir com visitantes da Feira', 'Coletar feedback dos visitantes (formulário simples)'] },
+                { id: 5, nome: 'Apresentação Final', desc: 'Avaliação',
+                  tarefas: ['Demonstrar negócio completo', 'Avaliar feedback dos tubarões', 'Documentar aprendizados', 'Avaliar trabalho em equipe'] }
             ],
-            'p7-4': [ // Hackathon
-                { id: 1, nome: 'Desafio', desc: 'Receber o problema',
-                  tarefas: ['Entender o tema', 'Formar equipe', 'Criar escopo', 'Planejar abordagem'] },
-                { id: 2, nome: 'Imersão', desc: 'Trabalhar na solução',
-                  tarefas: ['Brainstorming intenso', 'Criar protótipo', 'Desenvolver MVP', 'Testar continuamente'] },
-                { id: 3, nome: 'Refinamento', desc: 'Polir solução',
-                  tarefas: ['Ajustar com feedback', 'Melhorar UX', 'Criar apresentação', 'Praticar pitch'] },
-                { id: 4, nome: 'Demo', desc: 'Apresentar resultado',
-                  tarefas: ['Demonstrar solução', 'Explicar diferencial', 'Responder banca', 'Votar popular'] },
-                { id: 5, nome: 'Encerramento', desc: 'Celebrar e aprender',
-                  tarefas: ['Veredito final', 'Network com participantes', 'Documentar aprendizados', 'Manter contato'] }
+            // 7º ANO - 2º SEMESTRE
+            'p7-2A': [ // 🚀 Hackathon da Comunidade
+                { id: 1, nome: 'Empatia + Definição', desc: 'Semana 1 - Entender problema real',
+                  tarefas: ['Realizar 10 entrevistas de empatia', 'Preencher Mapa de Empatia coletivo', 'Definir problema usando "Como poderíamos..." (How Might We)', 'Validar o problema com mais 5 pessoas'] },
+                { id: 2, nome: 'Ideação', desc: 'Semana 2 - Gerar soluções',
+                  tarefas: ['Brainstorming livre (10 min)', 'SCAMPER sobre as melhores ideias', 'Votação dot-voting (cada um tem 3 votos)', 'Detalhar a ideia vencedora'] },
+                { id: 3, nome: 'Prototipagem + Teste', desc: 'Semana 3 - Construir e testar solução',
+                  tarefas: ['Construir protótipo em 1 aula', 'Testar com 5 pessoas (observar sem ajudar)', 'Coletar feedback estruturado', 'Iterar: ajustar com base no feedback'] },
+                { id: 4, nome: 'Feira', desc: 'Semana 4 - Apresentar processo DT',
+                  tarefas: ['Criar painel: Empatia → Definição → Ideias → Protótipo → Teste', 'Exibir protótipo final', 'Explicar: o que aprenderam que não esperavam?'] },
+                { id: 5, nome: 'Apresentação Final', desc: 'Avaliação',
+                  tarefas: ['Demonstrar solução completa', 'Compartilhar aprendizados', 'Documentar metodologia', 'Avaliar trabalho em equipe'] }
             ],
-            'p7-5': [ // Agência CSM
-                { id: 1, nome: 'Briefing', desc: 'Entender o cliente',
-                  tarefas: ['Reunião com empresa', 'Entender objetivos', 'Criar briefing', 'Definir entregáveis'] },
-                { id: 2, nome: 'Estratégia', desc: 'Planejar campanha',
-                  tarefas: ['Pesquisar mercado', 'Definir messaging', 'Criar conceito', 'Planejar canais'] },
-                { id: 3, nome: 'Criação', desc: 'Desenvolver materiais',
-                  tarefas: ['Criar posts', 'Produzir conteúdo', 'Desenvolver arte', 'Escrever textos'] },
-                { id: 4, nome: 'Execução', desc: 'Publicar e gerenciar',
-                  tarefas: ['Agendar publicações', 'Publicar conteúdo', 'Monitorar métricas', 'Ajustar estratégia'] },
-                { id: 5, nome: 'Relatório', desc: 'Apresentar resultados',
-                  tarefas: ['Compilar métricas', 'Analisar ROI', 'Apresentar ao cliente', 'Propor próximo ciclo'] }
+            'p7-2B': [ // 📱 Agência de Comunicação CSM
+                { id: 1, nome: 'Briefing do Cliente', desc: 'Semana 1 - Conhecer o comerciante',
+                  tarefas: ['Visitar o negócio e entrevistar o dono', 'Preencher formulário de briefing', 'Fotografar produtos e fachada', 'Analisar presença digital atual (tem Instagram? Google?)'] },
+                { id: 2, nome: 'Criação de Marca', desc: 'Semana 2 - Desenvolver identidade visual',
+                  tarefas: ['Criar 3 propostas de logo/identidade', 'Apresentar ao cliente e coletar preferência', 'Definir paleta de cores e tipografia', 'Criar template para posts'] },
+                { id: 3, nome: 'Produção de Conteúdo', desc: 'Semana 3 - Criar posts para Instagram',
+                  tarefas: ['Criar calendário de 1 semana de posts', 'Produzir 5-8 artes no Canva', 'Escrever legendas com hashtags', 'Fazer 1 Reels/vídeo curto do negócio'] },
+                { id: 4, nome: 'Entrega + Feira', desc: 'Semana 4 - Entregar material e apresentar',
+                  tarefas: ['Compilar tudo em pasta/portfólio digital', 'Entregar ao cliente com orientações de uso', 'Montar stand: antes/depois + depoimento do cliente', 'Se possível: mostrar métricas reais (seguidores, curtidas)'] },
+                { id: 5, nome: 'Apresentação Final', desc: 'Avaliação',
+                  tarefas: ['Demonstrar portfólio completo', 'Avaliar satisfação do cliente', 'Documentar metodologia', 'Avaliar trabalho em equipe'] }
             ],
-            'p7-6': [ // TEDx Escola
-                { id: 1, nome: 'Escolha do Tema', desc: 'Definir fala única',
-                  tarefas: ['Refletir sobre experiência', 'Escolher ideia valiosa', 'Criar título impactante', 'Estruturar fala'] },
-                { id: 2, nome: 'Desenvolvimento', desc: 'Criar conteúdo',
-                  tarefas: ['Escrever roteiro completo', 'Adicionar histórias', 'Incluir dados', 'Criar abertura/fechamento'] },
-                { id: 3, nome: 'Prática', desc: 'Dominar a apresentação',
-                  tarefas: ['Decorar fala', 'Gravar себе', 'Ajustar timing', 'Praticar expressividade'] },
-                { id: 4, nome: 'Produção', desc: 'Preparar suporte visual',
-                  tarefas: ['Criar slides', 'Selecionar imagens', 'Produzir vídeos', 'Configurar palco'] },
-                { id: 5, nome: 'Apresentação', desc: 'Encantar plateia',
-                  tarefas: ['Apresentar para escola', 'Gravar apresentação', 'Receber Ovação', 'Publicar online'] }
+            'p7-2C': [ // 🎙️ TEDx CSM
+                { id: 1, nome: 'Escolha do Tema + Roteiro', desc: 'Semana 1 - Definir fala única',
+                  tarefas: ['Escolher tema individual', 'Escrever roteiro completo (5 min = ~700 palavras)', 'Feedback cruzado: leia o roteiro do colega e sugira melhorias'] },
+                { id: 2, nome: 'Ensaio', desc: 'Semana 2 - Praticar apresentação',
+                  tarefas: ['Ensaiar 3+ vezes de pé', 'Gravar ensaio no celular e assistir criticamente', 'Receber feedback do grupo (pontuar 1-5 em 5 critérios)', 'Ajustar roteiro e performance'] },
+                { id: 3, nome: 'Gravação', desc: 'Semana 3 - Gravar palestra oficial',
+                  tarefas: ['Montar cenário tipo TED (fundo vermelho/escuro simples)', 'Gravar cada palestra (máx 2 takes cada)', 'Editar: abertura, palestra, créditos finais'] },
+                { id: 4, nome: 'Exibição na Feira', desc: 'Semana 4 - Apresentar para público',
+                  tarefas: ['Criar playlist com todas as palestras', 'Montar espaço de exibição', 'Gerar QR code para acesso online', 'Apresentar ao vivo para visitantes que quiserem'] },
+                { id: 5, nome: 'Apresentação Final', desc: 'Avaliação',
+                  tarefas: ['Avaliar performance completa', 'Compartilhar feedback recebido', 'Documentar evolução', 'Avaliar desenvolvimento pessoal'] }
             ],
-            // 8º ANO
-            'p8-1': [ // Startup Weekend
-                { id: 1, nome: 'Ideação', desc: 'Encontrar problema/solução',
-                  tarefas: ['Identificar dor real', 'Formar equipe', 'Validar problema', 'Criar solução inicial'] },
-                { id: 2, nome: 'Modelagem', desc: 'Criar negócio',
-                  tarefas: ['Criar Business Canvas', 'Definir proposta de valor', 'Mapear canais', 'Calcular unit economics'] },
-                { id: 3, nome: 'MVP', desc: 'Desenvolver produto',
-                  tarefas: ['Criar protótipo funcional', 'Testar com usuários', 'Coletar métricas', 'Iterar rapidamente'] },
-                { id: 4, nome: 'Validação', desc: 'Confirmar product-market fit',
-                  tarefas: ['Apresentar para clientes', 'Medir engajamento', 'Ajustar based on feedback', 'Preparar pitch'] },
-                { id: 5, nome: 'Demo Day', desc: 'Pitch para investidores',
-                  tarefas: ['Apresentar para banca', 'Demonstrar produto', 'Negociar investimento', 'Criar plano de continuidade'] }
+            // 8º ANO - 1º SEMESTRE
+            'p8-1A': [ // 🚀 Startup Weekend Escolar
+                { id: 1, nome: 'Validação do Problema', desc: 'Semana 1 - Identificar problema real',
+                  tarefas: ['Brainstorming de problemas', 'Entrevistar 15 pessoas (5 perguntas-chave)', 'Criar persona detalhada', 'Calcular: quantas pessoas confirmaram o problema?'] },
+                { id: 2, nome: 'MVP: Landing Page', desc: 'Semana 2-3 - Criar página de captção',
+                  tarefas: ['Escrever texto da landing page (problema + solução + CTA)', 'Criar a página (Carrd.co gratuito ou Google Sites)', 'Configurar formulário de coleta de emails', 'Divulgar: WhatsApp, Instagram, boca a boca'] },
+                { id: 3, nome: 'Métricas e Análise', desc: 'Semana 4 - Analisar resultados',
+                  tarefas: ['Coletar dados: visitas, cadastros, taxa de conversão', 'Calcular CAC simulado', 'Criar dashboard visual (cartolina ou slides)', 'Decidir: pivotariam ou seguiriam em frente? Por quê?'] },
+                { id: 4, nome: 'Feira', desc: 'Semana 5 - Apresentar startup',
+                  tarefas: ['Preparar pitch com dados reais', 'Montar stand: notebook com MVP + painel de métricas', 'Demonstrar ao vivo para visitantes'] },
+                { id: 5, nome: 'Apresentação Final', desc: 'Avaliação',
+                  tarefas: ['Demonstrar startup completa', 'Avaliar métricas obtidas', 'Documentar aprendizados', 'Avaliar trabalho em equipe'] }
             ],
-            'p8-2': [ // Fintech da Escola
-                { id: 1, nome: 'Problema', desc: 'Identificar dor financeira',
-                  tarefas: ['Pesquisar problemas financeiros', 'Entrevistar colegas', 'Identificar solução digital', 'Criar conceito app'] },
-                { id: 2, nome: 'Solução', desc: 'Desenvolver conceito',
-                  tarefas: ['Criar specs do app', 'Desenhar interface', 'Planejar funcionalidades', 'Criar protótipo'] },
-                { id: 3, nome: 'MVP', desc: 'Construir produto',
-                  tarefas: ['Desenvolver app (no-code)', 'Testar com usuários', 'Coletar feedback', 'Melhorar UX'] },
-                { id: 4, nome: 'Lançamento', desc: 'Disponibilizar solução',
-                  tarefas: ['Lançar para escola', 'Divulgar nas redes', 'Acompanhar uso', 'Atualizar continuamente'] },
-                { id: 5, nome: 'Escala', desc: 'Crescer solução',
-                  tarefas: ['Analisar métricas', 'Buscar melhorias', 'Preparar apresentação', 'Documentar case'] }
+            'p8-1B': [ // 💳 Fintech da Escola
+                { id: 1, nome: 'Pesquisa + Persona', desc: 'Semana 1 - Entender problema financeiro',
+                  tarefas: ['Entrevistar 15 adolescentes sobre problemas com dinheiro', 'Criar persona detalhada', 'Definir o problema principal a resolver', 'Benchmarking: analisar 3 apps financeiros existentes'] },
+                { id: 2, nome: 'Wireframes', desc: 'Semana 2 - Desenhar todas as telas',
+                  tarefas: ['Desenhar fluxo de navegação', 'Criar wireframes em papel (todas as telas)', 'Testar fluxo com 3 colegas', 'Digitalizar wireframes (Figma/Canva)'] },
+                { id: 3, nome: 'Protótipo + Teste', desc: 'Semana 3 - Criar versão clicável',
+                  tarefas: ['Criar protótipo clicável', 'Testar com 5 usuários (observar sem ajudar)', 'Documentar: onde travaram? O que confundiu?', 'Iterar: corrigir os 3 maiores problemas'] },
+                { id: 4, nome: 'Feira', desc: 'Semana 4 - Apresentar app',
+                  tarefas: ['Montar stand: celular/notebook com protótipo', 'Criar painel: persona + jornada + wireframes + resultados', 'Deixar visitantes testarem o protótipo'] },
+                { id: 5, nome: 'Apresentação Final', desc: 'Avaliação',
+                  tarefas: ['Demonstrar app completa', 'Avaliar feedback dos testes', 'Documentar aprendizados', 'Avaliar trabalho em equipe'] }
             ],
-            'p8-3': [ // Economia Circular
-                { id: 1, nome: 'Diagnóstico', desc: 'Mapear resíduos',
-                  tarefas: ['Auditar lixo da escola', 'Categorizar materiais', 'Identificar oportunidades', 'Quantificar volume'] },
-                { id: 2, nome: 'Pesquisa', desc: 'Entender reutilização',
-                  tarefas: ['Pesquisar casos bem-sucedidos', 'Identificar parceiros', 'Criar modelo de coleta', 'Planejar processo'] },
-                { id: 3, nome: 'Implementação', desc: 'Colocar em prática',
-                  tarefas: ['Criar pontos de coleta', 'Implementar triagem', 'Parcerias para reaproveitamento', 'Criar produtos'] },
-                { id: 4, nome: 'Educação', desc: 'Conscientizar comunidade',
-                  tarefas: ['Criar campanhas', 'Palestras na escola', 'Materiais educativos', 'Transformar cultura'] },
-                { id: 5, nome: 'Impacto', desc: 'Medir e celebrar',
-                  tarefas: ['Calcular impacto ambiental', 'Apresentar resultados', 'Premiar participantes', 'Expandir para comunidade'] }
+            'p8-1C': [ // ♻️ Economia Circular de Limoeiro
+                { id: 1, nome: 'Diagnóstico de Resíduos', desc: 'Semana 1 - Mapear resíduos',
+                  tarefas: ['Observar lixeiras da escola: o que mais aparece?', 'Entrevistar 3 comerciantes sobre desperdícios', 'Listar 5 resíduos com potencial de transformação', 'Escolher 1 resíduo para trabalhar'] },
+                { id: 2, nome: 'Ideação do Produto', desc: 'Semana 2 - Brainstorming de produtos',
+                  tarefas: ['Brainstorming: 10 ideias de produtos', 'Pesquisar referências online (upcycling, artesanato)', 'Selecionar a ideia: viável, bonita e vendável', 'Calcular custo de produção'] },
+                { id: 3, nome: 'Produção', desc: 'Semana 3 - Criar produtos',
+                  tarefas: ['Coletar matéria-prima (resíduo)', 'Produzir lote-teste (3 unidades)', 'Avaliar qualidade e ajustar', 'Produzir lote final (5-10 unidades)', 'Criar embalagem e etiqueta'] },
+                { id: 4, nome: 'Feira', desc: 'Semana 4 - Vender e mostrar impacto',
+                  tarefas: ['Montar stand: antes (resíduo) → depois (produto)', 'Vender produtos na Feira', 'Calcular DRE real', 'Painel: impacto ambiental (kg de lixo evitados)'] },
+                { id: 5, nome: 'Apresentação Final', desc: 'Avaliação',
+                  tarefas: ['Demonstrar projeto completo', 'Avaliar impacto ambiental', 'Documentar aprendizados', 'Avaliar trabalho em equipe'] }
             ],
-            'p8-4': [ // Lab de Tecnologia
-                { id: 1, nome: 'Descoberta', desc: 'Explorar ferramentas',
-                  tarefas: ['Listar ferramentas digitais', 'Testar plataformas', 'Criar tutoriais', 'Mapear necessidades'] },
-                { id: 2, nome: 'Aprendizado', desc: 'Dominar tecnologias',
-                  tarefas: ['Estudar ferramentas escolhidas', 'Praticar muito', 'Criar projetos-teste', 'Dominar basics'] },
-                { id: 3, nome: 'Aplicação', desc: 'Usar para negócio',
-                  tarefas: ['Criar presença digital', 'Desenvolver conteúdo', 'Automatizar processos', 'Medir resultados'] },
-                { id: 4, nome: 'Disseminação', desc: 'Ensinar outros',
-                  tarefas: ['Criar curso', 'Gravar vídeos', 'Mentorar colegas', 'Documentar descobertas'] },
-                { id: 5, nome: 'Certificação', desc: 'Comprovar conhecimento',
-                  tarefas: ['Apresentar portfólio', 'Demonstrar habilidades', 'Receber certificado', 'Continuar evoluindo'] }
+            // 8º ANO - 2º SEMESTRE
+            'p8-2A': [ // 🧠 Lab de Tecnologia Aplicada
+                { id: 1, nome: 'Escolha da Tecnologia + Pesquisa', desc: 'Semana 1 - Selecionar tecnologia',
+                  tarefas: ['Pesquisa individual de 1 tecnologia cada', 'Apresentação interna (5 min cada)', 'Escolher a tecnologia do projeto', 'Definir: que problema local ela pode resolver?'] },
+                { id: 2, nome: 'Projeto Técnico', desc: 'Semana 2 - Desenhar solução',
+                  tarefas: ['Desenhar arquitetura da solução', 'Listar recursos necessários vs. disponíveis', 'Definir escopo realista (o que dá para fazer em 2 semanas)', 'Criar cronograma detalhado'] },
+                { id: 3, nome: 'Desenvolvimento', desc: 'Semana 3-4 - Construir solução',
+                  tarefas: ['Desenvolver a solução iterativamente', 'Testar a cada dia de trabalho', 'Documentar o processo (fotos, prints)', 'Preparar demonstração funcional'] },
+                { id: 4, nome: 'Feira', desc: 'Semana 5 - Demonstrar tecnologia',
+                  tarefas: ['Montar stand com demonstração interativa', 'Criar painel: O que é a tecnologia? Como funciona? Que problema resolve?', 'Preparar explicação para público leigo', 'Documentar reações dos visitantes'] },
+                { id: 5, nome: 'Apresentação Final', desc: 'Avaliação',
+                  tarefas: ['Demonstrar solução completa', 'Avaliar engajamento do público', 'Documentar aprendizados', 'Avaliar trabalho em equipe'] }
             ],
-            'p8-5': [ // Redesign UX
-                { id: 1, nome: 'Descoberta', desc: 'Entender usuário',
-                  tarefas: ['Definir usuário-alvo', 'Entrevistar usuários', 'Mapear jornada', 'Identificar dores'] },
-                { id: 2, nome: 'Análise', desc: 'Avaliar solução atual',
-                  tarefas: ['Analisar interface atual', 'Testar usabilidade', 'Mapear problemas', 'Criar relatório'] },
-                { id: 3, nome: 'Conceito', desc: 'Criar nova solução',
-                  tarefas: ['Criar wireframes', 'Desenvolver protótipo', 'Testar com usuários', 'Iterar design'] },
-                { id: 4, nome: 'Produção', desc: 'Finalizar design',
-                  tarefas: ['Criar design completo', 'Preparar handoff', 'Criar documentação', 'Apresentar para empresa'] },
-                { id: 5, nome: 'Entrega', desc: 'Implementar mudança',
-                  tarefas: ['Demonstrar para stakeholders', 'Implementar mudanças', 'Medir melhoria', 'Documentar caso'] }
+            'p8-2B': [ // 🎨 Redesign de Experiência
+                { id: 1, nome: 'Pesquisa UX', desc: 'Semana 1 - Entender usuário atual',
+                  tarefas: ['Observação silenciosa do serviço (30 min)', 'Entrevistar 10 usuários (5 perguntas)', 'Mapear jornada atual com pain points', 'Criar persona do usuário'] },
+                { id: 2, nome: 'Ideação + Wireframe', desc: 'Semana 2 - Criar nova experiência',
+                  tarefas: ['Brainstorming: Como podemos melhorar cada pain point?', 'Matriz impacto vs. esforço para priorizar', 'Criar wireframes da nova experiência', 'Validar wireframes com 3 usuários'] },
+                { id: 3, nome: 'Protótipo + Teste', desc: 'Semana 3 - Testar solução',
+                  tarefas: ['Criar protótipo testável', 'Teste de usabilidade com 5 pessoas', 'Documentar: métricas + feedback', 'Iterar com base nos resultados'] },
+                { id: 4, nome: 'Feira', desc: 'Semana 4 - Apresentar antes/depois',
+                  tarefas: ['Criar painel visual: jornada antes vs. depois', 'Montar demonstração do protótipo', 'Vídeo: reações dos usuários nos testes', 'Entregar relatório de recomendações ao responsável do serviço'] },
+                { id: 5, nome: 'Apresentação Final', desc: 'Avaliação',
+                  tarefas: ['Demonstrar redesign completo', 'Avaliar impacto potencial', 'Documentar aprendizados', 'Avaliar trabalho em equipe'] }
             ],
-            'p8-6': [ // Podcast
-                { id: 1, nome: 'Conceito', desc: 'Definir podcast',
-                  tarefas: ['Escolher tema', 'Definir formato', 'Criar nome', 'Planejar frequência'] },
-                { id: 2, nome: 'Preparação', desc: 'Organizar conteúdo',
-                  tarefas: ['Pesquisar tópicos', 'Convidar Guests', 'Criar roteiro', 'Preparar equipamento'] },
-                { id: 3, nome: 'Produção', desc: 'Gravar episódio',
-                  tarefas: ['Gravar episódio', 'Editar áudio', 'Adicionar efeitos', 'Criar thumbnail'] },
-                { id: 4, nome: 'Lançamento', desc: 'Publicar',
-                  tarefas: ['Publicar em plataformas', 'Divulgar nas redes', 'Construir audiência', 'Interagir com ouvintes'] },
-                { id: 5, nome: 'Crescimento', desc: 'Escalar projeto',
-                  tarefas: ['Analisar métricas', 'Melhorar qualidade', 'Monetizar se possível', 'Criar comunidade'] }
+            'p8-2C': [ // 🎧 Podcast Inovação & Futuro
+                { id: 1, nome: 'Pauta + Roteiro', desc: 'Semana 1 - Definir temas',
+                  tarefas: ['Escolher 3 temas (ex: IA na agricultura, IoT em cidades pequenas, futuro do trabalho)', 'Pesquisar cada tema', 'Escrever roteiro dos 3 episódios', 'Identificar possíveis entrevistados locais'] },
+                { id: 2, nome: 'Gravação Ep. 1 e 2', desc: 'Semana 2 - Gravar episódios',
+                  tarefas: ['Preparar ambiente de gravação (silêncio!)', 'Gravar episódio 1 (15-20 min bruto)', 'Gravar episódio 2 (15-20 min bruto)', 'Se tiver entrevistado: gravar entrevista'] },
+                { id: 3, nome: 'Gravação Ep. 3 + Edição', desc: 'Semana 3 - Finalizar episódios',
+                  tarefas: ['Gravar episódio 3', 'Editar os 3 episódios (cortar, vinheta, música)', 'Criar capa do podcast (Canva)', 'Publicar em plataforma gratuita (Anchor/Spotify for Podcasters)'] },
+                { id: 4, nome: 'Feira', desc: 'Semana 4 - Apresentar podcast',
+                  tarefas: ['Montar mini-estúdio visual', 'QR code para acesso aos episódios', 'Exibir trechos em caixa de som', 'Gravar episódio bônus ao vivo na Feira (entrevistar visitantes)'] },
+                { id: 5, nome: 'Apresentação Final', desc: 'Avaliação',
+                  tarefas: ['Demonstrar podcast completo', 'Avaliar engajamento', 'Documentar aprendizados', 'Avaliar trabalho em equipe'] }
             ],
-            // 9º ANO
-            'p9-1': [ // Startup Real
-                { id: 1, nome: 'Fundação', desc: 'Criar empresa',
-                  tarefas: ['Validar ideia com mercado', 'Criar plano de negócios', 'Formalizar empresa', 'Abrir CNPJ'] },
-                { id: 2, nome: 'Produto', desc: 'Desenvolver oferta',
-                  tarefas: ['Criar MVP', 'Testar com clientes', 'Ajustar produto', 'Preparar para escala'] },
-                { id: 3, nome: 'Operação', desc: 'Fazer negócio funcionar',
-                  tarefas: ['Atender clientes', 'Processar vendas', 'Gerenciar financeiro', 'Contratar se preciso'] },
-                { id: 4, nome: 'Crescimento', desc: 'Escalar negócio',
-                  tarefas: ['Investir em marketing', 'Expandir canais', 'Melhorar processos', 'Buscar investimento'] },
-                { id: 5, nome: 'Sustentabilidade', desc: 'Garantir futuro',
-                  tarefas: ['Criar operação sustentável', 'Documentar processos', 'Buscar mentoria', 'Planejar sucessão'] }
+            // 9º ANO - 1º SEMESTRE
+            'p9-1A': [ // 🌟 Startup Real: Do Problema ao 1º Cliente
+                { id: 1, nome: 'Discovery', desc: 'Semana 1-2 - Validar problema',
+                  tarefas: ['Entrevistar 20+ potenciais clientes', 'Criar persona com dados reais', 'Mapear 3-5 concorrentes', 'Validar: o problema é doloroso o suficiente para pagar por uma solução?'] },
+                { id: 2, nome: 'MVP + Lançamento', desc: 'Semana 3-4 - Construir e lançar',
+                  tarefas: ['Definir o MVP mais simples possível', 'Construir em 2 semanas (landing page, serviço manual, produto físico)', 'Lançar e divulgar', 'Consegui pelo menos 1 transação real'] },
+                { id: 3, nome: 'Métricas + Iteração', desc: 'Semana 5 - Analisar resultados',
+                  tarefas: ['Compilar todas as métricas', 'Calcular: CAC, conversão, satisfação (NPS)', 'Criar dashboard financeiro visual', 'Decisão fundamentada: pivotar, perseverar ou encerrar?'] },
+                { id: 4, nome: 'Demo Day na Feira', desc: 'Semana 6 - Apresentar para banca',
+                  tarefas: ['Preparar Pitch Deck com dados REAIS', 'Ensaiar 5+ vezes', 'Montar stand profissional', 'Pitch para banca + interação com visitantes'] },
+                { id: 5, nome: 'Apresentação Final', desc: 'Avaliação',
+                  tarefas: ['Demonstrar startup completa com métricas', 'Avaliar decisão de continuidade', 'Documentar aprendizados', 'Avaliar trabalho em equipe'] }
             ],
-            'p9-2': [ // Fundo de Investimento
-                { id: 1, nome: 'Estrutura', desc: 'Criar fundo',
-                  tarefas: ['Definir propósito do fundo', 'Criar regras', 'Arrecadar capital', 'Formalizar estrutura'] },
-                { id: 2, nome: 'Análise', desc: 'Avaliar projetos',
-                  tarefas: ['Receber propostas', 'Avaliar negócios', 'Analisar risco', 'Selecionar projetos'] },
-                { id: 3, nome: 'Investimento', desc: 'Alocar recursos',
-                  tarefas: ['Aprovar investimentos', 'Liberar capital', 'Acompanhar projetos', 'Dar mentoria'] },
-                { id: 4, nome: 'Gestão', desc: 'Monitorar resultados',
-                  tarefas: ['Acompanhar métricas', 'Reunião mensal', 'Ajustar estratégia', 'Documentar decisões'] },
-                { id: 5, nome: 'Retorno', desc: 'Mostrar resultados',
-                  tarefas: ['Calcular ROI', 'Apresentar resultados', 'Decidir distribuição', 'Planejar próximo ciclo'] }
+            'p9-1B': [ // 📈 Fundo de Investimento Estudantil
+                { id: 1, nome: 'Tese de Investimento', desc: 'Semana 1 - Definir estratégia',
+                  tarefas: ['Estudar os tipos de ativos disponíveis', 'Definir tese de investimento (setor, perfil, horizonte)', 'Criar regras do fundo (máximo por ativo, stop loss)', 'Fazer alocação inicial dos R$100K'] },
+                { id: 2, nome: 'Operações Semanais', desc: 'Semana 2-4 - Investir semanalmente',
+                  tarefas: ['Analisar notícias econômicas da semana', 'Decidir movimentações (comprar/vender/manter)', 'Registrar cada operação com justificativa', 'Calcular saldo atualizado'] },
+                { id: 3, nome: 'Relatório Final', desc: 'Semana 4 - Compilar resultados',
+                  tarefas: ['Calcular retorno total do fundo', 'Identificar as 3 melhores e 3 piores decisões', 'Criar gráfico de evolução do patrimônio', 'Escrever relatório: estratégia + resultados + lições'] },
+                { id: 4, nome: 'Feira', desc: 'Semana 5 - Apresentar performance',
+                  tarefas: ['Criar dashboard visual grande (cartolina)', 'Montar timeline das decisões-chave', 'Pitch: nossa tese → nossas decisões → nossos resultados', 'Comparar performance com índice Ibovespa do período'] },
+                { id: 5, nome: 'Apresentação Final', desc: 'Avaliação',
+                  tarefas: ['Demonstrar performance completa', 'Avaliar decisões tomadas', 'Documentar aprendizados', 'Avaliar trabalho em equipe'] }
             ],
-            'p9-3': [ // Incubadora Social
-                { id: 1, nome: 'Seleção', desc: 'Escolher projetos',
-                  tarefas: ['Abrir chamadas', 'Avaliar inscrição', 'Selecionar negócios', 'Formar turma'] },
-                { id: 2, nome: 'Diagnóstico', desc: 'Entender cada negócio',
-                  tarefas: ['Conhecer每个 projeto', 'Mapear necessidades', 'Criar plano individual', 'Definir mentores'] },
-                { id: 3, nome: 'Aceleração', desc: 'Acelerar projetos',
-                  tarefas: ['Mentorias semanais', 'Workshops técnicos', 'Conexões estratégicas', 'Apoio logístico'] },
-                { id: 4, nome: 'Demo', desc: 'Apresentar resultados',
-                  tarefas: ['Preparar pitch day', 'Convidar investidores', 'Demonstrar resultados', 'Celebrar conquistas'] },
-                { id: 5, nome: 'Formatura', desc: 'Encerrar ciclo',
-                  tarefas: ['Avaliar progresso', 'Conectar a recursos', 'Manter rede ativa', 'Preparar próximo batch'] }
+            'p9-1C': [ // ❤️ Incubadora Social
+                { id: 1, nome: 'Problema Social + Modelo', desc: 'Semana 1-2 - Identificar oportunidade',
+                  tarefas: ['Mapear problemas sociais locais (saúde, educação, meio ambiente)', 'Entrevistar 15+ pessoas afetadas', 'Criar Teoria da Mudança: Se fizermos X → acontece Y → impacto Z', 'Definir modelo de negócio: como gera receita resolvendo o problema?'] },
+                { id: 2, nome: 'MVP de Impacto', desc: 'Semana 3-4 - Construir e medir',
+                  tarefas: ['Construir MVP mínimo', 'Lançar e medir: impacto social + receita', 'Coletar depoimentos dos beneficiários', 'Documentar: antes vs. depois'] },
+                { id: 3, nome: 'Apresentação + Feira', desc: 'Semana 5 - Apresentar incubadora',
+                  tarefas: ['Montar stand: Teoria da Mudança visual + MVP + métricas de impacto', 'Preparar pitch explicando modelo de negócio', 'Demonstrar impacto gerado', 'Interagir com visitantes'] },
+                { id: 4, nome: 'Avaliação de Impacto', desc: 'Medir resultados',
+                  tarefas: ['Calcular métricas de impacto social', 'Avaliar sustentabilidade financeira', 'Documentar aprendizados', 'Planejar continuidade'] },
+                { id: 5, nome: 'Apresentação Final', desc: 'Avaliação',
+                  tarefas: ['Demonstrar projeto completo', 'Avaliar equilíbrio lucro x impacto', 'Documentar aprendizados', 'Avaliar trabalho em equipe'] }
             ],
-            'p9-4': [ // Demo Day
-                { id: 1, nome: 'Preparación', desc: 'Preparar evento',
-                  tarefas: ['Definir banca avaliadora', 'Selecionar startups', 'Criar evento', 'Convidar público'] },
-                { id: 2, nome: 'Coaching', desc: 'Apoiar startups',
-                  tarefas: ['Ajustar pitches', 'Ensinar apresentação', 'Simular Q&A', 'Preparar nervos'] },
-                { id: 3, nome: 'Logística', desc: 'Organizar dia',
-                  tarefas: ['Setup do espaço', 'Testar equipamentos', 'Receber investidores', 'Organizar cronograma'] },
-                { id: 4, nome: 'Apresentação', desc: 'Dia do Demo Day',
-                  tarefas: ['Startups apresentam', 'Investidores fazem perguntas', 'Networking', 'Anunciar parcerias'] },
-                { id: 5, nome: 'Follow-up', desc: 'Manter momentum',
-                  tarefas: ['Acompanhar conversas', 'Fechar deals', 'Documentar resultados', 'Planejar próximo evento'] }
+            // 9º ANO - 2º SEMESTRE
+            'p9-2A': [ // 🏆 Demo Day — O Grande Pitch
+                { id: 1, nome: 'Preparação do Evento', desc: 'Semana 1 - Organizar',
+                  tarefas: ['Definir banca avaliadora', 'Selecionar startups participantes', 'Criar evento e cronograma', 'Convidar público e investidores'] },
+                { id: 2, nome: 'Coaching', desc: 'Semana 2 - Apoiar startups',
+                  tarefas: ['Ajustar pitches individuais', 'Ensinar apresentação profissional', 'Simular Q&A', 'Preparar para perguntas difíceis'] },
+                { id: 3, nome: 'Logística', desc: 'Semana 3 - Organizar dia do evento',
+                  tarefas: ['Setup do espaço físico', 'Testar equipamentos de áudio/vídeo', 'Receber investidores confirmados', 'Organizar ordem das apresentações'] },
+                { id: 4, nome: 'Apresentação', desc: 'Semana 4 - Dia do Demo Day',
+                  tarefas: ['Startups apresentam (5 min cada)', 'Investidores fazem perguntas', 'Networking entre participantes', 'Anunciar parcerias e investimentos'] },
+                { id: 5, nome: 'Follow-up', desc: 'Manter momentum pós-evento',
+                  tarefas: ['Acompanhar conversas iniciadas', 'Fechar deals pendentes', 'Documentar resultados do evento', 'Planejar próximo Demo Day'] }
             ],
-            'p9-5': [ // Limoeiro 2040
-                { id: 1, nome: 'Visão', desc: 'Sonhar futuro',
-                  tarefas: ['Pesquisar tendências', 'Identificar desafios', 'Envolver comunidade', 'Criar visão compartilhada'] },
-                { id: 2, nome: 'Pesquisa', desc: 'Entender realidade',
-                  tarefas: ['Mapear infraestrutura', 'Analisar economia', 'Entrevistar moradores', 'Coletar dados'] },
-                { id: 3, nome: 'Soluções', desc: 'Criar propostas',
-                  tarefas: ['Brainstorming de ideias', 'Selecionar soluções viáveis', 'Criar protótipos', 'Testar com comunidade'] },
-                { id: 4, nome: 'Projeto', desc: 'Detalhar solução',
-                  tarefas: ['Criar projeto detalhado', 'Calcular custos', 'Identificar parceiros', 'Criar plano de ação'] },
-                { id: 5, nome: 'Advocacy', desc: 'Apresentar para власти',
-                  tarefas: ['Apresentar paraprefeitura', 'Buscar parceiros', 'Iniciar implementação', 'Acompanhar progresso'] }
+            'p9-2B': [ // 🏗️ Limoeiro 2040
+                { id: 1, nome: 'Visão', desc: 'Semana 1 - Sonhar futuro',
+                  tarefas: ['Pesquisar tendências urbanas e tecnológicas', 'Identificar desafios futuros de Limoeiro', 'Envolver comunidade na visão', 'Criar visão compartilhada para 2040'] },
+                { id: 2, nome: 'Pesquisa', desc: 'Semana 2 - Entender realidade',
+                  tarefas: ['Mapear infraestrutura atual', 'Analisar economia local', 'Entrevistar moradores sobre visões de futuro', 'Coletar dados demográficos e econômicos'] },
+                { id: 3, nome: 'Soluções', desc: 'Semana 3 - Criar propostas',
+                  tarefas: ['Brainstorming de soluções inovadoras', 'Selecionar soluções viáveis e de alto impacto', 'Criar protótipos ou maquetes', 'Testar conceitos com comunidade'] },
+                { id: 4, nome: 'Projeto', desc: 'Semana 4 - Detalhar solução',
+                  tarefas: ['Criar projeto detalhado com cronograma', 'Calcular custos de implementação', 'Identificar parceiros potenciais', 'Criar plano de ação'] },
+                { id: 5, nome: 'Apresentação + Advocacy', desc: 'Apresentar para stakeholders',
+                  tarefas: ['Apresentar para autoridades (prefeitura, câmara)', 'Buscar parceiros para implementação', 'Documentar proposta completa', 'Avaliar próximo passos'] }
             ],
-            'p9-6': [ // Mentor de Futuro
-                { id: 1, nome: 'Formação', desc: 'Aprender a mentorar',
-                  tarefas: ['Estudar mentoria', 'Criar materiais', 'Receber treinamento', 'Observar mentores'] },
-                { id: 2, nome: 'Conexão', desc: 'Conhecer mentorados',
-                  tarefas: ['Selecionar alunos', 'Identificar necessidades', 'Criar pairing', 'Definir frequência'] },
-                { id: 3, nome: 'Acompanhamento', desc: 'Mentorar ativamente',
-                  tarefas: ['Reuniões semanais', 'Compartilhar experiência', 'Ajudar em projetos', 'Dar feedback'] },
-                { id: 4, nome: 'Impacto', desc: 'Medir resultados',
-                  tarefas: ['Avaliar progresso', 'Ajustar abordagem', 'Celebrar conquistas', 'Documentar案例'] },
-                { id: 5, nome: 'Legado', desc: 'Continuidade',
-                  tarefas: ['Passar bastão', 'Criar programa', 'Manter contato', 'Inspirar outros'] }
+            'p9-2C': [ // 🎓 Mentor de Futuro
+                { id: 1, nome: 'Formação', desc: 'Semana 1 - Aprendendo a mentorar',
+                  tarefas: ['Estudar conceitos de mentoria', 'Criar materiais de apoio', 'Receber treinamento de mentores', 'Observar sessões de mentoria'] },
+                { id: 2, nome: 'Conexão', desc: 'Semana 2 - Conhecer mentorados',
+                  tarefas: ['Selecionar alunos mais novos como mentorados', 'Identificar necessidades individuais', 'Criar pairing mentor-mentorado', 'Definir frequência e formato de encontros'] },
+                { id: 3, nome: 'Acompanhamento', desc: 'Semana 3-4 - Mentorar ativamente',
+                  tarefas: ['Realizar reuniões semanais', 'Compartilhar experiência e conhecimento', 'Ajudar em projetos dos mentorados', 'Dar feedback construtivo'] },
+                { id: 4, nome: 'Impacto', desc: 'Semana 4 - Medir resultados',
+                  tarefas: ['Avaliar progresso dos mentorados', 'Ajustar abordagem se necessário', 'Celebrar conquistas alcançadas', 'Documentar casos de sucesso'] },
+                { id: 5, nome: 'Legado', desc: 'Continuidade do programa',
+                  tarefas: ['Passar bastão para próximos mentores', 'Criar programa estruturado de mentoria', 'Manter contato com mentorados', 'Inspirar outros alunos a se tornarem mentores'] }
             ]
         };
 
         // Função para obter etapas de um projeto
         function getEtapasProjeto(projetoId) {
-            return ETAPAS_POR_PROJETO[projetoId] || ETAPAS_POR_PROJETO['p6-1']; // Default para primeiro projeto
+            return ETAPAS_POR_PROJETO[projetoId] || ETAPAS_POR_PROJETO['p6-1A']; // Default para primeiro projeto
         }
 
         async function init() {
