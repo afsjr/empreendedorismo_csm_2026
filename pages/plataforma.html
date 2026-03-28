@@ -245,6 +245,43 @@
             .project-card { padding: 2rem; }
             .form-input, .form-select, .form-textarea { padding: 1.1rem 1.3rem; font-size: 1.1rem; }
         }
+
+        /* Etapas do Projeto */
+        .etapa-card {
+            transition: all 0.3s ease;
+        }
+        .etapa-card:hover {
+            background: var(--bg-surface3) !important;
+        }
+        .etapa-card.concluida {
+            border-left-color: var(--accent-green) !important;
+            opacity: 0.85;
+        }
+        .etapa-card.concluida strong {
+            color: var(--accent-green);
+        }
+        .progress-wrap {
+            margin-top: 0.75rem;
+        }
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.4rem;
+        }
+        .progress-bar {
+            background: var(--bg-surface3);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            background: linear-gradient(90deg, var(--accent-green), var(--accent-blue));
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
     </style>
 </head>
 <body>
@@ -374,6 +411,19 @@
         </div>
     </div>
 
+    <!-- Progresso Modal -->
+    <div class="modal-overlay" id="progressoModal">
+        <div class="modal" style="max-width: 700px; max-height: 90vh; overflow-y: auto;">
+            <div class="modal-header">
+                <h3 class="modal-title">📊 Acompanhamento do Projeto</h3>
+                <button class="modal-close" onclick="closeModal('progressoModal')">×</button>
+            </div>
+            <div class="modal-body" id="progressoModalContent">
+                <!-- Conteúdo dinâmico -->
+            </div>
+        </div>
+    </div>
+
     <!-- Auth Modal -->
     <div class="modal-overlay" id="authModal">
         <div class="modal" style="max-width: 400px;">
@@ -441,6 +491,51 @@
         // Dados do Supabase
         let grupos = [];
         let progresso = {};
+        let progressoDetalhado = [];
+
+        // Etapas do projeto com descrições detalhadas
+        const ETAPAS = [
+            { id: 1, nome: 'Ideação', desc: 'Definição do problema, pesquisa e validação inicial', 
+              tarefas: ['Identificar o problema', 'Pesquisar o mercado', 'Validar com potenciais clientes', 'Definir a solução'] },
+            { id: 2, nome: 'Planejamento', desc: 'Modelo de negócio, planejamento e recursos',
+              tarefas: ['Criar modelo de negócio', 'Definir custos e precificação', 'Planejar recursos necessários', 'Criar cronograma'] },
+            { id: 3, nome: 'Execução', desc: 'Desenvolvimento do produto/serviço',
+              tarefas: ['Desenvolver o produto/serviço', 'Implementar processos', 'Iniciar operações', 'Atender primeiros clientes'] },
+            { id: 4, nome: 'Testes', desc: 'Validação com clientes, ajustes necessários',
+              tarefas: ['Coletar feedback', 'Identificar pontos de melhoria', 'Ajustar produto/serviço', 'Validar melhorias'] },
+            { id: 5, nome: 'Apresentação', desc: 'Pitch final e documentação',
+              tarefas: ['Preparar apresentação', 'Criar materiais visuais', 'Documentar aprendizados', 'Apresentar para banca'] }
+        ];
+
+        // Etapas específicas por tipo de projeto
+        const ETAPAS_POR_TIPO = {
+            'vendas': [
+                { id: 1, nome: 'Pesquisa', desc: 'Pesquisa de mercado e definição do produto', tarefas: ['Pesquisar clientes', 'Definir produto', 'Calcular custos'] },
+                { id: 2, nome: 'Planejamento', desc: 'Planejamento da venda', tarefas: ['Definir preço', 'Planejar stand', 'Preparar divulgação'] },
+                { id: 3, nome: 'Execução', desc: 'Realização da venda', tarefas: ['Montar stand', 'Atender clientes', 'Vender produtos'] },
+                { id: 4, nome: 'Análise', desc: 'Análise dos resultados', tarefas: ['Contar lucros', 'Avaliar o que vendeu', 'Identificar melhorias'] },
+                { id: 5, nome: 'Apresentação', desc: 'Apresentação dos resultados', tarefas: ['Preparar slides', 'Apresentar resultados', 'Documentar aprendizados'] }
+            ],
+            'consultoria': [
+                { id: 1, nome: 'Diagnóstico', desc: 'Identificação dos problemas', tarefas: ['Conhecer o negócio', 'Identificar problemas', 'Mapear oportunidades'] },
+                { id: 2, nome: 'Proposta', desc: 'Criação da proposta', tarefas: ['Desenvolver soluções', 'Criar proposta', 'Apresentar ao cliente'] },
+                { id: 3, nome: 'Execução', desc: 'Implementação das soluções', tarefas: ['Aplicar soluções', 'Acompanhar resultados', 'Fazer ajustes'] },
+                { id: 4, nome: 'Validação', desc: 'Validação com cliente', tarefas: ['Apresentar resultados', 'Coletar feedback', 'Finalizar projeto'] },
+                { id: 5, nome: 'Apresentação', desc: 'Apresentação final', tarefas: ['Documentar caso', 'Apresentar à banca', 'Avaliar aprendizados'] }
+            ],
+            'startup': [
+                { id: 1, nome: 'Ideação', desc: 'Geração e validação de ideias', tarefas: ['Brainstorming', 'Validar problema', 'Definir solução MVP'] },
+                { id: 2, nome: 'Modelo de Negócio', desc: 'Criação do Business Model Canvas', tarefas: ['Definir proposta de valor', 'Mapear canais', 'Calcular receita'] },
+                { id: 3, nome: 'MVP', desc: 'Desenvolvimento do produto mínimo viável', tarefas: ['Criar protótipo', 'Testar com usuários', 'Iterar produto'] },
+                { id: 4, nome: 'Crescimento', desc: 'Escala e validação', tarefas: ['Ajustar com base em feedback', 'Buscar métricas', 'Preparar scaling'] },
+                { id: 5, nome: 'Pitch', desc: 'Apresentação para investidores', tarefas: ['Preparar pitch deck', 'ApresentarDemo Day', 'Documentar jornada'] }
+            ],
+            'default': ETAPAS
+        };
+
+        function getEtapasProjeto(tipoProjeto = 'default') {
+            return ETAPAS_POR_TIPO[tipoProjeto] || ETAPAS_POR_TIPO['default'];
+        }
 
         async function init() {
             App.init();
@@ -457,6 +552,7 @@
             try {
                 const data = await DB.listarGrupos();
                 grupos = data || [];
+                await loadProgressFromSupabase();
                 renderGroups();
                 renderStats();
             } catch (e) {
@@ -464,6 +560,61 @@
                 grupos = [];
                 renderGroups();
             }
+        }
+
+        // Carregar progresso do Supabase
+        async function loadProgressFromSupabase() {
+            try {
+                progressoDetalhado = [];
+                progresso = {};
+                
+                for (const g of grupos) {
+                    if (g.projeto_id) {
+                        const data = await DB.buscarProgresso(g.id, g.projeto_id);
+                        progressoDetalhado = [...progressoDetalhado, ...(data || [])];
+                        
+                        // Calcula progresso em %
+                        const etapasConcluidas = (data || []).filter(p => p.concluida).length;
+                        progresso[g.projeto_id] = Math.round((etapasConcluidas / 5) * 100);
+                    }
+                }
+            } catch (e) {
+                console.error('Erro ao carregar progresso:', e);
+            }
+        }
+
+        // Atualizar progresso de uma etapa
+        async function atualizarProgressoEtapa(grupoId, projetoId, etapa, concluida, anotacoes) {
+            try {
+                await DB.atualizarProgresso(grupoId, projetoId, etapa, concluida, anotacoes);
+                await loadProgressFromSupabase();
+                renderGroups();
+                renderProjects();
+                alert(concluida ? 'Etapa concluída com sucesso!' : 'Etapa desmarcada.');
+            } catch (e) {
+                console.error('Erro ao atualizar progresso:', e);
+                alert('Erro ao atualizar progresso: ' + e.message);
+            }
+        }
+
+        // Obter status de uma etapa
+        function getEtapaStatus(grupoId, projetoId, etapaNum) {
+            const etapa = progressoDetalhado.find(p => 
+                p.grupo_id === grupoId && 
+                p.projeto_id === projetoId && 
+                p.etapa === etapaNum
+            );
+            return etapa ? etapa.concluida : false;
+        }
+
+        // Obter anotação de uma etapa
+        function getEtapaAnotacao(grupoId, projetoId, etapaNum) {
+            const etapa = progressoDetalhado.find(p => 
+                p.grupo_id === grupoId && 
+                p.projeto_id === projetoId && 
+                p.etapa === etapaNum
+            );
+            return etapa ? etapa.anotacoes || '' : '';
         }
 
         function setupEvents() {
@@ -651,7 +802,79 @@
             const g = grupos.find(gr => gr.id === id);
             const p = PROJETOS.find(proj => proj.id === g.projeto_id);
             const membrosArray = Array.isArray(g.membros) ? g.membros : [];
-            alert(`Grupo: ${g.nome}\nProjeto: ${p ? p.title : 'Nenhum'}\nMembros: ${membrosArray.join(', ')}`);
+            
+            if (!g.projeto_id || !p) {
+                alert('Selecione um projeto para este grupo primeiro!');
+                return;
+            }
+            
+            // Determinar tipo de projeto baseado no título
+            const titulo = p.title.toLowerCase();
+            let tipoProjeto = 'default';
+            if (titulo.includes('feira') || titulo.includes('venda') || titulo.includes('loja')) tipoProjeto = 'vendas';
+            else if (titulo.includes('consultoria') || titulo.includes('mapa')) tipoProjeto = 'consultoria';
+            else if (titulo.includes('startup') || titulo.includes('hackathon') || titulo.includes('fintech')) tipoProjeto = 'startup';
+            
+            const etapas = getEtapasProjeto(tipoProjeto);
+            
+            const etapasHTML = etapas.map(etapa => {
+                const concluida = getEtapaStatus(g.id, g.projeto_id, etapa.id);
+                const anotacao = getEtapaAnotacao(g.id, g.projeto_id, etapa.id);
+                const etapaConcluida = concluida ? '✅ Concluída' : '⏳ Pendente';
+                const checkboxId = `etapa-${etapa.id}`;
+                const textAreaId = `anotacao-${etapa.id}`;
+                
+                const tarefasHTML = etapa.tarefas ? etapa.tarefas.map(t => `<li style="font-size: 0.85rem; margin-bottom: 0.25rem;">• ${t}</li>`).join('') : '';
+                
+                return `
+                    <div class="etapa-card ${concluida ? 'concluida' : ''}" style="margin-bottom: 1rem; padding: 1rem; background: var(--bg-surface2); border-radius: 8px; border-left: 4px solid ${concluida ? 'var(--accent-green)' : 'var(--bg-surface3)'}">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+                            <div style="flex: 1;">
+                                <strong>Etapa ${etapa.id}: ${etapa.nome}</strong>
+                                <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">${etapa.desc}</div>
+                                ${tarefasHTML ? `<div style="background: var(--bg-surface); padding: 0.5rem; border-radius: 6px; margin-top: 0.5rem;"><strong style="font-size: 0.8rem;">Tarefas:</strong><ul style="margin: 0.25rem 0 0 1rem;">${tarefasHTML}</ul></div>` : ''}
+                            </div>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; margin-left: 1rem;">
+                                <input type="checkbox" id="${checkboxId}" ${concluida ? 'checked' : ''} 
+                                    onchange="atualizarProgressoEtapa('${g.id}', '${g.projeto_id}', ${etapa.id}, this.checked, document.getElementById('${textAreaId}').value)">
+                                <span>${etapaConcluida}</span>
+                            </label>
+                        </div>
+                        <div style="margin-top: 0.5rem;">
+                            <label style="font-size: 0.85rem; color: var(--text-muted);">Anotações:</label>
+                            <textarea id="${textAreaId}" rows="2" style="width: 100%; margin-top: 0.25rem; padding: 0.5rem; background: var(--bg-surface); border: 1px solid var(--border); border-radius: 6px; color: var(--text);" 
+                                placeholder="O que você fez nesta etapa?" onchange="atualizarProgressoEtapa('${g.id}', '${g.projeto_id}', ${etapa.id}, document.getElementById('${checkboxId}').checked, this.value)">${anotacao}</textarea>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            const modalContent = `
+                <div style="max-width: 600px;">
+                    <h2 style="margin-bottom: 0.5rem;">${g.nome}</h2>
+                    <p style="color: var(--text-muted); margin-bottom: 1rem;">
+                        <strong>Projeto:</strong> ${p.title} | 
+                        <strong>Ano:</strong> ${g.ano}º | 
+                        <strong>Membros:</strong> ${membrosArray.join(', ')}
+                    </p>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <span>Progresso Total</span>
+                            <span>${progresso[g.projeto_id] || 0}%</span>
+                        </div>
+                        <div style="background: var(--bg-surface3); height: 12px; border-radius: 6px; overflow: hidden;">
+                            <div style="background: linear-gradient(90deg, var(--accent-green), var(--accent-blue)); height: 100%; width: ${progresso[g.projeto_id] || 0}%; transition: width 0.3s;"></div>
+                        </div>
+                    </div>
+                    
+                    <h3 style="margin-bottom: 1rem;">Etapas do Projeto</h3>
+                    ${etapasHTML}
+                </div>
+            `;
+            
+            document.getElementById('progressoModalContent').innerHTML = modalContent;
+            openModal('progressoModal');
         }
 
         function openProject(id) {
