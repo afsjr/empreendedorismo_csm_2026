@@ -295,6 +295,7 @@
         <nav class="nav">
             <button class="nav-btn active" data-view="landing">Início</button>
             <button class="nav-btn" data-view="groups">Meus Grupos</button>
+            <button class="nav-btn" data-view="dashboard" id="dashboardNavBtn" style="display: none;">📊 Dashboard</button>
             <button class="nav-btn" data-view="projects">Projetos</button>
             <button class="nav-btn" onclick="requireAuth('professor')">Professor</button>
         </nav>
@@ -349,6 +350,28 @@
                 <button class="btn btn-primary btn-sm" onclick="openGroupForm()">+ Novo Grupo</button>
             </div>
             <div class="projects-grid" id="groupsGrid"></div>
+        </div>
+
+        <!-- DASHBOARD VIEW (Professor Only) -->
+        <div id="view-dashboard" class="view" style="display: none;">
+            <div class="groups-header">
+                <h2 style="font-size: 1.25rem; font-weight: 700;">📊 Dashboard - Visão Geral</h2>
+            </div>
+            
+            <!-- Stats Cards -->
+            <div class="stats-bar" id="dashboardStats"></div>
+            
+            <!-- Filters -->
+            <div class="tabs" style="margin-bottom: 1.5rem;">
+                <button class="tab active" onclick="filterDashboard('all', this)">Todos</button>
+                <button class="tab" onclick="filterDashboard('6', this)">6º Ano</button>
+                <button class="tab" onclick="filterDashboard('7', this)">7º Ano</button>
+                <button class="tab" onclick="filterDashboard('8', this)">8º Ano</button>
+                <button class="tab" onclick="filterDashboard('9', this)">9º Ano</button>
+            </div>
+            
+            <!-- Groups Grid with Progress -->
+            <div class="projects-grid" id="dashboardGrid"></div>
         </div>
 
         <!-- PROJECTS VIEW -->
@@ -802,6 +825,15 @@
             await loadGroupsFromSupabase();
             setupEvents();
             App.initModalClose();
+            
+            // Show dashboard button if user is professor
+            if (App.isProfessor()) {
+                const dashboardBtn = document.getElementById('dashboardNavBtn');
+                if (dashboardBtn) {
+                    dashboardBtn.style.display = 'inline-flex';
+                }
+                renderDashboard();
+            }
         }
 
         // Carregar grupos do Supabase
@@ -1047,14 +1079,112 @@
                 await DB.excluirGrupo(id);
                 grupos = grupos.filter(g => g.id !== id);
                 renderGroups();
+                renderDashboard();
                 alert('Grupo excluído com sucesso!');
             } catch (e) {
                 console.error('Erro ao excluir grupo:', e);
                 // Se falhar no banco, remove localmente
                 grupos = grupos.filter(g => g.id !== id);
                 renderGroups();
+                renderDashboard();
                 alert('Grupo removido da lista.');
             }
+        }
+
+        // Dashboard Functions
+        let dashboardFilter = 'all';
+
+        function renderDashboard() {
+            if (!App.isProfessor()) return;
+            
+            const container = document.getElementById('dashboardGrid');
+            const statsContainer = document.getElementById('dashboardStats');
+            
+            // Filter groups
+            let filteredGroups = grupos;
+            if (dashboardFilter !== 'all') {
+                filteredGroups = grupos.filter(g => g.ano === parseInt(dashboardFilter));
+            }
+            
+            // Calculate stats
+            const total = filteredGroups.length;
+            const concluidos = filteredGroups.filter(g => {
+                const p = progresso[g.projeto_id] || 0;
+                return p === 100;
+            }).length;
+            const emAndamento = total - concluidos;
+            const mediaProgresso = total > 0 
+                ? Math.round(filteredGroups.reduce((acc, g) => acc + (progresso[g.projeto_id] || 0), 0) / total) 
+                : 0;
+            
+            // Render stats
+            statsContainer.innerHTML = `
+                <div class="stat-c"><div class="stat-n">${total}</div><div class="stat-l">Grupos</div></div>
+                <div class="stat-c"><div class="stat-n" style="color: var(--accent-green);">${concluidos}</div><div class="stat-l">Concluídos</div></div>
+                <div class="stat-c"><div class="stat-n" style="color: var(--csm-gold);">${emAndamento}</div><div class="stat-l">Em Andamento</div></div>
+                <div class="stat-c"><div class="stat-n">${mediaProgresso}%</div><div class="stat-l">Média Progresso</div></div>
+            `;
+            
+            if (!filteredGroups || !filteredGroups.length) {
+                container.innerHTML = App.renderEmpty('Nenhum grupo encontrado');
+                return;
+            }
+
+            container.innerHTML = filteredGroups.map(g => {
+                const projetoId = g.projeto_id;
+                const p = PROJETOS.find(proj => proj.id === projetoId);
+                const membrosArray = Array.isArray(g.membros) ? g.membros : [];
+                const projProgress = progresso[projetoId] || 0;
+                
+                // Color coding based on progress
+                let progressColor = 'var(--csm-red)';
+                let progressLabel = 'Iniciando';
+                if (projProgress >= 40 && projProgress < 70) {
+                    progressColor = 'var(--csm-gold)';
+                    progressLabel = 'Em Andamento';
+                } else if (projProgress >= 70 && projProgress < 100) {
+                    progressColor = 'var(--accent-blue)';
+                    progressLabel = 'Quase Concluído';
+                } else if (projProgress === 100) {
+                    progressColor = 'var(--accent-green)';
+                    progressLabel = 'Concluído';
+                }
+                
+                const etapaAtual = Math.ceil((projProgress / 100) * 5);
+                
+                return `
+                    <div class="group-card" onclick="openGroup('${g.id}')" style="border-left: 4px solid ${progressColor};">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                            <div class="group-name">${g.nome}</div>
+                            <span style="font-size: 0.75rem; padding: 2px 8px; border-radius: 10px; background: ${progressColor}20; color: ${progressColor}; font-weight: 600;">${progressLabel}</span>
+                        </div>
+                        <div class="group-members">
+                            ${membrosArray.map(m => `<span class="member-chip">${m}</span>`).join('')}
+                        </div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+                            ${p ? p.title : 'Projeto não selecionado'} - ${g.ano}º Ano
+                        </div>
+                        <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+                            📍 Etapa ${etapaAtual} de 5
+                        </div>
+                        <div class="progress-wrap">
+                            <div class="progress-label"><span>Progresso</span><span style="color: ${progressColor}; font-weight: 600;">${projProgress}%</span></div>
+                            <div class="progress-bar"><div class="progress-fill" style="width:${projProgress}%; background: ${progressColor};"></div></div>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                            <button class="btn btn-secondary btn-sm" onclick="event.stopPropagation();openGroup('${g.id}')">Ver Detalhes</button>
+                            <button class="btn btn-danger btn-sm" style="background: #dc2626; color: white; padding: 6px 12px; border: none; border-radius: 6px; cursor: pointer;" onclick="event.stopPropagation();deleteGroup('${g.id}')">🗑️</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterDashboard(filter, btn) {
+            dashboardFilter = filter;
+            document.querySelectorAll('#view-dashboard .tabs .tab').forEach(t => t.classList.remove('active'));
+            btn.classList.add('active');
+            renderDashboard();
         }
 
         function filterProjects(filter, btn) {
