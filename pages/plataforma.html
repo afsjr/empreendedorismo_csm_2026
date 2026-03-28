@@ -880,11 +880,17 @@
                 btn.addEventListener('click', () => setView(btn.dataset.view));
             });
 
-            // Auth
+            // Auth - stays on platform page after login
             document.getElementById('authForm').addEventListener('submit', (e) => {
                 e.preventDefault();
                 const pass = document.getElementById('authPassword').value;
-                App.submitAuth(pass, 'admin.html');
+                App.submitAuth(pass, null);
+                // After auth, reload to show delete buttons
+                setTimeout(() => {
+                    if (App.isProfessor()) {
+                        window.location.reload();
+                    }
+                }, 500);
             });
 
             // Group Form - Salvar no Supabase
@@ -939,11 +945,13 @@
 
         function requireAuth(level) {
             if (App.isProfessor()) {
-                window.location.href = 'admin.html';
+                // Already logged in as professor, reload to show delete buttons
+                window.location.reload();
                 return;
             }
             App.requireAuth(level, () => {
-                window.location.href = 'admin.html';
+                // After successful auth, reload to show delete buttons
+                window.location.reload();
             });
         }
 
@@ -1002,12 +1010,15 @@
                 return;
             }
 
+            const isProfessor = App.isProfessor();
+
             container.innerHTML = grupos.map(g => {
                 // Supabase usa projeto_id, membros é array
                 const projetoId = g.projeto_id;
                 const p = PROJETOS.find(proj => proj.id === projetoId);
                 const membrosArray = Array.isArray(g.membros) ? g.membros : [];
                 const projProgress = progresso[projetoId] || 0;
+                const deleteBtn = isProfessor ? `<button class="btn btn-danger btn-sm" style="margin-left: 0.5rem; background: #dc2626; color: white; padding: 6px 12px; border: none; border-radius: 6px; cursor: pointer;" onclick="event.stopPropagation();deleteGroup('${g.id}')">🗑️ Excluir</button>` : '';
                 return `
                     <div class="group-card" onclick="openGroup('${g.id}')">
                         <div class="group-name">${g.nome}</div>
@@ -1021,10 +1032,29 @@
                             <div class="progress-label"><span>Progresso</span><span>${projProgress}%</span></div>
                             <div class="progress-bar"><div class="progress-fill" style="width:${projProgress}%"></div></div>
                         </div>
-                        <button class="btn btn-secondary btn-sm" onclick="event.stopPropagation();openGroupForm('${g.id}')">Editar</button>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-secondary btn-sm" onclick="event.stopPropagation();openGroupForm('${g.id}')">Editar</button>
+                            ${deleteBtn}
+                        </div>
                     </div>
                 `;
             }).join('');
+        }
+
+        async function deleteGroup(id) {
+            if (!confirm('Tem certeza que deseja EXCLUIR este grupo? Esta ação não pode ser desfeita!')) return;
+            try {
+                await DB.excluirGrupo(id);
+                grupos = grupos.filter(g => g.id !== id);
+                renderGroups();
+                alert('Grupo excluído com sucesso!');
+            } catch (e) {
+                console.error('Erro ao excluir grupo:', e);
+                // Se falhar no banco, remove localmente
+                grupos = grupos.filter(g => g.id !== id);
+                renderGroups();
+                alert('Grupo removido da lista.');
+            }
         }
 
         function filterProjects(filter, btn) {
@@ -1081,7 +1111,141 @@
                 const checkboxId = `etapa-${etapa.id}`;
                 const textAreaId = `anotacao-${etapa.id}`;
                 
-                const tarefasHTML = etapa.tarefas ? etapa.tarefas.map(t => `<li style="font-size: 0.85rem; margin-bottom: 0.25rem;">• ${t}</li>`).join('') : '';
+                // Função para gerar detalhes explicativos baseados no título da tarefa
+                const getTaskDetails = (taskTitle) => {
+                    const details = {
+                        'Pesquisar o que os alunos querem comprar': 'Pergunte aos colegas de outras turmas. Anote tudo o que eles gostariam de comprar na feira!',
+                        'Verificar preço de mercado': 'Pesquise em lojas ou internet quanto custa cada produto. Assim você sabe se seu preço está justo.',
+                        'Definir produtos iniciais': 'Escolha 5-10 produtos que você vai vender. Comece com coisas simples e populares.',
+                        'Listar 5 produtos mínimos': 'Faça uma lista com nome, quantidade e preço de custo de cada produto.',
+                        'Calcular custo de cada produto': 'Some tudo: preço de compra, transporte, embalagem. Anote em uma planilha.',
+                        'Definir preço de venda com margem': 'Multiplique o custo por 1,5 ou 2 para ter lucro. Ex: custou R$1,00 → venda R$2,00',
+                        'Calcular lucro esperado': 'Se vender 50 unidades, quanto você vai lucrar? (preço venda - preço custo) × quantidade',
+                        'Criar planilha de custos': 'Use Google Sheets ou caderno para registrar: produto, custo, preço, lucro esperado.',
+                        'Definir local da feira': 'Escolha um lugar de muito movimento na escola. Pergunte à coordenação onde será.',
+                        'Criar décor do stand': 'Use papel colorido, balões, banners. Quanto mais atraente, mais clientes!',
+                        'Preparar sacolas/trocos': 'Leve sacolinhas para as compras e dinheiro troco (R$5, R$10, R$20).',
+                        'Organizar produtos': 'Coloque os produtos em cima da mesa de forma organizada e visível.',
+                        'Atender clientes com sorriso': 'Sorria! Cumprimente bem. Pergunte: "O que você quer comprar hoje?"',
+                        'Dar troco correto': 'Sempre conta duas vezes. Receba o dinheiro, faça a conta, devolva o troco.',
+                        'Anotar vendas': 'A cada venda, anote o produto e valor. Use uma caderneta ou celular.',
+                        'Contar dinheiro final': 'No final, conte quanto entrou. Compare com o esperado. O que vendeu mais?',
+                        'Calcular lucro real': 'Subtraia: Total vendido - Custos = Lucro real. Quanto você ganhou?',
+                        'O que vendeu mais?': 'Analise sua lista. Qual produto foi o mais procurado? Por quê?',
+                        'O que faria diferente?': 'Pense: mudaria produtos? Preços? Organização? Anote as lições.',
+                        'Apresentar resultados': 'Conte para a turma o que aprendeu. Mostre os números!',
+                        'Criar planilha de gastos': 'Abra o Notas do celular ou Google Sheets. Faça colunas: data, item, valor, categoria.',
+                        'Registrar gastos por 1 semana': 'Anote TUDO que gastar: lanche, transporte, jogos. Não pode esquecer nada!',
+                        'Classificar em categorias': 'Agrupe: alimentação, lazer, material, transporte. Quanto gastou em cada?',
+                        'Identificar desperdícios': 'Veja onde você gastou em coisas que não precisava. Anote para melhorar.',
+                        'Criar gráficos de gastos': 'Use cores diferentes para cada categoria. Gráficos de pizza mostram bem a proporção.',
+                        'Identificar padrões': 'Você gasta mais em determinados dias? Sempre compra a mesma coisa? Descubra!',
+                        'Detectar hábitos bons e ruins': 'Bom: economia. Ruim: compras por impulso. Liste os seus hábitos.',
+                        'Comparar com colegas': 'Conversem em grupo. Quem gasta mais? O que podem aprender?',
+                        'Sugerir mudanças práticas': 'Ex: levar lanche de casa, usar transporte público, comprar só o necessário.',
+                        'Calcular economia potencial': 'Se mudar esse hábito, quanto vai economizar por semana? Por mês?',
+                        'Criar alertas de gastos': 'Programe um alarme no celular para lembrar de pensar antes de comprar.',
+                        'Estabelecer metas': 'Defina: "Vou economizar R$20 por semana". Anote e acompanhe!',
+                        'Aplicar novas regras': 'Comece HOJE a colocar em prática as mudanças que você planejou.',
+                        'Acompanhar resultados semanais': 'A cada semana, veja quanto economizou. Está cumprindo a meta?',
+                        'Ajustar estratégias': 'Se algo não está funcionando, mude. O importante é melhorar!',
+                        'Manter disciplina': 'É difícil no início, mas com tempo vira hábito. Não desista!',
+                        'Criar apresentação visual': 'Faça um poster ou slides com seus gráficos e descobertas.',
+                        'Mostrar economia realizada': 'Conte quanto conseguiu economizar. Mostre os números!',
+                        'Dar dicas para outros': 'O que funcionou para você? Ensine os colegas!',
+                        'Documentar aprendizados': 'Escreva um pequeno relatório do que você aprendeu.',
+                        'Escolher tema empreendedorismo': 'Pode ser: orçamento, investimento, criação de empresa, marketing.',
+                        'Definir público-alvo': 'Para quem é o jogo? Colegas da mesma série? Crianças menores?',
+                        'Criar objetivo educativo': 'O que o jogador vai aprender ao final? Ex: "Aprender a calcular lucro".',
+                        'Escolher tipo de jogo': 'Tabuleiro, cartas, RPG, quiz? Pense no que combina com o tema.',
+                        'Criar regras básicas': 'Quantos jogadores? Como ganhar? Quais as regras principais? Escreva!',
+                        'Definir turnos': 'Quem joga primeiro? Quanto tempo por turno? Como passar a vez?',
+                        'Criar cartas ou tabuleiro': 'Desenhe as cartas com perguntas/desafios. Desenhe o tabuleiro.',
+                        'Testar lógica': 'Jogue com seu grupo primeiro. As regras fazem sentido? Está divertido?',
+                        'Montar tabuleiro/cartas': 'Recorte, cole, pinte. Use materiais simples: papelão, cartolina, EVA.',
+                        'Criar peças': 'Pequenos objetos: botões, tampas, peças de LEGO. O importante é funcionar!',
+                        'Definir estética visual': 'Escolha cores, fontes, estilo visual. Tudo precisa parecer coerente.',
+                        'Produzir componentes': 'Faça todas as cartas, organize em categorias. Embalagem conta pontos!',
+                        'Testar com amigos': 'Convide colegas para jogar. Observe o que confunde ou diverte.',
+                        'Ajustar dificuldade': 'Fica fácil demais? Muito difícil? Ajuste as regras.',
+                        'Corrigir regras': 'Se alguém não entendeu algo, melhore a explicação ou a regra.',
+                        'Refinar componentes': 'Se algo quebrou ou ficou feio, conserte agora.',
+                        'Explicar objetivo': 'Conte: o que ensina? Para quem é? Por que é legal?',
+                        'Demonstrar partida': 'Jogue uma rodada rápida mostrando como funciona.',
+                        'Ensinar a jogar': 'Seja paciente. Mostre passo a passo para todos conseguirem jogar.',
+                        'Receber feedback': 'Ouça o que os colegas acharam. Anote sugestões!',
+                        'Observar a escola por 3 dias': 'Anote tudo que parece um problema: coisas quebradas, lentidão, barulho.',
+                        'Listar 10 problemas encontrados': 'Escreva: cantina lotada, biblioteca pequena, falta de bicicletário, etc.',
+                        'Priorizar os mais urgentes': 'Qual problema afeta mais pessoas? Qual é mais fácil de resolver?',
+                        'Escolher 1 problema': 'Selecione UM problema para resolver. Focar em um é melhor!',
+                        'Entrevistar afetados': 'Fale com quem passa pelo problema. Faça perguntas: "O que te incomoda?"',
+                        'Pesquisar soluções existentes': 'Busque na internet: alguém já criou algo parecido? Como resolveram?',
+                        'Analisar causas raiz': 'Pergunte "por quê?" 5 vezes para chegar à causa original do problema.',
+                        'Buscar inspirações': 'Veja inventos similares. YouTube é ótimo para isso!',
+                        'Fazer brainstorming': 'Sem julgamento! Anote todas as ideias, mesmo as malucas.',
+                        'Criar 3 soluções': 'Desenhe 3 formas diferentes de resolver o problema.',
+                        'Escolher melhor solução': 'Qual é mais prática? Mais econômica? Mais divertida? Escolha!',
+                        'Fazer protótipo simples': 'Com materiais simples: caixa, papel, fita. Teste se funciona!',
+                        'Apresentar para afetados': 'Mostre seu protótipo para quem tem o problema. Pedir opinião.',
+                        'Coletar feedback': 'O que acharam? O que melhoraria? Anote tudo!',
+                        'Ajustar protótipo': 'Com as opiniões, melhore seu invento. Iterar é fundamental.',
+                        'Refinar ideia': 'Deixe a solução mais clara e funcional.',
+                        'Criar maquete/protótipo': 'Monte uma versão melhorada. Pode ser em tamanho pequeno.',
+                        'Preparar pitch': 'Fale em 2 minutos: problema, solução, benefícios, custo.',
+                        'Apresentar para banca': 'Demonstre para professor e colegas. Responda perguntas.',
+                        'Documentar processo': 'Escreva ou desenhe como chegou à solução.',
+                        'Pesquisar problemas locais': 'O que falta no bairro? Creche, hospital, abrigo, comida? Pesquise!',
+                        'Escolher causa': 'Selecione UM problema para ajudar. Algo que você se conecta emocionalmente.',
+                        'Entender público-alvo': 'Para quem você vai ajudar? Crianças? Idosos? Animais? Defina.',
+                        'Definir objetivo': 'O que você quer alcançar? Arrecadar dinheiro, doar roupas, conscientização?',
+                        'Definir tipo de campanha': 'Arrecadação? Sensibilização? Trabalho voluntário? Escolha o formato.',
+                        'Criar mensagem': 'Frase de impacto: "Cada alimentodoa, uma vida salva". Seja claro!',
+                        'Planejar canais': 'Como vai atingir as pessoas? Redes sociais, flyers, apresentações?',
+                        'Arrecadar recursos': 'O que precisa: caixas, sacolas, conta bancária, parceiros?',
+                        'Divulgar nas redes': 'Poste fotos, vídeos, stories. Peça para amigos compartilharem!',
+                        'Mobilizar participantes': 'Convide colegas para ajudar. Distribua tarefas.',
+                        'Coletar doações/ajuda': 'Esteja presente nos locais combinados. Receba com alegria!',
+                        'Registrar tudo': 'Fotografe, faça vídeos. Documente para apresentar depois.',
+                        'Quantificar resultados': 'Quantas pessoas ajudadas? Quanto arrecadado? Números importam!',
+                        'Documentar histórias': 'Conte casos reais de quem foi ajudado. Histórias emocionam!',
+                        'Agradecer participantes': 'Mande mensagem, faça certificados. Agradecer é fundamental!',
+                        'Avaliar eficácia': 'O que funcionou? O que melhoraria? Aprenda para próxima vez.',
+                        'Criar apresentação': 'Slides com: causa, processo, resultados, aprendizados.',
+                        'Mostrar impacto gerado': 'Números + histórias = impacto forte!',
+                        'Apresentar à escola': 'Conte para todos na formatura ou reunião.',
+                        'Propor continuidade': 'A campanha pode continuar? Como manter o impacto?',
+                        'Listar possíveis entrevistados': 'Pense em pessoas interessantes: empreendedor local, professor, atleta.',
+                        'Pesquisar histórias': 'Busque informações: onde trabalha? O que fez de especial? Por que inspirar?',
+                        'Fazer convite formal': 'Crie um texto educado explicando o projeto e convidando.',
+                        'Confirmar presença': 'Entre em contato, mande lembretes, combine data/hora/local.',
+                        'Criar roteiro de perguntas': 'Escreva 10-15 perguntas. Inclua: origem, desafios, conquistas, dicas.',
+                        'Definir formato do programa': 'Duração: 15-30 min. Estrutura: abertura, entrevista, perguntas, encerramento.',
+                        'Preparar equipamento': 'Celular com tripé, microfone (opcional), iluminação boa, fundo organizado.',
+                        'Testar áudio/vídeo': 'Grave um teste de 1 minuto. Ouça e veja se está bom!',
+                        'Receber convidado': 'Chegue cedo, organize o espaço, receba com água e café.',
+                        'Conduzir entrevista': 'Siga o roteiro, mas seja flexível. Ouça com atenção. Sorria!',
+                        'Gravar com qualidade': 'Sem movimentos bruscos. Fale claro. Keep o celular parado.',
+                        'Fazer fotos': 'Tire fotos do convidado para usar na thumbnail e divulgação.',
+                        'Editar vídeo': 'Corte partes ruins, junte momentos bons. Use CapCut, InShot ou similar.',
+                        'Adicionar legendas': 'Muitos assistem sem som. Legendas são essenciais!',
+                        'Criar thumbnails': 'Imagem de capa com: foto do convidado + título grande + cores fortes.',
+                        'Publicar em plataforma': 'YouTube, Instagram, TikTok. Escolha onde seu público está.',
+                        'Postar nas redes': 'Stories, feed, grupos. Peça para amigos compartilharem!',
+                        'Enviar para escola': 'Compartilhe com professores e coordenação. Orgulho!',
+                        'Coletar feedback': 'O que acharam? O que melhorar para o próximo episódio?',
+                        'Planejar próximo episódio': 'Quem entrevistar? Qual tema? Já deixe preparado!'
+                    };
+                    return details[taskTitle] || 'Complete esta tarefa com atenção e dedicação.';
+                };
+
+                const tarefasHTML = etapa.tarefas ? etapa.tarefas.map((t, idx) => {
+                    const titulo = typeof t === 'string' ? t : t.titulo;
+                    const detalhe = typeof t === 'string' ? getTaskDetails(titulo) : t.detalhe;
+                    return `<li style="font-size: 0.85rem; margin-bottom: 0.5rem; padding: 0.5rem; background: var(--bg-surface); border-radius: 6px; border-left: 3px solid var(--csm-gold);">
+                        <strong>${idx + 1}. ${titulo}</strong><br>
+                        <span style="color: var(--text-muted); font-size: 0.75rem;">${detalhe}</span>
+                    </li>`;
+                }).join('') : '';
                 
                 return `
                     <div class="etapa-card ${concluida ? 'concluida' : ''}" style="margin-bottom: 1rem; padding: 1rem; background: var(--bg-surface2); border-radius: 8px; border-left: 4px solid ${concluida ? 'var(--accent-green)' : 'var(--bg-surface3)'}">
