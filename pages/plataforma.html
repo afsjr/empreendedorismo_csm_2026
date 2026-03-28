@@ -1054,16 +1054,22 @@
                 progressoDetalhado = [];
                 progresso = {};
                 
+                console.log('Carregando progresso para', grupos.length, 'grupos');
+                
                 for (const g of grupos) {
                     if (g.projeto_id) {
                         const data = await DB.buscarProgresso(g.id, g.projeto_id);
+                        console.log('Grupo:', g.nome, 'ProjetoID:', g.projeto_id, 'ProgressoData:', data);
                         progressoDetalhado = [...progressoDetalhado, ...(data || [])];
                         
                         // Calcula progresso em %
                         const etapasConcluidas = (data || []).filter(p => p.concluida).length;
-                        progresso[g.projeto_id] = Math.round((etapasConcluidas / 5) * 100);
+                        const totalEtapas = ETAPAS_POR_PROJETO[g.projeto_id] ? ETAPAS_POR_PROJETO[g.projeto_id].length : 5;
+                        progresso[g.projeto_id] = Math.round((etapasConcluidas / totalEtapas) * 100);
+                        console.log('Progresso calculado:', progresso[g.projeto_id], '%');
                     }
                 }
+                console.log('Progresso final:', progresso);
             } catch (e) {
                 console.error('Erro ao carregar progresso:', e);
             }
@@ -1072,19 +1078,27 @@
         // Atualizar progresso de uma etapa
         async function atualizarProgressoEtapa(grupoId, projetoId, etapa, concluida, anotacoes) {
             try {
+                console.log('Salvando progresso:', { grupoId, projetoId, etapa, concluida, anotacoes });
                 await DB.atualizarProgresso(grupoId, projetoId, etapa, concluida, anotacoes);
+                console.log('Progresso salvo com sucesso');
+                
                 // Registrar log
                 const grupo = grupos.find(g => g.id === grupoId);
                 const acao = concluida ? `concluiu` : `atualizou`;
                 await DB.registrarLog('atualizacao_progresso', `${grupo?.nome || 'Grupo'}: Etapa ${etapa} ${acao}`, App.session.user || 'Aluno', { entidadeId: projetoId, ano: grupo?.ano });
+                
+                // Recarregar progresso e renderizar
                 await loadProgressFromSupabase();
                 renderGroups();
                 renderDashboard();
                 renderProjects();
-                alert(concluida ? 'Etapa concluída com sucesso!' : 'Etapa desmarcada.');
+                
+                // Mostrar toast em vez de alert
+                App.showToast(concluida ? 'Etapa concluída!' : 'Progresso salvo');
+                console.log('Interface atualizada');
             } catch (e) {
                 console.error('Erro ao atualizar progresso:', e);
-                alert('Erro ao atualizar progresso: ' + e.message);
+                App.showToast('Erro ao salvar: ' + e.message);
             }
         }
 
@@ -1680,7 +1694,7 @@
                             </div>
                             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; margin-left: 1rem;">
                                 <input type="checkbox" id="${checkboxId}" ${concluida ? 'checked' : ''} 
-                                    onchange="atualizarProgressoEtapa('${g.id}', '${g.projeto_id}', ${etapa.id}, this.checked, document.getElementById('${textAreaId}').value)">
+                                    onchange="atualizarProgressoEtapa('${g.id}', '${g.projeto_id}', ${etapa.id}, this.checked, document.getElementById('${textAreaId}')?.value || '')">
                                 <span>${etapaConcluida}</span>
                             </label>
                         </div>
