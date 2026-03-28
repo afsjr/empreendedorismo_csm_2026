@@ -464,9 +464,9 @@
         <nav class="nav" id="mainNav">
             <button class="nav-btn active" data-view="landing">Início</button>
             <button class="nav-btn" data-view="groups">Meus Grupos</button>
-            <button class="nav-btn" data-view="dashboard" id="dashboardNavBtn" style="display: none;">📊 Dashboard</button>
+            <button class="nav-btn" data-view="dashboard" id="dashboardNavBtn">📊 Dashboard</button>
             <button class="nav-btn" data-view="projects">Projetos</button>
-            <button class="nav-btn" onclick="requireAuth('professor')">Professor</button>
+            <button class="nav-btn" id="professorBtn" onclick="handleProfessorClick()">Professor</button>
         </nav>
         
         <button class="theme-toggle" onclick="toggleTheme()" aria-label="Alternar tema">☀️</button>
@@ -518,15 +518,19 @@
         <div id="view-groups" class="view" style="display: none;">
             <div class="groups-header">
                 <h2 style="font-size: 1.25rem; font-weight: 700;">Meus Grupos</h2>
-                <button class="btn btn-primary btn-sm" onclick="openGroupForm()">+ Novo Grupo</button>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button class="btn btn-secondary btn-sm" onclick="refreshData()" title="Atualizar dados">🔄 Atualizar</button>
+                    <button class="btn btn-primary btn-sm" onclick="openGroupForm()">+ Novo Grupo</button>
+                </div>
             </div>
             <div class="projects-grid" id="groupsGrid"></div>
         </div>
 
-        <!-- DASHBOARD VIEW (Professor Only) -->
+        <!-- DASHBOARD VIEW -->
         <div id="view-dashboard" class="view" style="display: none;">
             <div class="groups-header">
                 <h2 style="font-size: 1.25rem; font-weight: 700;">📊 Dashboard - Visão Geral</h2>
+                <button class="btn btn-secondary btn-sm" onclick="refreshData()" title="Atualizar dados">🔄 Atualizar</button>
             </div>
             
             <!-- Stats Cards -->
@@ -544,8 +548,8 @@
             <!-- Groups Grid with Progress -->
             <div class="projects-grid" id="dashboardGrid"></div>
             
-            <!-- Activity Log Section -->
-            <div style="margin-top: 2rem; border-top: 2px solid var(--border); padding-top: 1.5rem;">
+            <!-- Activity Log Section (Professor Only) -->
+            <div id="logsSection" style="margin-top: 2rem; border-top: 2px solid var(--border); padding-top: 1.5rem; display: none;">
                 <div class="groups-header">
                     <h2 style="font-size: 1.25rem; font-weight: 700;">📋 Registro de Atividades</h2>
                 </div>
@@ -1023,13 +1027,14 @@
             setupEvents();
             App.initModalClose();
             
-            // Show dashboard button if user is professor
+            // Update professor button state
+            updateProfessorButton();
+            
+            // Dashboard is now visible to everyone
+            renderDashboard();
+            
+            // Load logs only for professor
             if (App.isProfessor()) {
-                const dashboardBtn = document.getElementById('dashboardNavBtn');
-                if (dashboardBtn) {
-                    dashboardBtn.style.display = 'inline-flex';
-                }
-                renderDashboard();
                 loadLogs();
             }
         }
@@ -1055,22 +1060,17 @@
                 progressoDetalhado = [];
                 progresso = {};
                 
-                console.log('Carregando progresso para', grupos.length, 'grupos');
-                
                 for (const g of grupos) {
                     if (g.projeto_id) {
                         const data = await DB.buscarProgresso(g.id, g.projeto_id);
-                        console.log('Grupo:', g.nome, 'ProjetoID:', g.projeto_id, 'ProgressoData:', data);
                         progressoDetalhado = [...progressoDetalhado, ...(data || [])];
                         
                         // Calcula progresso em %
                         const etapasConcluidas = (data || []).filter(p => p.concluida).length;
                         const totalEtapas = ETAPAS_POR_PROJETO[g.projeto_id] ? ETAPAS_POR_PROJETO[g.projeto_id].length : 5;
                         progresso[g.projeto_id] = Math.round((etapasConcluidas / totalEtapas) * 100);
-                        console.log('Progresso calculado:', progresso[g.projeto_id], '%');
                     }
                 }
-                console.log('Progresso final:', progresso);
             } catch (e) {
                 console.error('Erro ao carregar progresso:', e);
             }
@@ -1079,9 +1079,7 @@
         // Atualizar progresso de uma etapa
         async function atualizarProgressoEtapa(grupoId, projetoId, etapa, concluida, anotacoes) {
             try {
-                console.log('Salvando progresso:', { grupoId, projetoId, etapa, concluida, anotacoes });
                 await DB.atualizarProgresso(grupoId, projetoId, etapa, concluida, anotacoes);
-                console.log('Progresso salvo com sucesso');
                 
                 // Registrar log
                 const grupo = grupos.find(g => g.id === grupoId);
@@ -1094,9 +1092,7 @@
                 renderDashboard();
                 renderProjects();
                 
-                // Mostrar toast em vez de alert
                 App.showToast(concluida ? 'Etapa concluída!' : 'Progresso salvo');
-                console.log('Interface atualizada');
             } catch (e) {
                 console.error('Erro ao atualizar progresso:', e);
                 App.showToast('Erro ao salvar: ' + e.message);
@@ -1134,12 +1130,15 @@
                 e.preventDefault();
                 const pass = document.getElementById('authPassword').value;
                 App.submitAuth(pass, null);
-                // After auth, reload to show delete buttons
+                // After auth, update UI without reload
                 setTimeout(() => {
                     if (App.isProfessor()) {
-                        window.location.reload();
+                        updateProfessorButton();
+                        renderGroups();
+                        renderDashboard();
+                        App.showToast('Modo professor ativado');
                     }
-                }, 500);
+                }, 300);
             });
 
             // Group Form - Salvar no Supabase
@@ -1193,6 +1192,48 @@
                 b.classList.toggle('active', b.dataset.view === view);
             });
             closeMobileNav();
+        }
+
+        async function refreshData() {
+            App.showToast('🔄 Atualizando...');
+            await loadGroupsFromSupabase();
+            renderGroups();
+            renderDashboard();
+            renderProjects();
+            App.showToast('Dados atualizados!');
+        }
+
+        function handleProfessorClick() {
+            if (App.isProfessor()) {
+                if (confirm('Deseja sair do modo professor?')) {
+                    logoutProfessor();
+                }
+            } else {
+                App.requireAuth('professor', () => {
+                    updateProfessorButton();
+                });
+            }
+        }
+
+        function logoutProfessor() {
+            App.logout();
+            updateProfessorButton();
+            App.showToast('Modo professor encerrado');
+            renderGroups();
+            renderDashboard();
+        }
+
+        function updateProfessorButton() {
+            const btn = document.getElementById('professorBtn');
+            if (App.isProfessor()) {
+                btn.textContent = '🚪 Sair';
+                btn.style.background = 'var(--accent-red)';
+                btn.style.color = '#fff';
+            } else {
+                btn.textContent = 'Professor';
+                btn.style.background = '';
+                btn.style.color = '';
+            }
         }
 
         function toggleMobileNav() {
@@ -1341,9 +1382,15 @@
         let dashboardFilter = 'all';
 
         function renderDashboard() {
-            if (!App.isProfessor()) return;
-            
             const container = document.getElementById('dashboardGrid');
+            const logsSection = document.getElementById('logsSection');
+            
+            // Show/hide logs section based on professor status
+            if (logsSection) {
+                logsSection.style.display = App.isProfessor() ? 'block' : 'none';
+            }
+            
+            const statsContainer = document.getElementById('dashboardStats');
             const statsContainer = document.getElementById('dashboardStats');
             
             // Filter groups
@@ -1729,11 +1776,22 @@
                     
                     <h3 style="margin-bottom: 1rem;">Etapas do Projeto</h3>
                     ${etapasHTML}
+                    
+                    <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border);">
+                        <button type="button" class="btn btn-primary" style="width: 100%;" onclick="fecharProgressoModal()">
+                            💾 Salvar Progresso
+                        </button>
+                    </div>
                 </div>
             `;
             
             document.getElementById('progressoModalContent').innerHTML = modalContent;
             openModal('progressoModal');
+        }
+
+        function fecharProgressoModal() {
+            closeModal('progressoModal');
+            App.showToast('Progresso salvo!');
         }
 
         function openProject(id) {

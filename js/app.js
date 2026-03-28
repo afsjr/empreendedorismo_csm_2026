@@ -224,7 +224,6 @@ const App = {
 
     logout() {
         this.clearSession();
-        window.location.reload();
     },
 
     // ========================================
