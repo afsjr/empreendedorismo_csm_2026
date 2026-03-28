@@ -190,8 +190,11 @@ const App = {
         const PROF_PASS = 'adelino_csm@santamonicaceq';
         
         if (password === MASTER_PASS) {
-            this.saveSession('master', 'Admin');
+            this.saveSession('master', 'Admin Master');
             this.closeModal('authModal');
+            if (window.DB && window.DB.registrarLog) {
+                window.DB.registrarLog('login', 'Login como Admin Master', 'Admin Master');
+            }
             if (this.authCallback) {
                 this.authCallback();
                 this.authCallback = null;
@@ -201,6 +204,9 @@ const App = {
         } else if (password === PROF_PASS) {
             this.saveSession('professor', 'Professor');
             this.closeModal('authModal');
+            if (window.DB && window.DB.registrarLog) {
+                window.DB.registrarLog('login', 'Login como Professor', 'Professor');
+            }
             if (this.authCallback) {
                 this.authCallback();
                 this.authCallback = null;

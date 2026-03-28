@@ -223,6 +223,37 @@ const DB = {
         };
 
         return stats;
+    },
+
+    // REGISTRO DE ATIVIDADES (LOGBOOK)
+    async registrarLog(tipo, descricao, usuario = null, dadosExtras = {}) {
+        try {
+            const ipAnon = dadosExtras.ip || 'anonimo';
+            const { error } = await supabaseClient.from('logs_atividades').insert([{
+                tipo: tipo,
+                descricao: descricao,
+                usuario: usuario || 'Sistema',
+                ano_escolar: dadosExtras.ano || null,
+                entidade_id: dadosExtras.entidadeId || null,
+                ip_anonimizado: ipAnon
+            }]);
+            if (error) console.warn('Log não salvo:', error.message);
+        } catch (e) {
+            console.warn('Erro ao registrar log:', e.message);
+        }
+    },
+
+    async buscarLogs(filtros = {}) {
+        try {
+            let query = supabaseClient.from('logs_atividades').select('*').order('created_at', { ascending: false });
+            if (filtros.tipo) query = query.eq('tipo', filtros.tipo);
+            if (filtros.limite) query = query.limit(filtros.limite);
+            const { data } = await query;
+            return data || [];
+        } catch (e) {
+            console.warn('Erro ao buscar logs:', e.message);
+            return [];
+        }
     }
 };
 
