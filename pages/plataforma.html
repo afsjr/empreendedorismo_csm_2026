@@ -493,48 +493,305 @@
         let progresso = {};
         let progressoDetalhado = [];
 
-        // Etapas do projeto com descrições detalhadas
-        const ETAPAS = [
-            { id: 1, nome: 'Ideação', desc: 'Definição do problema, pesquisa e validação inicial', 
-              tarefas: ['Identificar o problema', 'Pesquisar o mercado', 'Validar com potenciais clientes', 'Definir a solução'] },
-            { id: 2, nome: 'Planejamento', desc: 'Modelo de negócio, planejamento e recursos',
-              tarefas: ['Criar modelo de negócio', 'Definir custos e precificação', 'Planejar recursos necessários', 'Criar cronograma'] },
-            { id: 3, nome: 'Execução', desc: 'Desenvolvimento do produto/serviço',
-              tarefas: ['Desenvolver o produto/serviço', 'Implementar processos', 'Iniciar operações', 'Atender primeiros clientes'] },
-            { id: 4, nome: 'Testes', desc: 'Validação com clientes, ajustes necessários',
-              tarefas: ['Coletar feedback', 'Identificar pontos de melhoria', 'Ajustar produto/serviço', 'Validar melhorias'] },
-            { id: 5, nome: 'Apresentação', desc: 'Pitch final e documentação',
-              tarefas: ['Preparar apresentação', 'Criar materiais visuais', 'Documentar aprendizados', 'Apresentar para banca'] }
-        ];
-
-        // Etapas específicas por tipo de projeto
-        const ETAPAS_POR_TIPO = {
-            'vendas': [
-                { id: 1, nome: 'Pesquisa', desc: 'Pesquisa de mercado e definição do produto', tarefas: ['Pesquisar clientes', 'Definir produto', 'Calcular custos'] },
-                { id: 2, nome: 'Planejamento', desc: 'Planejamento da venda', tarefas: ['Definir preço', 'Planejar stand', 'Preparar divulgação'] },
-                { id: 3, nome: 'Execução', desc: 'Realização da venda', tarefas: ['Montar stand', 'Atender clientes', 'Vender produtos'] },
-                { id: 4, nome: 'Análise', desc: 'Análise dos resultados', tarefas: ['Contar lucros', 'Avaliar o que vendeu', 'Identificar melhorias'] },
-                { id: 5, nome: 'Apresentação', desc: 'Apresentação dos resultados', tarefas: ['Preparar slides', 'Apresentar resultados', 'Documentar aprendizados'] }
+        // Etapas detalhadas para CADA PROJETO específico
+        const ETAPAS_POR_PROJETO = {
+            // 6º ANO
+            'p6-1': [ // Feira do Centavo
+                { id: 1, nome: 'Pesquisa de Mercado', desc: 'Entender o que os colegas querem comprar', 
+                  tarefas: ['Pesquisar o que os alunos querem comprar', 'Verificar preço de mercado', 'Definir produtos iniciais', 'Listar 5 produtos mínimos'] },
+                { id: 2, nome: 'Planejamento Financeiro', desc: 'Calcular custos e definir preços',
+                  tarefas: ['Calcular custo de cada produto', 'Definir preço de venda com margem', 'Calcular lucro esperado', 'Criar planilha de custos'] },
+                { id: 3, nome: 'Preparação do Stand', desc: 'Montar o espaço de vendas',
+                  tarefas: ['Definir local da feira', 'Criar décor do stand', 'Preparar sacolas/trocos', 'Organizar produtos'] },
+                { id: 4, nome: 'Dia da Venda', desc: 'Realizar a venda',
+                  tarefas: ['Atender clientes com sorriso', 'Dar troco correto', 'Anotar vendas', 'Contar dinheiro final'] },
+                { id: 5, nome: 'Análise de Resultados', desc: 'Verificar lucros e aprender',
+                  tarefas: ['Calcular lucro real', 'O que vendeu mais?', 'O que faria diferente?', 'Apresentar resultados'] }
             ],
-            'consultoria': [
-                { id: 1, nome: 'Diagnóstico', desc: 'Identificação dos problemas', tarefas: ['Conhecer o negócio', 'Identificar problemas', 'Mapear oportunidades'] },
-                { id: 2, nome: 'Proposta', desc: 'Criação da proposta', tarefas: ['Desenvolver soluções', 'Criar proposta', 'Apresentar ao cliente'] },
-                { id: 3, nome: 'Execução', desc: 'Implementação das soluções', tarefas: ['Aplicar soluções', 'Acompanhar resultados', 'Fazer ajustes'] },
-                { id: 4, nome: 'Validação', desc: 'Validação com cliente', tarefas: ['Apresentar resultados', 'Coletar feedback', 'Finalizar projeto'] },
-                { id: 5, nome: 'Apresentação', desc: 'Apresentação final', tarefas: ['Documentar caso', 'Apresentar à banca', 'Avaliar aprendizados'] }
+            'p6-2': [ // Detetives Financeiros
+                { id: 1, nome: 'Mapeamento de Gastos', desc: 'Identificar para onde vai o dinheiro',
+                  tarefas: ['Criar planilha de gastos', 'Registrar gastos por 1 semana', 'Classificar em categorias', 'Identificar desperdícios'] },
+                { id: 2, nome: 'Análise de Padrões', desc: 'Entender comportamentos',
+                  tarefas: ['Criar gráficos de gastos', 'Identificar padrões', 'Detectar hábitos bons e ruins', 'Comparar com colegas'] },
+                { id: 3, nome: 'Propostas de Economia', desc: 'Criar soluções',
+                  tarefas: ['Sugerir mudanças práticas', 'Calcular economia potencial', 'Criar alertas de gastos', 'Estabelecer metas'] },
+                { id: 4, nome: 'Implementação', desc: 'Colocar em prática',
+                  tarefas: ['Aplicar novas regras', 'Acompanhar resultados semanais', 'Ajustar estratégias', 'Manter disciplina'] },
+                { id: 5, nome: 'Apresentação', desc: 'Compartilhar descobertas',
+                  tarefas: ['Criar apresentação visual', 'Mostrar economia realizada', 'Dar dicas para outros', 'Documentar aprendizados'] }
             ],
-            'startup': [
-                { id: 1, nome: 'Ideação', desc: 'Geração e validação de ideias', tarefas: ['Brainstorming', 'Validar problema', 'Definir solução MVP'] },
-                { id: 2, nome: 'Modelo de Negócio', desc: 'Criação do Business Model Canvas', tarefas: ['Definir proposta de valor', 'Mapear canais', 'Calcular receita'] },
-                { id: 3, nome: 'MVP', desc: 'Desenvolvimento do produto mínimo viável', tarefas: ['Criar protótipo', 'Testar com usuários', 'Iterar produto'] },
-                { id: 4, nome: 'Crescimento', desc: 'Escala e validação', tarefas: ['Ajustar com base em feedback', 'Buscar métricas', 'Preparar scaling'] },
-                { id: 5, nome: 'Pitch', desc: 'Apresentação para investidores', tarefas: ['Preparar pitch deck', 'ApresentarDemo Day', 'Documentar jornada'] }
+            'p6-3': [ // Jogo Educativo
+                { id: 1, nome: 'Conceito do Jogo', desc: 'Definir o que será ensinado',
+                  tarefas: ['Escolher tema empreendedorismo', 'Definir público-alvo', 'Criar objetivo educativo', 'Escolher tipo de jogo'] },
+                { id: 2, nome: 'Mecânicas', desc: 'Como o jogo funciona',
+                  tarefas: ['Criar regras básicas', 'Definir turnos', 'Criar cartas outabuleiro', 'Testar lógica'] },
+                { id: 3, nome: 'Produção', desc: 'Criar o jogo físico',
+                  tarefas: ['Montar tabuleiro/cartas', 'Criar peças', 'Definir estética visual', 'Produzir componentes'] },
+                { id: 4, nome: 'Teste', desc: 'Validar com jogadores',
+                  tarefas: ['Testar com amigos', 'Ajustar dificuldade', 'Corrigir regras', 'Refinar componentes'] },
+                { id: 5, nome: 'Apresentação', desc: 'Mostrar o jogo criado',
+                  regras: ['Explicar objetivo', 'Demonstrar partida', 'Ensinar a jogar', 'Receber feedback'] }
             ],
-            'default': ETAPAS
+            'p6-4': [ // Inventor da Escola
+                { id: 1, nome: 'Identificação de Problemas', desc: 'Encontrar dores da escola',
+                  tarefas: ['Observar a escola por 3 dias', 'Listar 10 problemas encontrados', 'Priorizar os mais urgentes', 'Escolher 1 problema'] },
+                { id: 2, nome: 'Pesquisa', desc: 'Entender o problema escolhido',
+                  tarefas: ['Entrevistar afetados', 'Pesquisar soluções existentes', 'Analisar causas raiz', 'Buscar inspirações'] },
+                { id: 3, nome: 'Criação', desc: 'Desenvolver a solução',
+                  tarefas: ['Fazer brainstorming', 'Criar 3 soluções', 'Escolher melhor solução', 'Fazer protótipo simples'] },
+                { id: 4, nome: 'Validação', desc: 'Testar a solução',
+                  tarefas: ['Apresentar para afetados', 'Coletar feedback', 'Ajustar protótipo', 'Refinar ideia'] },
+                { id: 5, nome: 'Apresentação', desc: 'Demonstrar a invenção',
+                  tarefas: ['Criar maquete/protótipo', 'Preparar pitch', 'Apresentar para banca', 'Documentar processo'] }
+            ],
+            'p6-5': [ // Campanha Social
+                { id: 1, nome: 'Diagnóstico Social', desc: 'Identificar necessidade da comunidade',
+                  tarefas: ['Pesquisar problemas locais', 'Escolher causa', 'Entender público-alvo', 'Definir objetivo'] },
+                { id: 2, nome: 'Planejamento', desc: 'Criar plano de ação',
+                  tarefas: ['Definir tipo de campanha', 'Criar mensagem', 'Planejar canais', 'Arrecadar recursos'] },
+                { id: 3, nome: 'Execução', desc: 'Implementar a campanha',
+                  tarefas: ['Divulgar nas redes', 'Mobilizar participantes', 'Coletar doações/ajuda', 'Registrar tudo'] },
+                { id: 4, nome: 'Impacto', desc: 'Medir resultados',
+                  tarefas: ['Quantificar resultados', 'Documentar histórias', 'Agradecer participantes', 'Avaliar eficácia'] },
+                { id: 5, nome: 'Apresentação', desc: 'Compartilhar resultados',
+                  tarefas: ['Criar apresentação', 'Mostrar impacto gerado', 'Apresentar à escola', 'Propor continuidade'] }
+            ],
+            'p6-6': [ // Talk Show
+                { id: 1, nome: 'Pesquisa de Entrevistados', desc: 'Encontrar entrepreneurs',
+                  tarefas: ['Listar possíveis entrevistados', 'Pesquisar histórias', 'Fazer convite formal', 'Confirmar presença'] },
+                { id: 2, nome: 'Preparação', desc: 'Organizar a entrevista',
+                  tarefas: ['Criar roteiro de perguntas', 'Definir formato do programa', 'Preparar equipamento', 'Testar áudio/vídeo'] },
+                { id: 3, nome: 'Produção', desc: 'Gravar o episódio',
+                  tarefas: ['Receber convidado', 'Conduzir entrevista', 'Gravar com qualidade', 'Fazer fotos'] },
+                { id: 4, nome: 'Edição', desc: 'Finalizar conteúdo',
+                  tarefas: ['Editar vídeo', 'Adicionar legendas', 'Criar thumbnails', 'Publicar em plataforma'] },
+                { id: 5, nome: 'Divulgação', desc: 'Compartilhar com todos',
+                  tarefas: ['Postar nas redes', 'Enviar para escola', 'Coletar feedback', 'Planejar próximo episódio'] }
+            ],
+            // 7º ANO
+            'p7-1': [ // Consultoria Mirim
+                { id: 1, nome: 'Diagnóstico', desc: 'Conhecer o negócio cliente',
+                  tarefas: ['Visitar estabelecimento', 'Entrevistar dono', 'Mapear processos', 'Identificar problemas'] },
+                { id: 2, nome: 'Análise', desc: 'Entender profundamente',
+                  tarefas: ['Analisar dados financeiros', 'Observar atendimento', 'Mapear concorrentes', 'Criar relatório'] },
+                { id: 3, nome: 'Proposta', desc: 'Criar soluções',
+                  tarefas: ['Brainstorming de ideias', 'Selecionar 3 soluções', 'Criar proposta', 'Apresentar ao cliente'] },
+                { id: 4, nome: 'Implementação', desc: 'Ajudar a executar',
+                  tarefas: ['Acompanhar execução', 'Ajustar conforme preciso', 'Dar suporte', 'Medir resultados'] },
+                { id: 5, nome: 'Encerramento', desc: 'Finalizar consultoria',
+                  tarefas: ['Avaliar satisfação', 'Documentar caso', 'Receber pagamento', 'Pedir indicação'] }
+            ],
+            'p7-2': [ // Mapa Empreendedor
+                { id: 1, nome: 'Levantamento', desc: 'Mapear negócios locais',
+                  tarefas: ['Listar comércios da região', 'Visitar estabelecimentos', 'Fotografar fachadas', 'Entrevistar donos'] },
+                { id: 2, nome: 'Análise', desc: 'Entender o ecossistema',
+                  tarefas: ['Categorizar negócios', 'Identificar tendências', 'Mapear oportunidades', 'Criar banco de dados'] },
+                { id: 3, nome: 'Inteligência', desc: 'Gerar insights',
+                  tarefas: ['Identificar gaps', 'Detectar oportunidades', 'Analisar concorrência', 'Criar relatório'] },
+                { id: 4, nome: 'Validação', desc: 'Confirmar descobertas',
+                  tarefas: ['Apresentar para comerciantes', 'Validar oportunidades', 'Refinar análises', 'Criar mapa visual'] },
+                { id: 5, nome: 'Entrega', desc: 'Disponibilizar resultado',
+                  tarefas: ['Criar mapa interativo', 'Apresentar à comunidade', 'Disponibilizar online', 'Atualizar periodically'] }
+            ],
+            'p7-3': [ // Shark Tank
+                { id: 1, nome: 'Pitch Inicial', desc: 'Criar apresentação rápida',
+                  tarefas: ['Criar ideia de negócio', 'Desenvolver conceito', 'Criar protótipo', 'Preparar pitch de 2 min'] },
+                { id: 2, nome: 'Validação', desc: 'Testar com clientes',
+                  tarefas: ['Apresentar para colegas', 'Coletar feedback', 'Ajustar produto', 'Refinar proposta'] },
+                { id: 3, nome: 'Preparação Formal', desc: 'Criar apresentação completa',
+                  tarefas: ['Criar deck de slides', 'Preparar discurso', 'Antecipar perguntas', 'Rehearsar muito'] },
+                { id: 4, nome: 'Apresentação', desc: 'Pitch para banca',
+                  tarefas: ['Apresentar para tubarões', 'Responder perguntas', 'Negociar valores', 'Fechar negócio'] },
+                { id: 5, nome: 'Documentação', desc: 'Registrar tudo',
+                  tarefas: ['Filmar apresentação', 'Documentar propostas', 'Criar caso de sucesso', 'Compartilhar resultados'] }
+            ],
+            'p7-4': [ // Hackathon
+                { id: 1, nome: 'Desafio', desc: 'Receber o problema',
+                  tarefas: ['Entender o tema', 'Formar equipe', 'Criar escopo', 'Planejar abordagem'] },
+                { id: 2, nome: 'Imersão', desc: 'Trabalhar na solução',
+                  tarefas: ['Brainstorming intenso', 'Criar protótipo', 'Desenvolver MVP', 'Testar continuamente'] },
+                { id: 3, nome: 'Refinamento', desc: 'Polir solução',
+                  tarefas: ['Ajustar com feedback', 'Melhorar UX', 'Criar apresentação', 'Praticar pitch'] },
+                { id: 4, nome: 'Demo', desc: 'Apresentar resultado',
+                  tarefas: ['Demonstrar solução', 'Explicar diferencial', 'Responder banca', 'Votar popular'] },
+                { id: 5, nome: 'Encerramento', desc: 'Celebrar e aprender',
+                  tarefas: ['Veredito final', 'Network com participantes', 'Documentar aprendizados', 'Manter contato'] }
+            ],
+            'p7-5': [ // Agência CSM
+                { id: 1, nome: 'Briefing', desc: 'Entender o cliente',
+                  tarefas: ['Reunião com empresa', 'Entender objetivos', 'Criar briefing', 'Definir entregáveis'] },
+                { id: 2, nome: 'Estratégia', desc: 'Planejar campanha',
+                  tarefas: ['Pesquisar mercado', 'Definir messaging', 'Criar conceito', 'Planejar canais'] },
+                { id: 3, nome: 'Criação', desc: 'Desenvolver materiais',
+                  tarefas: ['Criar posts', 'Produzir conteúdo', 'Desenvolver arte', 'Escrever textos'] },
+                { id: 4, nome: 'Execução', desc: 'Publicar e gerenciar',
+                  tarefas: ['Agendar publicações', 'Publicar conteúdo', 'Monitorar métricas', 'Ajustar estratégia'] },
+                { id: 5, nome: 'Relatório', desc: 'Apresentar resultados',
+                  tarefas: ['Compilar métricas', 'Analisar ROI', 'Apresentar ao cliente', 'Propor próximo ciclo'] }
+            ],
+            'p7-6': [ // TEDx Escola
+                { id: 1, nome: 'Escolha do Tema', desc: 'Definir fala única',
+                  tarefas: ['Refletir sobre experiência', 'Escolher ideia valiosa', 'Criar título impactante', 'Estruturar fala'] },
+                { id: 2, nome: 'Desenvolvimento', desc: 'Criar conteúdo',
+                  tarefas: ['Escrever roteiro completo', 'Adicionar histórias', 'Incluir dados', 'Criar abertura/fechamento'] },
+                { id: 3, nome: 'Prática', desc: 'Dominar a apresentação',
+                  tarefas: ['Decorar fala', 'Gravar себе', 'Ajustar timing', 'Praticar expressividade'] },
+                { id: 4, nome: 'Produção', desc: 'Preparar suporte visual',
+                  tarefas: ['Criar slides', 'Selecionar imagens', 'Produzir vídeos', 'Configurar palco'] },
+                { id: 5, nome: 'Apresentação', desc: 'Encantar plateia',
+                  tarefas: ['Apresentar para escola', 'Gravar apresentação', 'Receber Ovação', 'Publicar online'] }
+            ],
+            // 8º ANO
+            'p8-1': [ // Startup Weekend
+                { id: 1, nome: 'Ideação', desc: 'Encontrar problema/solução',
+                  tarefas: ['Identificar dor real', 'Formar equipe', 'Validar problema', 'Criar solução inicial'] },
+                { id: 2, nome: 'Modelagem', desc: 'Criar negócio',
+                  tarefas: ['Criar Business Canvas', 'Definir proposta de valor', 'Mapear canais', 'Calcular unit economics'] },
+                { id: 3, nome: 'MVP', desc: 'Desenvolver produto',
+                  tarefas: ['Criar protótipo funcional', 'Testar com usuários', 'Coletar métricas', 'Iterar rapidamente'] },
+                { id: 4, nome: 'Validação', desc: 'Confirmar product-market fit',
+                  tarefas: ['Apresentar para clientes', 'Medir engajamento', 'Ajustar based on feedback', 'Preparar pitch'] },
+                { id: 5, nome: 'Demo Day', desc: 'Pitch para investidores',
+                  tarefas: ['Apresentar para banca', 'Demonstrar produto', 'Negociar investimento', 'Criar plano de continuidade'] }
+            ],
+            'p8-2': [ // Fintech da Escola
+                { id: 1, nome: 'Problema', desc: 'Identificar dor financeira',
+                  tarefas: ['Pesquisar problemas financeiros', 'Entrevistar colegas', 'Identificar solução digital', 'Criar conceito app'] },
+                { id: 2, nome: 'Solução', desc: 'Desenvolver conceito',
+                  tarefas: ['Criar specs do app', 'Desenhar interface', 'Planejar funcionalidades', 'Criar protótipo'] },
+                { id: 3, nome: 'MVP', desc: 'Construir produto',
+                  tarefas: ['Desenvolver app (no-code)', 'Testar com usuários', 'Coletar feedback', 'Melhorar UX'] },
+                { id: 4, nome: 'Lançamento', desc: 'Disponibilizar solução',
+                  tarefas: ['Lançar para escola', 'Divulgar nas redes', 'Acompanhar uso', 'Atualizar continuamente'] },
+                { id: 5, nome: 'Escala', desc: 'Crescer solução',
+                  tarefas: ['Analisar métricas', 'Buscar melhorias', 'Preparar apresentação', 'Documentar case'] }
+            ],
+            'p8-3': [ // Economia Circular
+                { id: 1, nome: 'Diagnóstico', desc: 'Mapear resíduos',
+                  tarefas: ['Auditar lixo da escola', 'Categorizar materiais', 'Identificar oportunidades', 'Quantificar volume'] },
+                { id: 2, nome: 'Pesquisa', desc: 'Entender reutilização',
+                  tarefas: ['Pesquisar casos bem-sucedidos', 'Identificar parceiros', 'Criar modelo de coleta', 'Planejar processo'] },
+                { id: 3, nome: 'Implementação', desc: 'Colocar em prática',
+                  tarefas: ['Criar pontos de coleta', 'Implementar triagem', 'Parcerias para reaproveitamento', 'Criar produtos'] },
+                { id: 4, nome: 'Educação', desc: 'Conscientizar comunidade',
+                  tarefas: ['Criar campanhas', 'Palestras na escola', 'Materiais educativos', 'Transformar cultura'] },
+                { id: 5, nome: 'Impacto', desc: 'Medir e celebrar',
+                  tarefas: ['Calcular impacto ambiental', 'Apresentar resultados', 'Premiar participantes', 'Expandir para comunidade'] }
+            ],
+            'p8-4': [ // Lab de Tecnologia
+                { id: 1, nome: 'Descoberta', desc: 'Explorar ferramentas',
+                  tarefas: ['Listar ferramentas digitais', 'Testar plataformas', 'Criar tutoriais', 'Mapear necessidades'] },
+                { id: 2, nome: 'Aprendizado', desc: 'Dominar tecnologias',
+                  tarefas: ['Estudar ferramentas escolhidas', 'Praticar muito', 'Criar projetos-teste', 'Dominar basics'] },
+                { id: 3, nome: 'Aplicação', desc: 'Usar para negócio',
+                  tarefas: ['Criar presença digital', 'Desenvolver conteúdo', 'Automatizar processos', 'Medir resultados'] },
+                { id: 4, nome: 'Disseminação', desc: 'Ensinar outros',
+                  tarefas: ['Criar curso', 'Gravar vídeos', 'Mentorar colegas', 'Documentar descobertas'] },
+                { id: 5, nome: 'Certificação', desc: 'Comprovar conhecimento',
+                  tarefas: ['Apresentar portfólio', 'Demonstrar habilidades', 'Receber certificado', 'Continuar evoluindo'] }
+            ],
+            'p8-5': [ // Redesign UX
+                { id: 1, nome: 'Descoberta', desc: 'Entender usuário',
+                  tarefas: ['Definir usuário-alvo', 'Entrevistar usuários', 'Mapear jornada', 'Identificar dores'] },
+                { id: 2, nome: 'Análise', desc: 'Avaliar solução atual',
+                  tarefas: ['Analisar interface atual', 'Testar usabilidade', 'Mapear problemas', 'Criar relatório'] },
+                { id: 3, nome: 'Conceito', desc: 'Criar nova solução',
+                  tarefas: ['Criar wireframes', 'Desenvolver protótipo', 'Testar com usuários', 'Iterar design'] },
+                { id: 4, nome: 'Produção', desc: 'Finalizar design',
+                  tarefas: ['Criar design completo', 'Preparar handoff', 'Criar documentação', 'Apresentar para empresa'] },
+                { id: 5, nome: 'Entrega', desc: 'Implementar mudança',
+                  tarefas: ['Demonstrar para stakeholders', 'Implementar mudanças', 'Medir melhoria', 'Documentar caso'] }
+            ],
+            'p8-6': [ // Podcast
+                { id: 1, nome: 'Conceito', desc: 'Definir podcast',
+                  tarefas: ['Escolher tema', 'Definir formato', 'Criar nome', 'Planejar frequência'] },
+                { id: 2, nome: 'Preparação', desc: 'Organizar conteúdo',
+                  tarefas: ['Pesquisar tópicos', 'Convidar Guests', 'Criar roteiro', 'Preparar equipamento'] },
+                { id: 3, nome: 'Produção', desc: 'Gravar episódio',
+                  tarefas: ['Gravar episódio', 'Editar áudio', 'Adicionar efeitos', 'Criar thumbnail'] },
+                { id: 4, nome: 'Lançamento', desc: 'Publicar',
+                  tarefas: ['Publicar em plataformas', 'Divulgar nas redes', 'Construir audiência', 'Interagir com ouvintes'] },
+                { id: 5, nome: 'Crescimento', desc: 'Escalar projeto',
+                  tarefas: ['Analisar métricas', 'Melhorar qualidade', 'Monetizar se possível', 'Criar comunidade'] }
+            ],
+            // 9º ANO
+            'p9-1': [ // Startup Real
+                { id: 1, nome: 'Fundação', desc: 'Criar empresa',
+                  tarefas: ['Validar ideia com mercado', 'Criar plano de negócios', 'Formalizar empresa', 'Abrir CNPJ'] },
+                { id: 2, nome: 'Produto', desc: 'Desenvolver oferta',
+                  tarefas: ['Criar MVP', 'Testar com clientes', 'Ajustar produto', 'Preparar para escala'] },
+                { id: 3, nome: 'Operação', desc: 'Fazer negócio funcionar',
+                  tarefas: ['Atender clientes', 'Processar vendas', 'Gerenciar financeiro', 'Contratar se preciso'] },
+                { id: 4, nome: 'Crescimento', desc: 'Escalar negócio',
+                  tarefas: ['Investir em marketing', 'Expandir canais', 'Melhorar processos', 'Buscar investimento'] },
+                { id: 5, nome: 'Sustentabilidade', desc: 'Garantir futuro',
+                  tarefas: ['Criar operação sustentável', 'Documentar processos', 'Buscar mentoria', 'Planejar sucessão'] }
+            ],
+            'p9-2': [ // Fundo de Investimento
+                { id: 1, nome: 'Estrutura', desc: 'Criar fundo',
+                  tarefas: ['Definir propósito do fundo', 'Criar regras', 'Arrecadar capital', 'Formalizar estrutura'] },
+                { id: 2, nome: 'Análise', desc: 'Avaliar projetos',
+                  tarefas: ['Receber propostas', 'Avaliar negócios', 'Analisar risco', 'Selecionar projetos'] },
+                { id: 3, nome: 'Investimento', desc: 'Alocar recursos',
+                  tarefas: ['Aprovar investimentos', 'Liberar capital', 'Acompanhar projetos', 'Dar mentoria'] },
+                { id: 4, nome: 'Gestão', desc: 'Monitorar resultados',
+                  tarefas: ['Acompanhar métricas', 'Reunião mensal', 'Ajustar estratégia', 'Documentar decisões'] },
+                { id: 5, nome: 'Retorno', desc: 'Mostrar resultados',
+                  tarefas: ['Calcular ROI', 'Apresentar resultados', 'Decidir distribuição', 'Planejar próximo ciclo'] }
+            ],
+            'p9-3': [ // Incubadora Social
+                { id: 1, nome: 'Seleção', desc: 'Escolher projetos',
+                  tarefas: ['Abrir chamadas', 'Avaliar inscrição', 'Selecionar negócios', 'Formar turma'] },
+                { id: 2, nome: 'Diagnóstico', desc: 'Entender cada negócio',
+                  tarefas: ['Conhecer每个 projeto', 'Mapear necessidades', 'Criar plano individual', 'Definir mentores'] },
+                { id: 3, nome: 'Aceleração', desc: 'Acelerar projetos',
+                  tarefas: ['Mentorias semanais', 'Workshops técnicos', 'Conexões estratégicas', 'Apoio logístico'] },
+                { id: 4, nome: 'Demo', desc: 'Apresentar resultados',
+                  tarefas: ['Preparar pitch day', 'Convidar investidores', 'Demonstrar resultados', 'Celebrar conquistas'] },
+                { id: 5, nome: 'Formatura', desc: 'Encerrar ciclo',
+                  tarefas: ['Avaliar progresso', 'Conectar a recursos', 'Manter rede ativa', 'Preparar próximo batch'] }
+            ],
+            'p9-4': [ // Demo Day
+                { id: 1, nome: 'Preparación', desc: 'Preparar evento',
+                  tarefas: ['Definir banca avaliadora', 'Selecionar startups', 'Criar evento', 'Convidar público'] },
+                { id: 2, nome: 'Coaching', desc: 'Apoiar startups',
+                  tarefas: ['Ajustar pitches', 'Ensinar apresentação', 'Simular Q&A', 'Preparar nervos'] },
+                { id: 3, nome: 'Logística', desc: 'Organizar dia',
+                  tarefas: ['Setup do espaço', 'Testar equipamentos', 'Receber investidores', 'Organizar cronograma'] },
+                { id: 4, nome: 'Apresentação', desc: 'Dia do Demo Day',
+                  tarefas: ['Startups apresentam', 'Investidores fazem perguntas', 'Networking', 'Anunciar parcerias'] },
+                { id: 5, nome: 'Follow-up', desc: 'Manter momentum',
+                  tarefas: ['Acompanhar conversas', 'Fechar deals', 'Documentar resultados', 'Planejar próximo evento'] }
+            ],
+            'p9-5': [ // Limoeiro 2040
+                { id: 1, nome: 'Visão', desc: 'Sonhar futuro',
+                  tarefas: ['Pesquisar tendências', 'Identificar desafios', 'Envolver comunidade', 'Criar visão compartilhada'] },
+                { id: 2, nome: 'Pesquisa', desc: 'Entender realidade',
+                  tarefas: ['Mapear infraestrutura', 'Analisar economia', 'Entrevistar moradores', 'Coletar dados'] },
+                { id: 3, nome: 'Soluções', desc: 'Criar propostas',
+                  tarefas: ['Brainstorming de ideias', 'Selecionar soluções viáveis', 'Criar protótipos', 'Testar com comunidade'] },
+                { id: 4, nome: 'Projeto', desc: 'Detalhar solução',
+                  tarefas: ['Criar projeto detalhado', 'Calcular custos', 'Identificar parceiros', 'Criar plano de ação'] },
+                { id: 5, nome: 'Advocacy', desc: 'Apresentar para власти',
+                  tarefas: ['Apresentar paraprefeitura', 'Buscar parceiros', 'Iniciar implementação', 'Acompanhar progresso'] }
+            ],
+            'p9-6': [ // Mentor de Futuro
+                { id: 1, nome: 'Formação', desc: 'Aprender a mentorar',
+                  tarefas: ['Estudar mentoria', 'Criar materiais', 'Receber treinamento', 'Observar mentores'] },
+                { id: 2, nome: 'Conexão', desc: 'Conhecer mentorados',
+                  tarefas: ['Selecionar alunos', 'Identificar necessidades', 'Criar pairing', 'Definir frequência'] },
+                { id: 3, nome: 'Acompanhamento', desc: 'Mentorar ativamente',
+                  tarefas: ['Reuniões semanais', 'Compartilhar experiência', 'Ajudar em projetos', 'Dar feedback'] },
+                { id: 4, nome: 'Impacto', desc: 'Medir resultados',
+                  tarefas: ['Avaliar progresso', 'Ajustar abordagem', 'Celebrar conquistas', 'Documentar案例'] },
+                { id: 5, nome: 'Legado', desc: 'Continuidade',
+                  tarefas: ['Passar bastão', 'Criar programa', 'Manter contato', 'Inspirar outros'] }
+            ]
         };
 
-        function getEtapasProjeto(tipoProjeto = 'default') {
-            return ETAPAS_POR_TIPO[tipoProjeto] || ETAPAS_POR_TIPO['default'];
+        // Função para obter etapas de um projeto
+        function getEtapasProjeto(projetoId) {
+            return ETAPAS_POR_PROJETO[projetoId] || ETAPAS_POR_PROJETO['p6-1']; // Default para primeiro projeto
         }
 
         async function init() {
