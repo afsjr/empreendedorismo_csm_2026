@@ -1,7 +1,7 @@
 const CONFIG = {
-    apiKey: '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',
-    endpoint: 'https://openrouter.ai/api/v1/chat/completions',
-    model: 'meta-llama/llama-3.2-1b-instruct:free'
+    apiKey: localStorage.getItem('openai_api_key') || '',
+    endpoint: 'https://api.openai.com/v1/chat/completions',
+    model: 'gpt-4o-mini'
 };
 
 const EXPIRY_DATE = new Date('2027-01-01');
@@ -118,9 +118,7 @@ async function callAPI() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + CONFIG.apiKey,
-                'HTTP-Referer': window.location.href,
-                'X-Title': 'Mentor IA CSM'
+                'Authorization': 'Bearer ' + CONFIG.apiKey
             },
             body: JSON.stringify(body)
         });
@@ -276,8 +274,23 @@ function showExpiryModal(reason) {
     modal.style.display = 'flex';
 }
 
+function saveApiKey() {
+    const input = document.getElementById('apiKeyInput');
+    const key = input.value.trim();
+    if (!key) {
+        alert('Por favor, insira uma API key.');
+        return;
+    }
+    localStorage.setItem('openai_api_key', key);
+    document.getElementById('apiKeyModal').style.display = 'none';
+    location.reload();
+}
+
 document.addEventListener('DOMContentLoaded', function() {
-    if (isExpired()) {
+    const savedKey = localStorage.getItem('openai_api_key');
+    if (!savedKey) {
+        document.getElementById('apiKeyModal').style.display = 'flex';
+    } else if (isExpired()) {
         showExpiryModal(' expired');
     } else {
         const days = getDaysRemaining();
@@ -286,6 +299,8 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('apiKeyModal').style.display = 'flex';
         }
     }
+    
+    document.getElementById('saveApiKeyBtn').addEventListener('click', saveApiKey);
     
     document.getElementById('closeModalBtn').addEventListener('click', function() {
         document.getElementById('apiKeyModal').style.display = 'none';
