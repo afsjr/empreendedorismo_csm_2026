@@ -283,22 +283,25 @@ function showExpiryModal(reason) {
 }
 
 function saveApiKey() {
+    alert('Salvando API key...');
     const input = document.getElementById('apiKeyInput');
     const key = input.value.trim();
     if (!key) {
         alert('Por favor, insira uma API key.');
         return;
     }
-    sessionStorage.setItem('openai_api_key', key);
     localStorage.setItem('openai_api_key', key);
-    console.log('API Key saved:', key.substring(0, 10) + '...');
+    alert('Chave salva! Recarregando...');
     document.getElementById('apiKeyModal').style.display = 'none';
-    window.location.reload();
+    setTimeout(function() {
+        window.location.reload();
+    }, 500);
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    const savedKey = localStorage.getItem('openai_api_key') || sessionStorage.getItem('openai_api_key');
-    console.log('Page loaded, API Key exists:', !!savedKey);
+    alert('JavaScript carregado!');
+    const savedKey = localStorage.getItem('openai_api_key');
+    alert('Chave encontrada: ' + (savedKey ? 'SIM' : 'NÃO'));
     if (!savedKey) {
         document.getElementById('apiKeyModal').style.display = 'flex';
     } else if (isExpired()) {
