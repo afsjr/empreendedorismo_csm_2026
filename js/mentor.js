@@ -283,14 +283,27 @@ function showExpiryModal(reason) {
 }
 
 function saveApiKey() {
+    alert('saveApiKey called!');
     const input = document.getElementById('apiKeyInput');
+    if (!input) {
+        alert('Input não encontrado!');
+        return;
+    }
     const key = input.value.trim();
     if (!key) {
         alert('Por favor, insira uma API key.');
         return;
     }
     localStorage.setItem('openai_api_key', key);
-    document.getElementById('apiKeyModal').style.display = 'none';
+    alert('Chave salva: ' + key.substring(0, 10) + '...');
+    
+    const modal = document.getElementById('apiKeyModal');
+    if (modal) {
+        modal.style.display = 'none';
+        alert('Modal escondido!');
+    } else {
+        alert('Modal não encontrado!');
+    }
 }
 
 document.addEventListener('DOMContentLoaded', function() {
