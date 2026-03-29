@@ -1,5 +1,5 @@
 const CONFIG = {
-    apiKey: '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',
+    apiKey: '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',
     endpoint: 'https://openrouter.ai/api/v1/chat/completions',
     model: 'google/gemma-2-2b-it:free'
 };
