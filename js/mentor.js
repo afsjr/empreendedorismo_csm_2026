@@ -283,7 +283,6 @@ function showExpiryModal(reason) {
 }
 
 function saveApiKey() {
-    alert('Salvando API key...');
     const input = document.getElementById('apiKeyInput');
     const key = input.value.trim();
     if (!key) {
@@ -291,27 +290,17 @@ function saveApiKey() {
         return;
     }
     localStorage.setItem('openai_api_key', key);
-    alert('Chave salva! Recarregando...');
     document.getElementById('apiKeyModal').style.display = 'none';
-    setTimeout(function() {
-        window.location.reload();
-    }, 500);
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    alert('JavaScript carregado!');
     const savedKey = localStorage.getItem('openai_api_key');
-    alert('Chave encontrada: ' + (savedKey ? 'SIM' : 'NÃO'));
+    console.log('Saved key:', savedKey ? 'YES' : 'NO');
+    
     if (!savedKey) {
         document.getElementById('apiKeyModal').style.display = 'flex';
-    } else if (isExpired()) {
-        showExpiryModal(' expired');
     } else {
-        const days = getDaysRemaining();
-        if (days <= 7) {
-            document.getElementById('daysLeft').textContent = days;
-            document.getElementById('apiKeyModal').style.display = 'flex';
-        }
+        document.getElementById('apiKeyModal').style.display = 'none';
     }
     
     const saveBtn = document.getElementById('saveApiKeyBtn');
