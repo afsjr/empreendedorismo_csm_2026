@@ -141,6 +141,8 @@ async function callAPI() {
         let reply = data.choices[0].message.content || '';
 
         reply = reply.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
+        
+        reply = sanitizeOutput(reply);
 
         if (!reply) {
             throw new Error('O modelo retornou resposta vazia. Tente novamente.');
@@ -205,6 +207,32 @@ function resetChat() {
     isLoading = false;
     document.getElementById('sendBtn').disabled = false;
     document.getElementById('modeSelector').classList.add('active');
+}
+
+function sanitizeOutput(text) {
+    let sanitized = text;
+    
+    sanitized = sanitized.replace(/```[\s\S]*?```/g, '');
+    sanitized = sanitized.replace(/`[^`]+`/g, '');
+    
+    const codePatterns = [
+        /\b(eval|new Function|setTimeout|setInterval|setImmediate|execScript)\s*\(/gi,
+        /\b(document|window|location|navigator|screen)\./gi,
+        /javascript:/gi,
+        /<script[\s>]/gi,
+        /<\/script>/gi,
+        /<iframe[\s>]/gi,
+        /<\/iframe>/gi,
+        /on\w+\s*=/gi,
+        /\\x[0-9a-fA-F]{2}/g,
+        /\\u[0-9a-fA-F]{4}/g
+    ];
+    
+    codePatterns.forEach(pattern => {
+        sanitized = sanitized.replace(pattern, '');
+    });
+    
+    return sanitized;
 }
 
 function escapeHtml(text) {
