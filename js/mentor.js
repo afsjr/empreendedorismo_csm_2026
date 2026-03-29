@@ -96,12 +96,14 @@ function sendMessage(forcedText) {
 }
 
 async function callAPI() {
-    const apiKey = localStorage.getItem('openai_api_key');
+    let apiKey = localStorage.getItem('openai_api_key') || sessionStorage.getItem('openai_api_key');
     
     if (!apiKey) {
         document.getElementById('apiKeyModal').style.display = 'flex';
         return;
     }
+    
+    console.log('API Key found:', apiKey.substring(0, 10) + '...');
 
     console.log('Starting API call...');
     const sendBtn = document.getElementById('sendBtn');
@@ -116,6 +118,7 @@ async function callAPI() {
         };
 
         console.log('Calling API:', CONFIG.endpoint, 'Model:', CONFIG.model);
+        console.log('Messages:', conversationHistory);
 
         const response = await fetch(CONFIG.endpoint, {
             method: 'POST',
@@ -157,6 +160,7 @@ async function callAPI() {
     } catch (error) {
         console.error('API Error:', error);
         removeTyping();
+        alert('Erro: ' + error.message);
         const errorMsg = error.message.toLowerCase();
         if (errorMsg.includes('credit') || errorMsg.includes('insufficient') || errorMsg.includes('billing') || errorMsg.includes('quota') || errorMsg.includes('limit')) {
             showExpiryModal(' credits');
@@ -284,13 +288,16 @@ function saveApiKey() {
         alert('Por favor, insira uma API key.');
         return;
     }
+    sessionStorage.setItem('openai_api_key', key);
     localStorage.setItem('openai_api_key', key);
+    console.log('API Key saved:', key.substring(0, 10) + '...');
     document.getElementById('apiKeyModal').style.display = 'none';
-    location.reload();
+    window.location.reload();
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    const savedKey = localStorage.getItem('openai_api_key');
+    const savedKey = localStorage.getItem('openai_api_key') || sessionStorage.getItem('openai_api_key');
+    console.log('Page loaded, API Key exists:', !!savedKey);
     if (!savedKey) {
         document.getElementById('apiKeyModal').style.display = 'flex';
     } else if (isExpired()) {
