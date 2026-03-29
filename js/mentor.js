@@ -1,10 +1,10 @@
 const CONFIG = {
     apiKey: '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',
     endpoint: 'https://openrouter.ai/api/v1/chat/completions',
-    model: 'google/gemma-2-2b-it:free'
+    model: 'meta-llama/llama-3.2-1b-instruct:free'
 };
 
-const EXPIRY_DATE = new Date('2026-04-05');
+const EXPIRY_DATE = new Date('2027-01-01');
 
 let conversationHistory = [];
 let currentMode = '';
@@ -126,12 +126,14 @@ async function callAPI() {
         });
 
         console.log('Response status:', response.status);
+        console.log('Full response:', response);
 
         const data = await response.json();
-        console.log('Response data:', JSON.stringify(data).substring(0, 500));
+        console.log('Response data:', JSON.stringify(data).substring(0, 1000));
 
         if (!response.ok) {
-            throw new Error(data.error?.message || 'Erro ' + response.status + ': ' + JSON.stringify(data));
+            const errorDetail = data.error?.message || JSON.stringify(data);
+            throw new Error('Erro ' + response.status + ': ' + errorDetail);
         }
 
         if (!data.choices || !data.choices[0] || !data.choices[0].message) {
