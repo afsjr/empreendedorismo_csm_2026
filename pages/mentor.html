@@ -216,7 +216,7 @@
 
 <button class="reset-btn" id="resetBtn" title="Reiniciar conversa">↺</button>
 
-<div id="apiKeyModal" class="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:200;align-items:center;justify-content:center;">
+<div id="apiKeyModal" class="modal" style="display:flex;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:200;align-items:center;justify-content:center;">
     <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:20px;padding:2rem;max-width:440px;width:90%;">
         <h2 style="font-family:'Space Grotesk',sans-serif;color:var(--accent-gold);margin-bottom:1rem;">🔑 API Key OpenAI</h2>
         <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:1.5rem;line-height:1.5;">
@@ -237,19 +237,6 @@
     </div>
 </div>
 
-<script>
-console.log('HTML loaded, trying to show modal...');
-try {
-    const modal = document.getElementById('apiKeyModal');
-    console.log('Modal element:', modal);
-    if (modal) {
-        modal.style.display = 'flex';
-        console.log('Modal should be visible now');
-    }
-} catch(e) {
-    console.error('Error showing modal:', e);
-}
-</script>
 <script src="../js/mentor.js"></script>
 </body>
 </html>

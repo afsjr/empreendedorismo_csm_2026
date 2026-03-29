@@ -313,6 +313,12 @@ document.addEventListener('DOMContentLoaded', function() {
     
     document.getElementById('saveApiKeyBtn').addEventListener('click', saveApiKey);
     
+    document.getElementById('apiKeyInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            saveApiKey();
+        }
+    });
+    
     document.getElementById('closeModalBtn').addEventListener('click', function() {
         document.getElementById('apiKeyModal').style.display = 'none';
     });
