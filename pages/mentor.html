@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentor IA — Empreendedores Exponenciais</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #0a0a0f;
+            --bg-surface: #12121a;
+            --bg-card: #1a1a26;
+            --bg-input: #22222f;
+            --accent-gold: #d4a853;
+            --accent-gold-dim: #b8933f;
+            --accent-red: #c0392b;
+            --text-primary: #eee8d5;
+            --text-secondary: #9a9aaa;
+            --text-muted: #6a6a7a;
+            --border: #2a2a3a;
+            --user-bubble: #1e3a5f;
+            --shadow-gold: 0 0 40px #d4a85315;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            background: linear-gradient(135deg, var(--bg-surface) 0%, #161622 100%);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 1.5rem;
+            display: flex; align-items: center; gap: 1rem;
+            position: sticky; top: 0; z-index: 100;
+            box-shadow: var(--shadow-gold);
+        }
+        .header-logo {
+            width: 44px; height: 44px;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-dim));
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.4rem; flex-shrink: 0;
+        }
+        .header-text h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem; font-weight: 700;
+            color: var(--accent-gold); letter-spacing: -0.02em;
+        }
+        .header-text p { font-size: 0.75rem; color: var(--text-secondary); margin-top: 2px; }
+        .header-badge {
+            margin-left: auto;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+        }
+        .header-btn {
+            background: none; border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 0.5rem 0.75rem; border-radius: 8px;
+            font-size: 0.8rem; cursor: pointer;
+            text-decoration: none; transition: all 0.2s;
+        }
+        .header-btn:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
+
+        .mode-selector {
+            padding: 1rem 1.5rem; display: none; gap: 0.75rem;
+            animation: fadeUp 0.4s ease;
+        }
+        .mode-selector.active { display: flex; flex-wrap: wrap; }
+        .mode-card {
+            flex: 1; min-width: 260px;
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 16px; padding: 1.5rem;
+            cursor: pointer; transition: all 0.3s ease;
+            position: relative; overflow: hidden;
+        }
+        .mode-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, var(--accent-gold), transparent);
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .mode-card:hover { border-color: var(--accent-gold); transform: translateY(-2px); box-shadow: var(--shadow-gold); }
+        .mode-card:hover::before { opacity: 1; }
+        .mode-icon { font-size: 2rem; margin-bottom: 0.75rem; display: block; }
+        .mode-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem;
+        }
+        .mode-card p { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5; }
+
+        .chat-container {
+            flex: 1; display: flex; flex-direction: column;
+            max-width: 800px; width: 100%; margin: 0 auto; padding: 0 1rem;
+        }
+        .messages {
+            flex: 1; overflow-y: auto; padding: 1rem 0;
+            display: flex; flex-direction: column; gap: 1rem;
+            scroll-behavior: smooth;
+        }
+        .message { display: flex; gap: 0.75rem; animation: fadeUp 0.35s ease; max-width: 88%; }
+        .message.user { align-self: flex-end; flex-direction: row-reverse; }
+        .message-avatar {
+            width: 32px; height: 32px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.9rem; flex-shrink: 0; margin-top: 4px;
+        }
+        .message.bot .message-avatar { background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-dim)); }
+        .message.user .message-avatar { background: var(--user-bubble); }
+        .message-content { padding: 0.85rem 1.1rem; border-radius: 16px; font-size: 0.9rem; line-height: 1.6; }
+        .message.bot .message-content { background: var(--bg-card); border: 1px solid var(--border); border-top-left-radius: 4px; }
+        .message.user .message-content { background: var(--user-bubble); border-top-right-radius: 4px; }
+        .message-content strong { color: var(--accent-gold); font-weight: 600; }
+        .message-content ul { margin: 0.5rem 0 0.5rem 1.2rem; }
+        .message-content li { margin-bottom: 0.3rem; }
+
+        .typing { display: flex; gap: 0.75rem; animation: fadeUp 0.3s ease; max-width: 88%; }
+        .typing-dots {
+            background: var(--bg-card); border: 1px solid var(--border);
+            padding: 0.85rem 1.1rem; border-radius: 16px; border-top-left-radius: 4px;
+            display: flex; gap: 5px; align-items: center;
+        }
+        .typing-dots span {
+            width: 7px; height: 7px; background: var(--text-muted);
+            border-radius: 50%; animation: bounce 1.4s infinite ease-in-out;
+        }
+        .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+        .input-bar { padding: 1rem 0; border-top: 1px solid var(--border); position: sticky; bottom: 0; background: var(--bg-deep); }
+        .input-wrapper { display: flex; gap: 0.5rem; align-items: flex-end; }
+        .input-wrapper textarea {
+            flex: 1; background: var(--bg-input); border: 1px solid var(--border);
+            color: var(--text-primary); padding: 0.85rem 1rem; border-radius: 14px;
+            font-size: 0.9rem; font-family: 'DM Sans', sans-serif;
+            resize: none; min-height: 48px; max-height: 120px; outline: none;
+            transition: border-color 0.2s;
+        }
+        .input-wrapper textarea:focus { border-color: var(--accent-gold); }
+        .input-wrapper textarea::placeholder { color: var(--text-muted); }
+        .send-btn {
+            width: 48px; height: 48px;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-dim));
+            border: none; border-radius: 14px; color: var(--bg-deep);
+            font-size: 1.2rem; cursor: pointer; transition: all 0.2s; flex-shrink: 0;
+        }
+        .send-btn:hover { transform: scale(1.05); }
+        .send-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+        .reset-btn {
+            position: fixed; bottom: 5.5rem; right: 1.5rem;
+            background: var(--bg-card); border: 1px solid var(--border);
+            color: var(--text-secondary); width: 40px; height: 40px;
+            border-radius: 50%; cursor: pointer; font-size: 1rem;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s; z-index: 50;
+        }
+        .reset-btn:hover { border-color: var(--accent-red); color: var(--accent-red); }
+
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+        .messages::-webkit-scrollbar { width: 4px; }
+        .messages::-webkit-scrollbar-track { background: transparent; }
+        .messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+        .modal input:focus { border-color: var(--accent-gold); }
+        
+        @media (max-width: 600px) {
+            .header { padding: 0.75rem 1rem; }
+            .mode-selector { padding: 0.75rem 1rem; }
+            .mode-card { min-width: 100%; padding: 1.2rem; }
+            .message { max-width: 94%; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div class="header-logo">🧠</div>
+    <div class="header-text">
+        <h1>Mentor IA</h1>
+        <p>Empreendedores Exponenciais — CSM</p>
+    </div>
+    <span class="header-badge">DeepSeek R1 · Free</span>
+    <a class="header-btn" href="https://afsjr.github.io/empreendedorismo_csm_2026/index.html">🏠</a>
+</div>
+
+<div class="mode-selector active" id="modeSelector">
+    <div class="mode-card" onclick="startMode('criar')">
+        <span class="mode-icon">🚀</span>
+        <h3>Quero criar um negócio</h3>
+        <p>Responda perguntas guiadas e receba orientação para transformar sua ideia em um plano de negócios real.</p>
+    </div>
+    <div class="mode-card" onclick="startMode('avaliar')">
+        <span class="mode-icon">📊</span>
+        <h3>Quero avaliar meu negócio</h3>
+        <p>Faça um diagnóstico completo: finanças, proposta de valor, concorrência, marketing e oportunidades de crescimento.</p>
+    </div>
+</div>
+
+<div class="chat-container">
+    <div class="messages" id="messages"></div>
+    <div class="input-bar">
+        <div class="input-wrapper">
+            <textarea id="userInput" placeholder="Digite sua resposta..." rows="1"
+                onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}"
+                oninput="autoResize(this)"></textarea>
+            <button class="send-btn" onclick="sendMessage()" id="sendBtn">➤</button>
+        </div>
+    </div>
+</div>
+
+<button class="reset-btn" onclick="resetChat()" title="Reiniciar conversa">↺</button>
+
+<div id="apiKeyModal" class="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:200;align-items:center;justify-content:center;">
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:20px;padding:2rem;max-width:440px;width:90%;">
+        <h2 style="font-family:'Space Grotesk',sans-serif;color:var(--accent-gold);margin-bottom:1rem;">⏰ Chave de Acesso</h2>
+        <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:1.5rem;line-height:1.5;">
+            <span id="apiKeyMsg">Esta chave de acesso temporária expira em <strong id="daysLeft"></strong> dias.</span>
+        </p>
+        <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:1rem;">
+            Para continuar usando após a expiração, você precisará configurar sua própria API key.
+            <a href="https://openrouter.ai/" target="_blank" style="color:var(--accent-gold);">Clique aqui</a> para criar uma conta gratuita.
+        </p>
+        <button onclick="document.getElementById('apiKeyModal').style.display='none'" style="width:100%;background:linear-gradient(135deg,var(--accent-gold),var(--accent-gold-dim));
+            border:none;border-radius:12px;padding:0.85rem;color:var(--bg-deep);font-weight:600;cursor:pointer;">
+            Entendi, Continuar
+        </button>
+    </div>
+</div>
+
+<script>
+function showExpiryModal(reason) {
+    const modal = document.getElementById('apiKeyModal');
+    const msg = document.getElementById('apiKeyMsg');
+    const days = document.getElementById('daysLeft');
+    
+    if (reason === ' expired') {
+        msg.innerHTML = '⚠️ <strong>A chave de acesso expirou!</strong><br>Os créditos gratuitos terminaram ou o período de validade acabou.';
+    } else if (reason === ' credits') {
+        msg.innerHTML = '⚠️ <strong>Créditos esgotados!</strong><br>A chave de acesso gratuita não possui mais créditos disponíveis.';
+    }
+    
+    days.parentElement.style.display = 'none';
+    modal.style.display = 'flex';
+}
+</script>
+
+<script>
+window.addEventListener('load', function() {
+    if (isExpired()) {
+        showExpiryModal(' expired');
+    } else {
+        const days = getDaysRemaining();
+        if (days <= 7) {
+            document.getElementById('daysLeft').textContent = days;
+            document.getElementById('apiKeyModal').style.display = 'flex';
+        }
+    }
+});
+</script>
+
+<script>
+const CONFIG = {
+    apiKey: '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',
+    endpoint: 'https://openrouter.ai/api/v1/chat/completions',
+    model: 'deepseek/deepseek-r1:free'
+};
+
+const EXPIRY_DATE = new Date('2026-04-05');
+
+let conversationHistory = [];
+let currentMode = '';
+let isLoading = false;
+
+function isExpired() {
+    return new Date() > EXPIRY_DATE;
+}
+
+function getDaysRemaining() {
+    const now = new Date();
+    const diff = EXPIRY_DATE - now;
+    return Math.ceil(diff / (1000 * 60 * 60 * 24));
+}
+
+// ===== SYSTEM PROMPTS =====
+const SYSTEM_BASE = `Você é o Mentor IA do programa "Empreendedores Exponenciais" do Colégio Santa Mônica (Limoeiro-PE).
+
+Seu papel é guiar pessoas no processo de criação ou avaliação de negócios, fazendo perguntas estratégicas e oferecendo mentoria personalizada.
+
+CONHECIMENTO BASE:
+• 6º Ano — Descoberta: O que é empreender, perfil empreendedor, oportunidades, criatividade, habilidades do futuro
+• 7º Ano — Planejamento: Canvas, pesquisa de mercado, marketing, planejamento financeiro, proposta de valor
+• 8º Ano — Execução: Gestão de equipe, custos e precificação, DRE, estratégias de venda, pitch
+• 9º Ano — Escala: Inovação e tecnologia, investimentos, escalabilidade, impacto social, Shark Tank
+
+24 projetos práticos: vendas artesanais, consultoria local, produtos inovadores, campanha social, startup de serviços, feira de negócios.
+Referências: BNCC (Competências 6, 9, 10), EntreComp (EU), SEBRAE.
+
+REGRAS:
+1. Faça UMA pergunta por vez
+2. Seja encorajador mas honesto
+3. Linguagem acessível (12 a 60 anos)
+4. Conecte a conceitos práticos (Canvas, DRE, Pitch)
+5. Feedback sanduíche: elogio + melhoria + incentivo
+6. Resuma ao final de cada etapa
+7. Emojis com moderação
+8. SEMPRE em português brasileiro
+9. Ofereça 2-3 opções quando possível`;
+
+const PROMPTS = {
+    criar: SYSTEM_BASE + `
+
+MODO: CRIAR UM NEGÓCIO (uma pergunta por vez):
+ETAPA 1 — DESCOBERTA: Ideia, problema, clientes
+ETAPA 2 — CANVAS: Proposta de valor, segmento, canais, receita
+ETAPA 3 — FINANÇAS: Custos, precificação, meta, equilíbrio
+ETAPA 4 — EXECUÇÃO: Primeiros 30 dias, equipe, MVP
+ETAPA 5 — PITCH: Pitch de 1 minuto
+Ao final, gere RESUMO COMPLETO do plano.
+Comece se apresentando e perguntando o nome da pessoa.`,
+
+    avaliar: SYSTEM_BASE + `
+
+MODO: AVALIAR NEGÓCIO EXISTENTE (uma pergunta por vez):
+ETAPA 1 — CONTEXTO: Nome, tipo, tempo, equipe
+ETAPA 2 — PROPOSTA DE VALOR: O que vende, para quem, diferencial
+ETAPA 3 — FINANÇAS: Faturamento, custos, margem, equilíbrio
+ETAPA 4 — MERCADO: Concorrentes, preço, canais
+ETAPA 5 — CRESCIMENTO: Desafio, oportunidades, metas
+Ao final, RELATÓRIO com pontos fortes, atenção, 3 ações e nota 1-10.
+Comece se apresentando e perguntando o nome da pessoa e do negócio.`
+};
+
+// ===== FUNÇÕES DO CHAT =====
+function startMode(mode) {
+    currentMode = mode;
+    conversationHistory = [];
+    document.getElementById('modeSelector').classList.remove('active');
+    document.getElementById('messages').innerHTML = '';
+
+    conversationHistory.push({ role: 'system', content: PROMPTS[mode] });
+    conversationHistory.push({ role: 'user', content: 'Olá! Estou pronto para começar.' });
+
+    showTyping();
+    callAPI();
+}
+
+function sendMessage(forcedText) {
+    if (isLoading) return;
+    const input = document.getElementById('userInput');
+    const text = forcedText || input.value.trim();
+    if (!text || !currentMode) return;
+
+    addUserMessage(text);
+    if (!forcedText) { input.value = ''; autoResize(input); }
+
+    conversationHistory.push({ role: 'user', content: text });
+    showTyping();
+    callAPI();
+}
+
+async function callAPI() {
+    if (isExpired()) {
+        showExpiryModal(' expired');
+        return;
+    }
+
+    const sendBtn = document.getElementById('sendBtn');
+    sendBtn.disabled = true;
+    isLoading = true;
+
+    try {
+        const body = {
+            model: CONFIG.model,
+            max_tokens: 4096,
+            messages: conversationHistory.map(m => ({ role: m.role, content: m.content }))
+        };
+
+        console.log('Calling API:', CONFIG.endpoint, 'Model:', CONFIG.model);
+
+        const response = await fetch(CONFIG.endpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + CONFIG.apiKey,
+                'HTTP-Referer': window.location.href,
+                'X-Title': 'Mentor IA CSM'
+            },
+            body: JSON.stringify(body)
+        });
+
+        console.log('Response status:', response.status);
+
+        const data = await response.json();
+        console.log('Response data:', JSON.stringify(data).substring(0, 500));
+
+        if (!response.ok) {
+            throw new Error(data.error?.message || 'Erro ' + response.status + ': ' + JSON.stringify(data));
+        }
+
+        if (!data.choices || !data.choices[0] || !data.choices[0].message) {
+            throw new Error('Resposta inesperada do modelo: ' + JSON.stringify(data).substring(0, 200));
+        }
+
+        let reply = data.choices[0].message.content || '';
+
+        // Remove blocos <think> do DeepSeek R1
+        reply = reply.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
+
+        if (!reply) {
+            throw new Error('O modelo retornou resposta vazia. Tente novamente.');
+        }
+
+        conversationHistory.push({ role: 'assistant', content: reply });
+        addBotMessage(reply);
+
+    } catch (error) {
+        console.error('API Error:', error);
+        removeTyping();
+        const errorMsg = error.message.toLowerCase();
+        if (errorMsg.includes('credit') || errorMsg.includes('insufficient') || errorMsg.includes('billing') || errorMsg.includes('quota') || errorMsg.includes('limit')) {
+            showExpiryModal(' credits');
+        } else {
+            addBotMessage('⚠️ **Erro:** ' + error.message + '\n\nTente enviar sua mensagem novamente.');
+        }
+    }
+
+    sendBtn.disabled = false;
+    isLoading = false;
+}
+
+// ===== UI HELPERS =====
+function addBotMessage(text) {
+    removeTyping();
+    const messagesDiv = document.getElementById('messages');
+    const msgDiv = document.createElement('div');
+    msgDiv.className = 'message bot';
+    msgDiv.innerHTML = '<div class="message-avatar">🧠</div><div class="message-content">' + formatMarkdown(text) + '</div>';
+    messagesDiv.appendChild(msgDiv);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
+
+function addUserMessage(text) {
+    const messagesDiv = document.getElementById('messages');
+    const msgDiv = document.createElement('div');
+    msgDiv.className = 'message user';
+    msgDiv.innerHTML = '<div class="message-avatar">👤</div><div class="message-content">' + escapeHtml(text) + '</div>';
+    messagesDiv.appendChild(msgDiv);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
+
+function showTyping() {
+    removeTyping();
+    const messagesDiv = document.getElementById('messages');
+    const d = document.createElement('div');
+    d.className = 'typing';
+    d.innerHTML = '<div class="message-avatar" style="background:linear-gradient(135deg,var(--accent-gold),var(--accent-gold-dim))">🧠</div><div class="typing-dots"><span></span><span></span><span></span></div>';
+    messagesDiv.appendChild(d);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
+
+function removeTyping() {
+    document.querySelectorAll('.typing').forEach(t => t.remove());
+}
+
+function resetChat() {
+    if (!confirm('Reiniciar a conversa?')) return;
+    document.getElementById('messages').innerHTML = '';
+    conversationHistory = [];
+    currentMode = '';
+    isLoading = false;
+    document.getElementById('sendBtn').disabled = false;
+    document.getElementById('modeSelector').classList.add('active');
+}
+
+function formatMarkdown(text) {
+    let html = text
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, '<em>$1</em>')
+        .replace(/\n/g, '<br>');
+    // Convert lines starting with - to list items
+    html = html.replace(/((?:(?:^|<br>)- .+)+)/g, function(block) {
+        const items = block.replace(/(?:^|<br>)- /g, '<li>').replace(/(?=<li>)/g, '</li>');
+        return '<ul>' + items + '</ul>';
+    });
+    return html;
+}
+
+function escapeHtml(text) {
+    const d = document.createElement('div');
+    d.textContent = text;
+    return d.innerHTML;
+}
+
+function autoResize(el) {
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+}
+</script>
+</body>
+</html>
