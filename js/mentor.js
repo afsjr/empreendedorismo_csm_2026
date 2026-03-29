@@ -96,11 +96,14 @@ function sendMessage(forcedText) {
 }
 
 async function callAPI() {
-    if (isExpired()) {
-        showExpiryModal(' expired');
+    const apiKey = localStorage.getItem('openai_api_key');
+    
+    if (!apiKey) {
+        document.getElementById('apiKeyModal').style.display = 'flex';
         return;
     }
 
+    console.log('Starting API call...');
     const sendBtn = document.getElementById('sendBtn');
     sendBtn.disabled = true;
     isLoading = true;
@@ -118,7 +121,7 @@ async function callAPI() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + CONFIG.apiKey
+                'Authorization': 'Bearer ' + apiKey
             },
             body: JSON.stringify(body)
         });
