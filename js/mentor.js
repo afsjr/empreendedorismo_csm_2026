@@ -69,6 +69,7 @@ Comece se apresentando e perguntando o nome da pessoa e do negócio.`
 };
 
 function startMode(mode) {
+    console.log('startMode called with:', mode);
     currentMode = mode;
     conversationHistory = [];
     document.getElementById('modeSelector').classList.remove('active');

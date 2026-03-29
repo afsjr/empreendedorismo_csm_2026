@@ -223,7 +223,7 @@
             Para usar o Mentor IA, insira sua API key da OpenAI.<br>
             <span style="font-size:0.8rem;color:var(--text-muted);">Modelos muito便宜的 (gpt-4o-mini).</span>
         </p>
-        <input type="password" id="apiKeyInput" placeholder="Cole sua API key aqui..." 
+        <input type="text" id="apiKeyInput" placeholder="Cole sua API key aqui..." 
             style="width:100%;background:var(--bg-input);border:1px solid var(--border);color:var(--text-primary);
             padding:0.85rem 1rem;border-radius:12px;font-size:0.9rem;margin-bottom:1rem;outline:none;">
         <button id="saveApiKeyBtn" style="width:100%;background:linear-gradient(135deg,var(--accent-gold),var(--accent-gold-dim));
@@ -237,6 +237,19 @@
     </div>
 </div>
 
+<script>
+console.log('HTML loaded, trying to show modal...');
+try {
+    const modal = document.getElementById('apiKeyModal');
+    console.log('Modal element:', modal);
+    if (modal) {
+        modal.style.display = 'flex';
+        console.log('Modal should be visible now');
+    }
+} catch(e) {
+    console.error('Error showing modal:', e);
+}
+</script>
 <script src="../js/mentor.js"></script>
 </body>
 </html>
