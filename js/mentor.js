@@ -1,7 +1,7 @@
 const CONFIG = {
     apiKey: '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',
     endpoint: 'https://openrouter.ai/api/v1/chat/completions',
-    model: 'deepseek/deepseek-r1:free'
+    model: 'google/gemma-2-2b-it:free'
 };
 
 const EXPIRY_DATE = new Date('2026-04-05');
