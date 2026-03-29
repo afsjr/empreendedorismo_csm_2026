@@ -192,12 +192,12 @@
 </div>
 
 <div class="mode-selector active" id="modeSelector">
-    <div class="mode-card" onclick="startMode('criar')">
+    <div class="mode-card" id="modeCriar">
         <span class="mode-icon">🚀</span>
         <h3>Quero criar um negócio</h3>
         <p>Responda perguntas guiadas e receba orientação para transformar sua ideia em um plano de negócios real.</p>
     </div>
-    <div class="mode-card" onclick="startMode('avaliar')">
+    <div class="mode-card" id="modeAvaliar">
         <span class="mode-icon">📊</span>
         <h3>Quero avaliar meu negócio</h3>
         <p>Faça um diagnóstico completo: finanças, proposta de valor, concorrência, marketing e oportunidades de crescimento.</p>
@@ -208,15 +208,13 @@
     <div class="messages" id="messages"></div>
     <div class="input-bar">
         <div class="input-wrapper">
-            <textarea id="userInput" placeholder="Digite sua resposta..." rows="1"
-                onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}"
-                oninput="autoResize(this)"></textarea>
-            <button class="send-btn" onclick="sendMessage()" id="sendBtn">➤</button>
+            <textarea id="userInput" placeholder="Digite sua resposta..." rows="1"></textarea>
+            <button class="send-btn" id="sendBtn">➤</button>
         </div>
     </div>
 </div>
 
-<button class="reset-btn" onclick="resetChat()" title="Reiniciar conversa">↺</button>
+<button class="reset-btn" id="resetBtn" title="Reiniciar conversa">↺</button>
 
 <div id="apiKeyModal" class="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:200;align-items:center;justify-content:center;">
     <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:20px;padding:2rem;max-width:440px;width:90%;">
@@ -228,7 +226,7 @@
             Para continuar usando após a expiração, você precisará configurar sua própria API key.
             <a href="https://openrouter.ai/" target="_blank" style="color:var(--accent-gold);">Clique aqui</a> para criar uma conta gratuita.
         </p>
-        <button onclick="document.getElementById('apiKeyModal').style.display='none'" style="width:100%;background:linear-gradient(135deg,var(--accent-gold),var(--accent-gold-dim));
+        <button id="closeModalBtn" style="width:100%;background:linear-gradient(135deg,var(--accent-gold),var(--accent-gold-dim));
             border:none;border-radius:12px;padding:0.85rem;color:var(--bg-deep);font-weight:600;cursor:pointer;">
             Entendi, Continuar
         </button>

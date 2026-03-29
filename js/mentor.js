@@ -256,4 +256,35 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('apiKeyModal').style.display = 'flex';
         }
     }
+    
+    document.getElementById('closeModalBtn').addEventListener('click', function() {
+        document.getElementById('apiKeyModal').style.display = 'none';
+    });
+    
+    document.getElementById('modeCriar').addEventListener('click', function() {
+        startMode('criar');
+    });
+    
+    document.getElementById('modeAvaliar').addEventListener('click', function() {
+        startMode('avaliar');
+    });
+    
+    document.getElementById('sendBtn').addEventListener('click', function() {
+        sendMessage();
+    });
+    
+    document.getElementById('userInput').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+        }
+    });
+    
+    document.getElementById('userInput').addEventListener('input', function() {
+        autoResize(this);
+    });
+    
+    document.getElementById('resetBtn').addEventListener('click', function() {
+        resetChat();
+    });
 });
