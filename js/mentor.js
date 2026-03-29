@@ -314,40 +314,62 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    document.getElementById('saveApiKeyBtn').addEventListener('click', saveApiKey);
+    const saveBtn = document.getElementById('saveApiKeyBtn');
+    if (saveBtn) {
+        saveBtn.addEventListener('click', saveApiKey);
+    }
     
-    document.getElementById('apiKeyInput').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            saveApiKey();
-        }
-    });
+    const apiKeyInput = document.getElementById('apiKeyInput');
+    if (apiKeyInput) {
+        apiKeyInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                saveApiKey();
+            }
+        });
+    }
     
-    document.getElementById('closeModalBtn').addEventListener('click', function() {
-        document.getElementById('apiKeyModal').style.display = 'none';
-    });
+    const modeCriar = document.getElementById('modeCriar');
+    if (modeCriar) {
+        modeCriar.addEventListener('click', function() {
+            startMode('criar');
+        });
+    }
     
-    document.getElementById('modeCriar').addEventListener('click', function() {
-        startMode('criar');
-    });
+    const modeAvaliar = document.getElementById('modeAvaliar');
+    if (modeAvaliar) {
+        modeAvaliar.addEventListener('click', function() {
+            startMode('avaliar');
+        });
+    }
     
-    document.getElementById('modeAvaliar').addEventListener('click', function() {
-        startMode('avaliar');
-    });
-    
-    document.getElementById('sendBtn').addEventListener('click', function() {
-        sendMessage();
-    });
-    
-    document.getElementById('userInput').addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
+    const sendBtn = document.getElementById('sendBtn');
+    if (sendBtn) {
+        sendBtn.addEventListener('click', function() {
             sendMessage();
-        }
-    });
+        });
+    }
     
-    document.getElementById('userInput').addEventListener('input', function() {
-        autoResize(this);
-    });
+    const userInput = document.getElementById('userInput');
+    if (userInput) {
+        userInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+        
+        userInput.addEventListener('input', function() {
+            autoResize(this);
+        });
+    }
+    
+    const resetBtn = document.getElementById('resetBtn');
+    if (resetBtn) {
+        resetBtn.addEventListener('click', function() {
+            resetChat();
+        });
+    }
+});
     
     document.getElementById('resetBtn').addEventListener('click', function() {
         resetChat();
