@@ -1,829 +1,606 @@
 /* ========================================
-   NEOBRUTALISTA CSM - ESTILOS
+   NEOBRUTALISTA CSM PREMIUM - ESTILOS
+   Uma abordagem moderna, vibrante e tátil ao Neobrutalismo
    ======================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Outfit:wght@400;700;900&display=swap');
 
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-:root {
-    --neo-yellow: #FFE600;
+/* VARIÁVEIS NEOBRUTALISTAS REFINADAS */
+body.neo-mode {
+    --neo-yellow: #FFDE03;
     --neo-yellow-light: #FFF066;
-    --neo-black: #000000;
+    --neo-black: #121212;
     --neo-white: #FFFFFF;
-    --neo-red: #FF3B3B;
-    --neo-blue: #3B82F6;
-    --neo-green: #10B981;
-    --neo-purple: #8B5CF6;
-    --neo-orange: #F97316;
-    --neo-pink: #EC4899;
+    --neo-red: #FF4136;
+    --neo-blue: #2E5BFF;
+    --neo-green: #00D166;
+    --neo-purple: #9B51E0;
+    --neo-orange: #FF851B;
+    --neo-pink: #F012BE;
     
-    --neo-bg: #F5F5F0;
-    --neo-bg-dark: #1A1A1A;
-    --neo-border: 4px solid var(--neo-black);
-    --neo-shadow: 6px 6px 0px var(--neo-black);
-    --neo-shadow-hover: 8px 8px 0px var(--neo-black);
-    --neo-radius: 8px;
-    --neo-radius-sm: 4px;
+    --bg-primary: #F3F3F0;
+    --bg-surface: #FFFFFF;
+    --bg-surface2: #EFEFEF;
+    --bg-surface3: #DDDDDD;
+    
+    --text: #121212;
+    --text-dim: #333333;
+    --text-muted: #666666;
+    
+    --accent-red: #FF4136;
+    --accent-orange: #FF851B;
+    --accent-green: #00D166;
+    --accent-blue: #2E5BFF;
+    --accent-purple: #9B51E0;
+    --accent-yellow: #FFDE03;
+    
+    --border-width: 3px;
+    --border: var(--border-width) solid var(--neo-black);
+    --border-active: var(--border-width) solid var(--neo-black);
+    --radius: 0px; /* Neobrutalismo clássico costuma ser mais quadrado */
+    --radius-sm: 0px;
+    
+    --shadow-color: var(--neo-black);
+    --shadow-sm: 4px 4px 0px var(--shadow-color);
+    --shadow: 8px 8px 0px var(--shadow-color);
+    --shadow-lg: 12px 12px 0px var(--shadow-color);
+    --shadow-hover: 0px 0px 0px var(--shadow-color);
     
     --font-main: 'Space Grotesk', sans-serif;
+    --font-display: 'Outfit', sans-serif;
 }
 
-html {
-    font-size: 16px;
-    scroll-behavior: smooth;
-}
-
-body {
+/* RESET E BASE */
+body.neo-mode {
     font-family: var(--font-main);
-    background: var(--neo-bg);
-    color: var(--neo-black);
+    background: var(--bg-primary) !important;
+    color: var(--text) !important;
     line-height: 1.5;
-    min-height: 100vh;
+    background-image: 
+        radial-gradient(var(--neo-black) 1px, transparent 1px);
+    background-size: 30px 30px;
+    background-attachment: fixed;
 }
 
-/* ========================================
-   LAYOUT
-   ======================================== */
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-.app-layout {
-    display: grid;
-    grid-template-columns: 280px 1fr;
-    min-height: calc(100vh - 64px);
-}
-
-@media (max-width: 900px) {
-    .app-layout {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (min-width: 1200px) {
-    .main {
-        padding: 2rem;
-    }
-    .card {
-        padding: 1.5rem;
-    }
-    .sidebar {
-        padding: 1.5rem;
-    }
-    .header {
-        height: 72px;
-    }
+body.neo-mode * {
+    transition: transform 0.1s cubic-bezier(0.17, 0.67, 0.83, 0.67), 
+                box-shadow 0.1s cubic-bezier(0.17, 0.67, 0.83, 0.67);
 }
 
 /* ========================================
    HEADER
    ======================================== */
 
-.header {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: var(--neo-yellow);
-    border-bottom: var(--neo-border);
-    padding: 0 1.5rem;
-    height: 64px;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+body.neo-mode .header {
+    background: var(--neo-white) !important;
+    border-bottom: 5px solid var(--neo-black) !important;
+    backdrop-filter: none !important;
+    height: 80px !important;
+    padding: 0 40px !important;
+    box-shadow: 0 4px 0px rgba(0,0,0,0.1) !important;
 }
 
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 800;
-    font-size: 1.2rem;
-    color: var(--neo-black);
-    white-space: nowrap;
+body.neo-mode .logo {
+    background: var(--neo-yellow) !important;
+    border: var(--border) !important;
+    padding: 8px 20px !important;
+    box-shadow: var(--shadow-sm) !important;
+    -webkit-text-fill-color: var(--neo-black) !important;
+    color: var(--neo-black) !important;
+    font-family: var(--font-display) !important;
+    font-weight: 900 !important;
+    text-transform: uppercase !important;
+    letter-spacing: -1px !important;
 }
 
-.logo img {
-    height: 36px;
-    width: auto;
-    border: 3px solid var(--neo-black);
-    border-radius: var(--neo-radius-sm);
-    object-fit: contain;
+body.neo-mode .logo img {
+    border: 2px solid var(--neo-black) !important;
+    box-shadow: 2px 2px 0px var(--neo-black) !important;
+    border-radius: 0 !important;
 }
 
 /* ========================================
    NAVIGATION
    ======================================== */
 
-.nav {
-    display: flex;
-    gap: 4px;
-    margin-left: auto;
+body.neo-mode .nav-btn {
+    border: var(--border) !important;
+    border-radius: 0px !important;
+    background: var(--neo-white) !important;
+    color: var(--neo-black) !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    padding: 10px 20px !important;
+    margin: 0 5px !important;
+    box-shadow: var(--shadow-sm) !important;
 }
 
-.nav-btn {
-    padding: 10px 20px;
-    border: 3px solid var(--neo-black);
-    border-radius: var(--neo-radius-sm);
-    cursor: pointer;
-    font-family: inherit;
-    font-weight: 700;
-    font-size: 0.85rem;
-    background: var(--neo-white);
-    color: var(--neo-black);
-    transition: all 0.1s ease;
+body.neo-mode .nav-btn:hover {
+    transform: translate(-2px, -2px) !important;
+    box-shadow: 6px 6px 0px var(--neo-black) !important;
+    background: var(--neo-yellow) !important;
 }
 
-.nav-btn:hover {
-    background: var(--neo-black);
-    color: var(--neo-white);
-    transform: translate(-2px, -2px);
-    box-shadow: 4px 4px 0px var(--neo-black);
-}
-
-.nav-btn.active {
-    background: var(--neo-black);
-    color: var(--neo-white);
-    box-shadow: var(--neo-shadow);
-    transform: translate(2px, 2px);
+body.neo-mode .nav-btn.active {
+    background: var(--neo-black) !important;
+    color: var(--neo-white) !important;
+    transform: translate(2px, 2px) !important;
+    box-shadow: 0px 0px 0px var(--neo-black) !important;
 }
 
 /* ========================================
    SIDEBAR
    ======================================== */
 
-.sidebar {
-    background: var(--neo-white);
-    border-right: var(--neo-border);
-    padding: 1.5rem;
-    overflow-y: auto;
-    height: calc(100vh - 64px);
-    position: sticky;
-    top: 64px;
+body.neo-mode .sidebar {
+    background: var(--bg-primary) !important;
+    border-right: 5px solid var(--neo-black) !important;
+    padding: 2rem 1.5rem !important;
 }
 
-@media (max-width: 900px) {
-    .sidebar {
-        display: none;
-        position: fixed;
-        left: 0;
-        top: 64px;
-        width: 300px;
-        z-index: 99;
-        height: calc(100vh - 64px);
-        box-shadow: 8px 0 0 var(--neo-black);
-    }
-    .sidebar.open {
-        display: block;
-    }
+body.neo-mode .module-header {
+    border: var(--border) !important;
+    border-radius: 0px !important;
+    background: var(--neo-white) !important;
+    color: var(--neo-black) !important;
+    padding: 15px !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    box-shadow: var(--shadow-sm) !important;
+    margin-bottom: 10px !important;
 }
 
-.module-section {
-    margin-bottom: 1rem;
+body.neo-mode .module-header:hover {
+    background: var(--neo-blue) !important;
+    color: var(--neo-white) !important;
 }
 
-.module-header {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 12px 16px;
-    border: 3px solid var(--neo-black);
-    border-radius: var(--neo-radius-sm);
-    cursor: pointer;
-    transition: all 0.1s ease;
-    font-weight: 700;
-    font-size: 0.9rem;
-    background: var(--neo-yellow);
-    color: var(--neo-black);
-    margin-bottom: 8px;
+body.neo-mode .module-header.active {
+    background: var(--neo-black) !important;
+    color: var(--neo-white) !important;
 }
 
-.module-header:hover {
-    background: var(--neo-black);
-    color: var(--neo-white);
+body.neo-mode .lesson-item {
+    border: 2px solid transparent !important;
+    padding: 12px 15px !important;
+    font-weight: 600 !important;
+    margin: 5px 0 !important;
 }
 
-.module-header.active {
-    background: var(--neo-black);
-    color: var(--neo-white);
+body.neo-mode .lesson-item:hover {
+    border-color: var(--neo-black) !important;
+    background: var(--neo-white) !important;
+    transform: translateX(5px) !important;
+    box-shadow: 4px 4px 0px var(--neo-black) !important;
 }
 
-.module-icon {
-    font-size: 1.2rem;
+body.neo-mode .lesson-item.active {
+    background: var(--neo-yellow) !important;
+    color: var(--neo-black) !important;
+    border-color: var(--neo-black) !important;
+    box-shadow: var(--shadow-sm) !important;
 }
 
-.module-lessons {
-    padding-left: 0.5rem;
-    margin-top: 0.5rem;
-    display: none;
-}
-
-.module-lessons.open {
-    display: block;
-}
-
-.lesson-item {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 10px 16px 10px 24px;
-    border: 2px solid transparent;
-    border-radius: var(--neo-radius-sm);
-    cursor: pointer;
-    transition: all 0.1s ease;
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: var(--neo-black);
-    margin-bottom: 4px;
-    margin-left: 8px;
-}
-
-.lesson-item:hover {
-    border-color: var(--neo-black);
-    background: var(--neo-yellow-light);
-}
-
-.lesson-item.active {
-    background: var(--neo-black);
-    color: var(--neo-white);
-    border-color: var(--neo-black);
-    font-weight: 700;
-}
-
-.lesson-num {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
-    border: 2px solid var(--neo-black);
-    border-radius: var(--neo-radius-sm);
-    font-size: 0.75rem;
-    font-weight: 700;
-    background: var(--neo-white);
-    color: var(--neo-black);
-    flex-shrink: 0;
-}
-
-.lesson-item.active .lesson-num {
-    background: var(--neo-white);
-    color: var(--neo-black);
-}
-
-/* ========================================
-   MAIN CONTENT
-   ======================================== */
-
-.main {
-    padding: 2rem;
-    overflow-y: auto;
-    background: 
-        radial-gradient(circle at 20% 80%, rgba(255, 230, 0, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(255, 59, 59, 0.1) 0%, transparent 50%),
-        var(--neo-bg);
-}
-
-@media (max-width: 900px) {
-    .main {
-        padding: 1rem;
-    }
+body.neo-mode .lesson-num {
+    border: 2px solid var(--neo-black) !important;
+    border-radius: 0 !important;
+    background: var(--neo-white) !important;
+    color: var(--neo-black) !important;
 }
 
 /* ========================================
    CARDS
    ======================================== */
 
-.card {
-    background: var(--neo-white);
-    border: var(--neo-border);
-    border-radius: var(--neo-radius);
-    padding: 1.5rem 2rem;
-    margin-bottom: 1.5rem;
-    transition: all 0.15s ease;
-    box-shadow: var(--neo-shadow);
+body.neo-mode .card {
+    background: var(--neo-white) !important;
+    border: var(--border) !important;
+    border-radius: 0px !important;
+    box-shadow: var(--shadow) !important;
+    padding: 2.5rem !important;
+    margin-bottom: 2rem !important;
 }
 
-.card:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: var(--neo-shadow-hover);
+body.neo-mode .card:hover {
+    transform: translate(-4px, -4px) !important;
+    box-shadow: var(--shadow-lg) !important;
 }
 
-.card-title {
-    font-family: var(--font-main);
-    font-size: 1.3rem;
-    font-weight: 800;
-    margin-bottom: 0.5rem;
-    letter-spacing: -0.02em;
+body.neo-mode .card-title {
+    font-family: var(--font-display) !important;
+    font-weight: 900 !important;
+    font-size: 1.8rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: -0.05em !important;
+    color: var(--neo-black) !important;
+    margin-bottom: 1rem !important;
+    display: inline-block !important;
+    position: relative !important;
 }
 
-.card-subtitle {
-    font-size: 0.9rem;
-    color: #444;
-    margin-bottom: 1rem;
-    font-weight: 500;
+body.neo-mode .card-title::after {
+    content: '';
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background: var(--neo-yellow);
+    z-index: -1;
+    opacity: 0.8;
 }
 
 /* ========================================
    BUTTONS
    ======================================== */
 
-.btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 12px 24px;
-    border: 3px solid var(--neo-black);
-    border-radius: var(--neo-radius-sm);
-    cursor: pointer;
-    font-family: inherit;
-    font-weight: 700;
-    font-size: 0.9rem;
-    transition: all 0.1s ease;
-    text-decoration: none;
-    box-shadow: var(--neo-shadow);
+body.neo-mode .btn {
+    border: var(--border) !important;
+    border-radius: 0px !important;
+    font-family: var(--font-display) !important;
+    font-weight: 900 !important;
+    text-transform: uppercase !important;
+    padding: 15px 30px !important;
+    box-shadow: var(--shadow) !important;
+    display: inline-flex !important;
 }
 
-.btn:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: var(--neo-shadow-hover);
+body.neo-mode .btn:hover {
+    transform: translate(-3px, -3px) !important;
+    box-shadow: var(--shadow-lg) !important;
 }
 
-.btn:active {
-    transform: translate(2px, 2px);
-    box-shadow: 2px 2px 0px var(--neo-black);
+body.neo-mode .btn:active {
+    transform: translate(4px, 4px) !important;
+    box-shadow: 0px 0px 0px var(--neo-black) !important;
 }
 
-.btn-primary {
-    background: var(--neo-yellow);
-    color: var(--neo-black);
+body.neo-mode .btn-primary {
+    background: var(--neo-red) !important;
+    color: var(--neo-white) !important;
 }
 
-.btn-primary:hover {
-    background: var(--neo-black);
-    color: var(--neo-white);
+body.neo-mode .btn-secondary {
+    background: var(--neo-purple) !important;
+    color: var(--neo-white) !important;
 }
 
-.btn-secondary {
-    background: var(--neo-white);
-    color: var(--neo-black);
-}
-
-.btn-secondary:hover {
-    background: var(--neo-black);
-    color: var(--neo-white);
-}
-
-.btn-danger {
-    background: var(--neo-red);
-    color: var(--neo-white);
-}
-
-.btn-danger:hover {
-    background: var(--neo-black);
-    color: var(--neo-white);
-}
-
-.btn-success {
-    background: var(--neo-green);
-    color: var(--neo-white);
-}
-
-.btn-success:hover {
-    background: var(--neo-black);
-    color: var(--neo-white);
-}
-
-.btn-sm {
-    padding: 8px 16px;
-    font-size: 0.8rem;
-    border-width: 2px;
-    box-shadow: 3px 3px 0px var(--neo-black);
-}
-
-.btn-icon {
-    width: 40px;
-    height: 40px;
-    padding: 0;
-    border-radius: var(--neo-radius-sm);
+body.neo-mode .btn-danger {
+    background: var(--neo-black) !important;
+    color: var(--neo-white) !important;
 }
 
 /* ========================================
    FORMS
    ======================================== */
 
-.form-group {
-    margin-bottom: 1rem;
+body.neo-mode .form-input,
+body.neo-mode .form-select,
+body.neo-mode .form-textarea {
+    background: var(--neo-white) !important;
+    border: var(--border) !important;
+    border-radius: 0px !important;
+    padding: 15px !important;
+    font-weight: 600 !important;
+    box-shadow: inset 2px 2px 0px rgba(0,0,0,0.1) !important;
 }
 
-.form-label {
-    display: block;
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: var(--neo-black);
-    margin-bottom: 0.5rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+body.neo-mode .form-input:focus,
+body.neo-mode .form-select:focus,
+body.neo-mode .form-textarea:focus {
+    background: var(--neo-yellow-light) !important;
+    outline: none !important;
+    box-shadow: var(--shadow-sm) !important;
+    transform: translate(-2px, -2px) !important;
 }
 
-.form-input,
-.form-select,
-.form-textarea {
-    width: 100%;
-    padding: 12px 16px;
-    background: var(--neo-white);
-    border: 3px solid var(--neo-black);
-    border-radius: var(--neo-radius-sm);
-    color: var(--neo-black);
-    font-family: inherit;
-    font-size: 1rem;
-    font-weight: 500;
-    transition: all 0.1s ease;
+body.neo-mode .form-label {
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
 }
 
-.form-input:focus,
-.form-select:focus,
-.form-textarea:focus {
-    outline: none;
-    background: var(--neo-yellow-light);
-    box-shadow: var(--neo-shadow);
+/* ========================================
+   STATS
+   ======================================== */
+
+body.neo-mode .stat-card {
+    background: var(--neo-white) !important;
+    border: var(--border) !important;
+    border-radius: 0px !important;
+    box-shadow: var(--shadow) !important;
+    overflow: visible !important;
 }
 
-.form-textarea {
-    min-height: 120px;
-    resize: vertical;
+body.neo-mode .stat-card::before {
+    display: none !important;
 }
+
+body.neo-mode .stat-value {
+    font-family: var(--font-display) !important;
+    font-weight: 900 !important;
+    font-size: 3rem !important;
+    text-shadow: 3px 3px 0px rgba(0,0,0,0.1) !important;
+}
+
+body.neo-mode .stat-label {
+    text-transform: uppercase !important;
+    font-weight: 800 !important;
+    color: var(--neo-black) !important;
+}
+
+/* Variantes de cores para stats */
+body.neo-mode .stat-card.red { background: var(--neo-red) !important; color: white !important; }
+body.neo-mode .stat-card.red .stat-value, 
+body.neo-mode .stat-card.red .stat-label { color: white !important; }
+
+body.neo-mode .stat-card.green { background: var(--neo-green) !important; }
+body.neo-mode .stat-card.blue { background: var(--neo-blue) !important; color: white !important; }
+body.neo-mode .stat-card.blue .stat-value, 
+body.neo-mode .stat-card.blue .stat-label { color: white !important; }
+
+body.neo-mode .stat-card.orange { background: var(--neo-orange) !important; }
 
 /* ========================================
    TABS
    ======================================== */
 
-.tabs {
-    display: flex;
-    gap: 0;
-    margin-bottom: 1.5rem;
-    border-bottom: 3px solid var(--neo-black);
-    overflow-x: auto;
+body.neo-mode .tabs {
+    border-bottom: 5px solid var(--neo-black) !important;
 }
 
-.tab {
-    padding: 14px 28px;
-    background: var(--neo-white);
-    border: 3px solid var(--neo-black);
-    border-bottom: none;
-    border-radius: var(--neo-radius-sm) var(--neo-radius-sm) 0 0;
-    color: var(--neo-black);
-    font-size: 0.9rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.1s ease;
-    white-space: nowrap;
-    margin-right: 4px;
-    margin-bottom: -3px;
+body.neo-mode .tab {
+    border: var(--border) !important;
+    border-bottom: none !important;
+    background: var(--neo-white) !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    margin-right: 10px !important;
+    padding: 15px 30px !important;
+    transform: translateY(5px) !important;
 }
 
-.tab:hover {
-    background: var(--neo-yellow);
-}
-
-.tab.active {
-    background: var(--neo-black);
-    color: var(--neo-white);
-}
-
-.tab-content {
-    display: none;
-    animation: fadeIn 0.2s ease;
-}
-
-.tab-content.active {
-    display: block;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+body.neo-mode .tab.active {
+    background: var(--neo-black) !important;
+    color: var(--neo-white) !important;
+    transform: translateY(0px) !important;
 }
 
 /* ========================================
-   UTILITIES
+   BADGES
    ======================================== */
 
-.text-center { text-align: center; }
-.text-left { text-align: left; }
-.text-right { text-align: right; }
-
-.mt-1 { margin-top: 0.5rem; }
-.mt-2 { margin-top: 1rem; }
-.mt-3 { margin-top: 1.5rem; }
-.mt-4 { margin-top: 2rem; }
-
-.mb-1 { margin-bottom: 0.5rem; }
-.mb-2 { margin-bottom: 1rem; }
-.mb-3 { margin-bottom: 1.5rem; }
-.mb-4 { margin-bottom: 2rem; }
-
-.flex { display: flex; }
-.flex-col { flex-direction: column; }
-.items-center { align-items: center; }
-.justify-between { justify-content: space-between; }
-.gap-1 { gap: 0.5rem; }
-.gap-2 { gap: 1rem; }
-.gap-3 { gap: 1.5rem; }
-
-.grid { display: grid; }
-.grid-2 { grid-template-columns: repeat(2, 1fr); }
-.grid-3 { grid-template-columns: repeat(3, 1fr); }
-
-@media (max-width: 768px) {
-    .grid-2, .grid-3 {
-        grid-template-columns: 1fr;
-    }
+body.neo-mode .badge {
+    border: 2px solid var(--neo-black) !important;
+    border-radius: 0px !important;
+    box-shadow: 2px 2px 0px var(--neo-black) !important;
+    background: var(--neo-white) !important;
+    color: var(--neo-black) !important;
+    font-weight: 900 !important;
 }
+
+body.neo-mode .badge-pendente { background: var(--neo-yellow) !important; }
+body.neo-mode .badge-respondida { background: var(--neo-green) !important; color: white !important; }
+body.neo-mode .badge-enviado { background: var(--neo-blue) !important; color: white !important; }
 
 /* ========================================
-   BADGES & TAGS
+   MODAL
    ======================================== */
 
-.badge {
-    display: inline-flex;
-    align-items: center;
-    padding: 4px 12px;
-    border: 2px solid var(--neo-black);
-    border-radius: var(--neo-radius-sm);
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+body.neo-mode .modal {
+    background: var(--neo-white) !important;
+    border: 5px solid var(--neo-black) !important;
+    border-radius: 0px !important;
+    box-shadow: var(--shadow-lg) !important;
 }
 
-.badge-yellow { background: var(--neo-yellow); }
-.badge-red { background: var(--neo-red); color: var(--neo-white); }
-.badge-green { background: var(--neo-green); color: var(--neo-white); }
-.badge-blue { background: var(--neo-blue); color: var(--neo-white); }
-.badge-purple { background: var(--neo-purple); color: var(--neo-white); }
-.badge-black { background: var(--neo-black); color: var(--neo-white); }
+body.neo-mode .modal-header {
+    background: var(--neo-yellow) !important;
+    border-bottom: 5px solid var(--neo-black) !important;
+}
+
+body.neo-mode .modal-close {
+    background: var(--neo-red) !important;
+    border: var(--border) !important;
+    color: white !important;
+    font-weight: 900 !important;
+    border-radius: 0 !important;
+    width: 40px !important;
+    height: 40px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 3px 3px 0px var(--neo-black) !important;
+}
+
+body.neo-mode .modal-close:hover {
+    transform: translate(-2px, -2px) !important;
+    box-shadow: 5px 5px 0px var(--neo-black) !important;
+}
 
 /* ========================================
    PROGRESS BAR
    ======================================== */
 
-.progress {
-    height: 24px;
-    background: var(--neo-white);
-    border: 3px solid var(--neo-black);
-    border-radius: var(--neo-radius-sm);
-    overflow: hidden;
+body.neo-mode .progress {
+    height: 35px !important;
+    background: var(--neo-white) !important;
+    border: var(--border) !important;
+    border-radius: 0 !important;
+    overflow: visible !important;
+    position: relative !important;
 }
 
-.progress-bar {
-    height: 100%;
-    background: var(--neo-yellow);
-    border-right: 3px solid var(--neo-black);
-    transition: width 0.3s ease;
+body.neo-mode .progress-bar {
+    background: var(--neo-green) !important;
+    height: 100% !important;
+    border-right: var(--border) !important;
 }
 
 /* ========================================
    TABLE
    ======================================== */
 
-.table-container {
-    overflow-x: auto;
-    border: var(--neo-border);
-    border-radius: var(--neo-radius);
-    box-shadow: var(--neo-shadow);
+body.neo-mode .table-container {
+    border: var(--border) !important;
+    box-shadow: var(--shadow) !important;
 }
 
-.table {
-    width: 100%;
-    border-collapse: collapse;
-    background: var(--neo-white);
+body.neo-mode .table th {
+    background: var(--neo-black) !important;
+    color: var(--neo-white) !important;
+    padding: 20px !important;
+    text-transform: uppercase !important;
+    font-weight: 900 !important;
 }
 
-.table th,
-.table td {
-    padding: 14px 18px;
-    text-align: left;
-    border-bottom: 2px solid var(--neo-black);
-    font-weight: 600;
+body.neo-mode .table td {
+    padding: 15px 20px !important;
+    border-bottom: 2px solid var(--neo-black) !important;
 }
 
-.table th {
-    background: var(--neo-black);
-    color: var(--neo-white);
-    font-weight: 700;
-    text-transform: uppercase;
-    font-size: 0.8rem;
-    letter-spacing: 0.5px;
-}
-
-.table tr:last-child td {
-    border-bottom: none;
-}
-
-.table tr:hover td {
-    background: var(--neo-yellow-light);
+body.neo-mode .table tr:hover td {
+    background: var(--neo-yellow-light) !important;
 }
 
 /* ========================================
-   ALERTS
+   LANDING PAGE (INDEX.HTML)
    ======================================== */
 
-.alert {
-    padding: 16px 20px;
-    border: 3px solid var(--neo-black);
-    border-radius: var(--neo-radius);
-    margin-bottom: 1rem;
-    font-weight: 600;
-    box-shadow: var(--neo-shadow);
+body.neo-mode .hero-container {
+    background: var(--neo-white) !important;
+    border: 5px solid var(--neo-black) !important;
+    box-shadow: var(--shadow-lg) !important;
+    padding: 4rem !important;
+    max-width: 1200px !important;
 }
 
-.alert-success {
-    background: var(--neo-green);
-    color: var(--neo-white);
+body.neo-mode .hero-header {
+    margin-bottom: 4rem !important;
 }
 
-.alert-error {
-    background: var(--neo-red);
-    color: var(--neo-white);
+body.neo-mode .hero-logo {
+    background: var(--neo-yellow) !important;
+    border: var(--border) !important;
+    box-shadow: var(--shadow) !important;
+    width: 250px !important;
+    height: 80px !important;
+    animation: none !important;
 }
 
-.alert-warning {
-    background: var(--neo-yellow);
-    color: var(--neo-black);
+body.neo-mode .hero-title {
+    font-family: var(--font-display) !important;
+    font-weight: 900 !important;
+    color: var(--neo-black) !important;
+    text-shadow: 4px 4px 0px var(--neo-yellow) !important;
+    font-size: 4rem !important;
 }
 
-.alert-info {
-    background: var(--neo-blue);
-    color: var(--neo-white);
+body.neo-mode .hero-title .highlight {
+    color: var(--neo-red) !important;
 }
 
-/* ========================================
-   MODAL
-   ======================================== */
-
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    padding: 20px;
+body.neo-mode .platform-card {
+    background: var(--neo-white) !important;
+    border: var(--border) !important;
+    border-radius: 0 !important;
+    box-shadow: var(--shadow) !important;
+    padding: 3rem !important;
+    animation: none !important;
 }
 
-.modal {
-    background: var(--neo-white);
-    border: var(--neo-border);
-    border-radius: var(--neo-radius);
-    padding: 2rem;
-    max-width: 500px;
-    width: 100%;
-    box-shadow: 12px 12px 0px var(--neo-black);
+body.neo-mode .platform-card:hover {
+    transform: translate(-8px, -8px) !important;
+    box-shadow: var(--shadow-lg) !important;
+    background: var(--bg-primary) !important;
 }
 
-.modal-header {
-    font-size: 1.3rem;
-    font-weight: 800;
-    margin-bottom: 1rem;
-    padding-bottom: 1rem;
-    border-bottom: 3px solid var(--neo-black);
+body.neo-mode .platform-card::before {
+    display: none !important;
 }
 
-.modal-close {
-    width: 36px;
-    height: 36px;
-    border: 2px solid var(--neo-black);
-    border-radius: 50%;
-    background: var(--neo-red);
-    color: var(--neo-white);
-    font-weight: 800;
-    cursor: pointer;
-    float: right;
+body.neo-mode .card-icon {
+    width: 80px !important;
+    height: 80px !important;
+    background: var(--neo-black) !important;
+    border: var(--border) !important;
+    color: white !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0px var(--neo-red) !important;
+    margin-bottom: 2rem !important;
 }
 
-.modal-close:hover {
-    background: var(--neo-black);
+body.neo-mode .card-button {
+    background: var(--neo-black) !important;
+    color: var(--neo-white) !important;
+    border: var(--border) !important;
+    border-radius: 0 !important;
+    box-shadow: 6px 6px 0px var(--neo-red) !important;
+    padding: 15px 30px !important;
+    font-weight: 900 !important;
+    text-transform: uppercase !important;
+}
+
+body.neo-mode .card-button:hover {
+    transform: translate(-3px, -3px) !important;
+    box-shadow: 9px 9px 0px var(--neo-red) !important;
+}
+
+body.neo-mode .card-badge {
+    border-radius: 0 !important;
+    border: 2px solid var(--neo-black) !important;
+    background: var(--neo-yellow) !important;
+    box-shadow: 3px 3px 0px var(--neo-black) !important;
 }
 
 /* ========================================
    THEME TOGGLE BUTTON
    ======================================== */
 
-.theme-toggle {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    z-index: 9999;
-    padding: 14px 24px;
-    background: var(--neo-black);
-    color: var(--neo-white);
-    border: 3px solid var(--neo-black);
-    border-radius: var(--neo-radius);
-    font-family: var(--font-main);
-    font-weight: 700;
-    font-size: 0.9rem;
-    cursor: pointer;
-    box-shadow: 4px 4px 0px rgba(0,0,0,0.3);
-    transition: all 0.1s ease;
+body.neo-mode .theme-toggle {
+    background: var(--neo-black) !important;
+    color: var(--neo-white) !important;
+    border: 4px solid var(--neo-black) !important;
+    border-radius: 0px !important;
+    box-shadow: 6px 6px 0px var(--neo-yellow) !important;
+    font-family: var(--font-display) !important;
+    font-weight: 900 !important;
+    padding: 15px 30px !important;
 }
 
-.theme-toggle:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: 6px 6px 0px rgba(0,0,0,0.3);
-    background: var(--neo-yellow);
-    color: var(--neo-black);
-}
-
-.theme-toggle:active {
-    transform: translate(2px, 2px);
-    box-shadow: 2px 2px 0px rgba(0,0,0,0.3);
+body.neo-mode .theme-toggle:hover {
+    transform: translate(-4px, -4px) !important;
+    box-shadow: 10px 10px 0px var(--neo-yellow) !important;
+    background: var(--neo-red) !important;
 }
 
 /* ========================================
-   MOBILE MENU BUTTON
+   UTILITIES
    ======================================== */
 
-.mobile-menu-btn {
-    display: none;
-    width: 44px;
-    height: 44px;
-    border: 3px solid var(--neo-black);
-    border-radius: var(--neo-radius-sm);
-    background: var(--neo-white);
-    cursor: pointer;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
+body.neo-mode .particles {
+    opacity: 0.1 !important;
 }
 
-.mobile-menu-btn span {
-    width: 20px;
-    height: 3px;
+body.neo-mode .particle {
+    background: var(--neo-black) !important;
+}
+
+/* SCROLLBAR NEO */
+body.neo-mode ::-webkit-scrollbar {
+    width: 15px;
+}
+
+body.neo-mode ::-webkit-scrollbar-track {
+    background: var(--neo-white);
+    border-left: 4px solid var(--neo-black);
+}
+
+body.neo-mode ::-webkit-scrollbar-thumb {
     background: var(--neo-black);
-    border-radius: 2px;
+    border: 3px solid var(--neo-white);
 }
 
-@media (max-width: 900px) {
-    .mobile-menu-btn {
-        display: flex;
-    }
-}
-
-/* ========================================
-   SCROLLBAR
-   ======================================== */
-
-::-webkit-scrollbar {
-    width: 10px;
-}
-
-::-webkit-scrollbar-track {
-    background: var(--neo-white);
-    border-left: 2px solid var(--neo-black);
-}
-
-::-webkit-scrollbar-thumb {
-    background: var(--neo-black);
-    border-radius: 0;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #333;
-}
-
-/* ========================================
-   BODY CLASSES FOR SPECIFIC PAGES
-   ======================================== */
-
-/* Landing Page Styles Override */
-body.landing-page {
-    background: var(--neo-yellow);
-}
-
-body.landing-page .hero {
-    background: var(--neo-white);
-    border: var(--neo-border);
-    border-radius: var(--neo-radius);
-    padding: 3rem;
-    box-shadow: var(--neo-shadow);
-}
-
-body.landing-page .btn {
-    padding: 16px 32px;
-    font-size: 1rem;
+body.neo-mode ::-webkit-scrollbar-thumb:hover {
+    background: var(--neo-red);
 }

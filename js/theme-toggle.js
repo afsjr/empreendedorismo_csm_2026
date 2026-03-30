@@ -4,10 +4,7 @@
 
 (function() {
     const NEO_CSS = 'css/styles-neo.css';
-    const DEFAULT_CSS = 'css/styles.css';
-    
-    const toggleBtn = document.getElementById('theme-toggle');
-    const currentCSS = document.querySelector('link[href*="styles.css"]:not([href*="styles-neo"])');
+    let neoLink = null;
     
     function getTheme() {
         return localStorage.getItem('theme') || 'default';
@@ -17,45 +14,58 @@
         localStorage.setItem('theme', theme);
         
         if (theme === 'neo') {
-            if (currentCSS) {
-                currentCSS.href = NEO_CSS;
-            } else {
-                const link = document.createElement('link');
-                link.rel = 'stylesheet';
-                link.href = NEO_CSS;
-                document.head.appendChild(link);
+            if (!neoLink) {
+                neoLink = document.createElement('link');
+                neoLink.rel = 'stylesheet';
+                neoLink.href = NEO_CSS;
+                document.head.appendChild(neoLink);
             }
+            neoLink.media = 'all';
             document.body.classList.add('neo-mode');
         } else {
-            if (currentCSS) {
-                currentCSS.href = DEFAULT_CSS;
+            if (neoLink) {
+                neoLink.media = 'print';
             }
             document.body.classList.remove('neo-mode');
         }
         
-        if (toggleBtn) {
-            toggleBtn.textContent = theme === 'neo' ? '⚡ Padrão' : '⚡ NeoBrutal';
+        const btn = document.getElementById('theme-toggle');
+        if (btn) {
+            btn.textContent = theme === 'neo' ? '⚡ Padrão' : '⚡ NeoBrutal';
         }
+    }
+    
+    function createButton() {
+        if (document.getElementById('theme-toggle')) return;
+        
+        const btn = document.createElement('button');
+        btn.id = 'theme-toggle';
+        btn.className = 'theme-toggle';
+        
+        const savedTheme = getTheme();
+        btn.textContent = savedTheme === 'neo' ? '⚡ Padrão' : '⚡ NeoBrutal';
+        
+        document.body.appendChild(btn);
+        
+        btn.addEventListener('click', function() {
+            const current = getTheme();
+            const newTheme = current === 'neo' ? 'default' : 'neo';
+            setTheme(newTheme);
+        });
     }
     
     function init() {
         const savedTheme = getTheme();
         
-        if (!toggleBtn) {
-            const btn = document.createElement('button');
-            btn.id = 'theme-toggle';
-            btn.className = 'theme-toggle';
-            btn.textContent = savedTheme === 'neo' ? '⚡ Padrão' : '⚡ NeoBrutal';
-            document.body.appendChild(btn);
-            
-            btn.addEventListener('click', function() {
-                const current = getTheme();
-                const newTheme = current === 'neo' ? 'default' : 'neo';
-                setTheme(newTheme);
-            });
+        if (savedTheme === 'neo') {
+            neoLink = document.createElement('link');
+            neoLink.rel = 'stylesheet';
+            neoLink.href = NEO_CSS;
+            document.head.appendChild(neoLink);
+            document.body.classList.add('neo-mode');
         }
         
-        setTheme(savedTheme);
+        createButton();
     }
     
     if (document.readyState === 'loading') {

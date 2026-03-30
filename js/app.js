@@ -26,8 +26,10 @@ const App = {
     init() {
         this.loadSession();
         this.initTheme();
+        this.updateThemeButton();
         this.initTabs();
         this.initMobileMenu();
+        this.initModalClose();
         console.log('✅ App inicializado');
     },
 
@@ -77,17 +79,78 @@ const App = {
     // ========================================
 
     initTheme() {
-        const saved = localStorage.getItem('ee_csm_theme');
-        if (saved === 'light') {
+        const theme = localStorage.getItem('ee_csm_theme') || 'dark';
+        if (theme === 'light') {
             document.body.classList.add('light');
+        } else if (theme === 'neo') {
+            this.setNeoTheme(true);
+        }
+        this.createThemeButton();
+    },
+
+    createThemeButton() {
+        if (document.querySelector('.theme-toggle')) return;
+        
+        const btn = document.createElement('button');
+        btn.className = 'theme-toggle';
+        btn.onclick = () => this.toggleTheme();
+        btn.style.cssText = 'position:fixed;bottom:20px;right:20px;z-index:9999;width:50px;height:50px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 4px 12px rgba(0,0,0,0.2);';
+        
+        // Let CSS handle the rest of styling if available
+        document.body.appendChild(btn);
+        this.updateThemeButton();
+    },
+
+    setNeoTheme(active) {
+        if (active) {
+            document.body.classList.add('neo-mode');
+            if (!document.getElementById('neo-styles')) {
+                const link = document.createElement('link');
+                link.id = 'neo-styles';
+                link.rel = 'stylesheet';
+                // Adjust path based on current directory
+                const isSubpage = window.location.pathname.includes('/pages/');
+                link.href = isSubpage ? '../css/styles-neo.css' : 'css/styles-neo.css';
+                document.head.appendChild(link);
+            }
+        } else {
+            document.body.classList.remove('neo-mode');
+            const link = document.getElementById('neo-styles');
+            if (link) link.remove();
         }
     },
 
     toggleTheme() {
-        document.body.classList.toggle('light');
-        localStorage.setItem('ee_csm_theme', 
-            document.body.classList.contains('light') ? 'light' : 'dark'
-        );
+        const current = localStorage.getItem('ee_csm_theme') || 'dark';
+        let next = 'dark';
+        
+        if (current === 'dark') next = 'light';
+        else if (current === 'light') next = 'neo';
+        else next = 'dark';
+        
+        // Reset all
+        document.body.classList.remove('light');
+        this.setNeoTheme(false);
+        
+        // Set next
+        if (next === 'light') {
+            document.body.classList.add('light');
+        } else if (next === 'neo') {
+            this.setNeoTheme(true);
+        }
+        
+        localStorage.setItem('ee_csm_theme', next);
+        this.updateThemeButton();
+    },
+
+    updateThemeButton() {
+        const btn = document.querySelector('.theme-toggle');
+        if (!btn) return;
+        
+        const theme = localStorage.getItem('ee_csm_theme') || 'dark';
+        if (theme === 'light') btn.textContent = '☀️';
+        else if (theme === 'neo') btn.textContent = '⚡';
+        else btn.textContent = '🌙';
     },
 
     // ========================================

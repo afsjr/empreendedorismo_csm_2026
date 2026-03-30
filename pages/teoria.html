@@ -6,7 +6,7 @@
     <title>Painel Pedagógico — CSM</title>
     
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
     
     <!-- CSS -->
     <link rel="stylesheet" href="../css/styles.css">
@@ -383,7 +383,7 @@
             <button class="nav-btn" data-grade="9">9º Ano</button>
         </nav>
         
-        <button class="theme-toggle" onclick="toggleTheme()" title="Modo claro/escuro">☀️</button>
+        <button class="theme-toggle" onclick="App.toggleTheme()" title="Modo claro/escuro">☀️</button>
         <button class="nav-btn" onclick="window.location.href='../index.html'">🏠 Início</button>
     </header>
 
@@ -1041,10 +1041,6 @@
             }
         }
 
-        function toggleTheme() {
-            document.body.classList.toggle('light');
-            localStorage.setItem('ee_csm_theme', document.body.classList.contains('light') ? 'light' : 'dark');
-        }
 
         function toggleSidebar() {
             document.querySelector('.sidebar').classList.toggle('open');
@@ -1054,6 +1050,5 @@
         // Iniciar
         document.addEventListener('DOMContentLoaded', init);
     </script>
-    <script src="../js/theme-toggle.js"></script>
 </body>
 </html>
