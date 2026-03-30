@@ -83,7 +83,9 @@ const App = {
         if (theme === 'light') {
             document.body.classList.add('light');
         } else if (theme === 'neo') {
-            this.setNeoTheme(true);
+            this.setNeoTheme(true, false);
+        } else if (theme === 'neo-dark') {
+            this.setNeoTheme(true, true);
         }
         this.createThemeButton();
     },
@@ -96,25 +98,27 @@ const App = {
         btn.onclick = () => this.toggleTheme();
         btn.style.cssText = 'position:fixed;bottom:20px;right:20px;z-index:9999;width:50px;height:50px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 4px 12px rgba(0,0,0,0.2);';
         
-        // Let CSS handle the rest of styling if available
         document.body.appendChild(btn);
         this.updateThemeButton();
     },
 
-    setNeoTheme(active) {
+    setNeoTheme(active, isDark = false) {
         if (active) {
             document.body.classList.add('neo-mode');
+            if (isDark) document.body.classList.add('dark-neo');
+            else document.body.classList.remove('dark-neo');
+
             if (!document.getElementById('neo-styles')) {
                 const link = document.createElement('link');
                 link.id = 'neo-styles';
                 link.rel = 'stylesheet';
-                // Adjust path based on current directory
                 const isSubpage = window.location.pathname.includes('/pages/');
                 link.href = isSubpage ? '../css/styles-neo.css' : 'css/styles-neo.css';
                 document.head.appendChild(link);
             }
         } else {
             document.body.classList.remove('neo-mode');
+            document.body.classList.remove('dark-neo');
             const link = document.getElementById('neo-styles');
             if (link) link.remove();
         }
@@ -126,6 +130,7 @@ const App = {
         
         if (current === 'dark') next = 'light';
         else if (current === 'light') next = 'neo';
+        else if (current === 'neo') next = 'neo-dark';
         else next = 'dark';
         
         // Reset all
@@ -136,7 +141,9 @@ const App = {
         if (next === 'light') {
             document.body.classList.add('light');
         } else if (next === 'neo') {
-            this.setNeoTheme(true);
+            this.setNeoTheme(true, false);
+        } else if (next === 'neo-dark') {
+            this.setNeoTheme(true, true);
         }
         
         localStorage.setItem('ee_csm_theme', next);
@@ -150,6 +157,7 @@ const App = {
         const theme = localStorage.getItem('ee_csm_theme') || 'dark';
         if (theme === 'light') btn.textContent = '☀️';
         else if (theme === 'neo') btn.textContent = '⚡';
+        else if (theme === 'neo-dark') btn.textContent = '🕶️';
         else btn.textContent = '🌙';
     },
 
