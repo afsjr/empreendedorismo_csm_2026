@@ -1,0 +1,829 @@
+/* ========================================
+   NEOBRUTALISTA CSM - ESTILOS
+   ======================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --neo-yellow: #FFE600;
+    --neo-yellow-light: #FFF066;
+    --neo-black: #000000;
+    --neo-white: #FFFFFF;
+    --neo-red: #FF3B3B;
+    --neo-blue: #3B82F6;
+    --neo-green: #10B981;
+    --neo-purple: #8B5CF6;
+    --neo-orange: #F97316;
+    --neo-pink: #EC4899;
+    
+    --neo-bg: #F5F5F0;
+    --neo-bg-dark: #1A1A1A;
+    --neo-border: 4px solid var(--neo-black);
+    --neo-shadow: 6px 6px 0px var(--neo-black);
+    --neo-shadow-hover: 8px 8px 0px var(--neo-black);
+    --neo-radius: 8px;
+    --neo-radius-sm: 4px;
+    
+    --font-main: 'Space Grotesk', sans-serif;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-main);
+    background: var(--neo-bg);
+    color: var(--neo-black);
+    line-height: 1.5;
+    min-height: 100vh;
+}
+
+/* ========================================
+   LAYOUT
+   ======================================== */
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.app-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    min-height: calc(100vh - 64px);
+}
+
+@media (max-width: 900px) {
+    .app-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (min-width: 1200px) {
+    .main {
+        padding: 2rem;
+    }
+    .card {
+        padding: 1.5rem;
+    }
+    .sidebar {
+        padding: 1.5rem;
+    }
+    .header {
+        height: 72px;
+    }
+}
+
+/* ========================================
+   HEADER
+   ======================================== */
+
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--neo-yellow);
+    border-bottom: var(--neo-border);
+    padding: 0 1.5rem;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 800;
+    font-size: 1.2rem;
+    color: var(--neo-black);
+    white-space: nowrap;
+}
+
+.logo img {
+    height: 36px;
+    width: auto;
+    border: 3px solid var(--neo-black);
+    border-radius: var(--neo-radius-sm);
+    object-fit: contain;
+}
+
+/* ========================================
+   NAVIGATION
+   ======================================== */
+
+.nav {
+    display: flex;
+    gap: 4px;
+    margin-left: auto;
+}
+
+.nav-btn {
+    padding: 10px 20px;
+    border: 3px solid var(--neo-black);
+    border-radius: var(--neo-radius-sm);
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 0.85rem;
+    background: var(--neo-white);
+    color: var(--neo-black);
+    transition: all 0.1s ease;
+}
+
+.nav-btn:hover {
+    background: var(--neo-black);
+    color: var(--neo-white);
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0px var(--neo-black);
+}
+
+.nav-btn.active {
+    background: var(--neo-black);
+    color: var(--neo-white);
+    box-shadow: var(--neo-shadow);
+    transform: translate(2px, 2px);
+}
+
+/* ========================================
+   SIDEBAR
+   ======================================== */
+
+.sidebar {
+    background: var(--neo-white);
+    border-right: var(--neo-border);
+    padding: 1.5rem;
+    overflow-y: auto;
+    height: calc(100vh - 64px);
+    position: sticky;
+    top: 64px;
+}
+
+@media (max-width: 900px) {
+    .sidebar {
+        display: none;
+        position: fixed;
+        left: 0;
+        top: 64px;
+        width: 300px;
+        z-index: 99;
+        height: calc(100vh - 64px);
+        box-shadow: 8px 0 0 var(--neo-black);
+    }
+    .sidebar.open {
+        display: block;
+    }
+}
+
+.module-section {
+    margin-bottom: 1rem;
+}
+
+.module-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 12px 16px;
+    border: 3px solid var(--neo-black);
+    border-radius: var(--neo-radius-sm);
+    cursor: pointer;
+    transition: all 0.1s ease;
+    font-weight: 700;
+    font-size: 0.9rem;
+    background: var(--neo-yellow);
+    color: var(--neo-black);
+    margin-bottom: 8px;
+}
+
+.module-header:hover {
+    background: var(--neo-black);
+    color: var(--neo-white);
+}
+
+.module-header.active {
+    background: var(--neo-black);
+    color: var(--neo-white);
+}
+
+.module-icon {
+    font-size: 1.2rem;
+}
+
+.module-lessons {
+    padding-left: 0.5rem;
+    margin-top: 0.5rem;
+    display: none;
+}
+
+.module-lessons.open {
+    display: block;
+}
+
+.lesson-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 10px 16px 10px 24px;
+    border: 2px solid transparent;
+    border-radius: var(--neo-radius-sm);
+    cursor: pointer;
+    transition: all 0.1s ease;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--neo-black);
+    margin-bottom: 4px;
+    margin-left: 8px;
+}
+
+.lesson-item:hover {
+    border-color: var(--neo-black);
+    background: var(--neo-yellow-light);
+}
+
+.lesson-item.active {
+    background: var(--neo-black);
+    color: var(--neo-white);
+    border-color: var(--neo-black);
+    font-weight: 700;
+}
+
+.lesson-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--neo-black);
+    border-radius: var(--neo-radius-sm);
+    font-size: 0.75rem;
+    font-weight: 700;
+    background: var(--neo-white);
+    color: var(--neo-black);
+    flex-shrink: 0;
+}
+
+.lesson-item.active .lesson-num {
+    background: var(--neo-white);
+    color: var(--neo-black);
+}
+
+/* ========================================
+   MAIN CONTENT
+   ======================================== */
+
+.main {
+    padding: 2rem;
+    overflow-y: auto;
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(255, 230, 0, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 59, 59, 0.1) 0%, transparent 50%),
+        var(--neo-bg);
+}
+
+@media (max-width: 900px) {
+    .main {
+        padding: 1rem;
+    }
+}
+
+/* ========================================
+   CARDS
+   ======================================== */
+
+.card {
+    background: var(--neo-white);
+    border: var(--neo-border);
+    border-radius: var(--neo-radius);
+    padding: 1.5rem 2rem;
+    margin-bottom: 1.5rem;
+    transition: all 0.15s ease;
+    box-shadow: var(--neo-shadow);
+}
+
+.card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: var(--neo-shadow-hover);
+}
+
+.card-title {
+    font-family: var(--font-main);
+    font-size: 1.3rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+}
+
+.card-subtitle {
+    font-size: 0.9rem;
+    color: #444;
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+/* ========================================
+   BUTTONS
+   ======================================== */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border: 3px solid var(--neo-black);
+    border-radius: var(--neo-radius-sm);
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 0.9rem;
+    transition: all 0.1s ease;
+    text-decoration: none;
+    box-shadow: var(--neo-shadow);
+}
+
+.btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: var(--neo-shadow-hover);
+}
+
+.btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px var(--neo-black);
+}
+
+.btn-primary {
+    background: var(--neo-yellow);
+    color: var(--neo-black);
+}
+
+.btn-primary:hover {
+    background: var(--neo-black);
+    color: var(--neo-white);
+}
+
+.btn-secondary {
+    background: var(--neo-white);
+    color: var(--neo-black);
+}
+
+.btn-secondary:hover {
+    background: var(--neo-black);
+    color: var(--neo-white);
+}
+
+.btn-danger {
+    background: var(--neo-red);
+    color: var(--neo-white);
+}
+
+.btn-danger:hover {
+    background: var(--neo-black);
+    color: var(--neo-white);
+}
+
+.btn-success {
+    background: var(--neo-green);
+    color: var(--neo-white);
+}
+
+.btn-success:hover {
+    background: var(--neo-black);
+    color: var(--neo-white);
+}
+
+.btn-sm {
+    padding: 8px 16px;
+    font-size: 0.8rem;
+    border-width: 2px;
+    box-shadow: 3px 3px 0px var(--neo-black);
+}
+
+.btn-icon {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: var(--neo-radius-sm);
+}
+
+/* ========================================
+   FORMS
+   ======================================== */
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--neo-black);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+    width: 100%;
+    padding: 12px 16px;
+    background: var(--neo-white);
+    border: 3px solid var(--neo-black);
+    border-radius: var(--neo-radius-sm);
+    color: var(--neo-black);
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.1s ease;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+    outline: none;
+    background: var(--neo-yellow-light);
+    box-shadow: var(--neo-shadow);
+}
+
+.form-textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* ========================================
+   TABS
+   ======================================== */
+
+.tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 1.5rem;
+    border-bottom: 3px solid var(--neo-black);
+    overflow-x: auto;
+}
+
+.tab {
+    padding: 14px 28px;
+    background: var(--neo-white);
+    border: 3px solid var(--neo-black);
+    border-bottom: none;
+    border-radius: var(--neo-radius-sm) var(--neo-radius-sm) 0 0;
+    color: var(--neo-black);
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.1s ease;
+    white-space: nowrap;
+    margin-right: 4px;
+    margin-bottom: -3px;
+}
+
+.tab:hover {
+    background: var(--neo-yellow);
+}
+
+.tab.active {
+    background: var(--neo-black);
+    color: var(--neo-white);
+}
+
+.tab-content {
+    display: none;
+    animation: fadeIn 0.2s ease;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ========================================
+   UTILITIES
+   ======================================== */
+
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.mt-1 { margin-top: 0.5rem; }
+.mt-2 { margin-top: 1rem; }
+.mt-3 { margin-top: 1.5rem; }
+.mt-4 { margin-top: 2rem; }
+
+.mb-1 { margin-bottom: 0.5rem; }
+.mb-2 { margin-bottom: 1rem; }
+.mb-3 { margin-bottom: 1.5rem; }
+.mb-4 { margin-bottom: 2rem; }
+
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.gap-1 { gap: 0.5rem; }
+.gap-2 { gap: 1rem; }
+.gap-3 { gap: 1.5rem; }
+
+.grid { display: grid; }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+
+@media (max-width: 768px) {
+    .grid-2, .grid-3 {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ========================================
+   BADGES & TAGS
+   ======================================== */
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    border: 2px solid var(--neo-black);
+    border-radius: var(--neo-radius-sm);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badge-yellow { background: var(--neo-yellow); }
+.badge-red { background: var(--neo-red); color: var(--neo-white); }
+.badge-green { background: var(--neo-green); color: var(--neo-white); }
+.badge-blue { background: var(--neo-blue); color: var(--neo-white); }
+.badge-purple { background: var(--neo-purple); color: var(--neo-white); }
+.badge-black { background: var(--neo-black); color: var(--neo-white); }
+
+/* ========================================
+   PROGRESS BAR
+   ======================================== */
+
+.progress {
+    height: 24px;
+    background: var(--neo-white);
+    border: 3px solid var(--neo-black);
+    border-radius: var(--neo-radius-sm);
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: var(--neo-yellow);
+    border-right: 3px solid var(--neo-black);
+    transition: width 0.3s ease;
+}
+
+/* ========================================
+   TABLE
+   ======================================== */
+
+.table-container {
+    overflow-x: auto;
+    border: var(--neo-border);
+    border-radius: var(--neo-radius);
+    box-shadow: var(--neo-shadow);
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--neo-white);
+}
+
+.table th,
+.table td {
+    padding: 14px 18px;
+    text-align: left;
+    border-bottom: 2px solid var(--neo-black);
+    font-weight: 600;
+}
+
+.table th {
+    background: var(--neo-black);
+    color: var(--neo-white);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+}
+
+.table tr:last-child td {
+    border-bottom: none;
+}
+
+.table tr:hover td {
+    background: var(--neo-yellow-light);
+}
+
+/* ========================================
+   ALERTS
+   ======================================== */
+
+.alert {
+    padding: 16px 20px;
+    border: 3px solid var(--neo-black);
+    border-radius: var(--neo-radius);
+    margin-bottom: 1rem;
+    font-weight: 600;
+    box-shadow: var(--neo-shadow);
+}
+
+.alert-success {
+    background: var(--neo-green);
+    color: var(--neo-white);
+}
+
+.alert-error {
+    background: var(--neo-red);
+    color: var(--neo-white);
+}
+
+.alert-warning {
+    background: var(--neo-yellow);
+    color: var(--neo-black);
+}
+
+.alert-info {
+    background: var(--neo-blue);
+    color: var(--neo-white);
+}
+
+/* ========================================
+   MODAL
+   ======================================== */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.modal {
+    background: var(--neo-white);
+    border: var(--neo-border);
+    border-radius: var(--neo-radius);
+    padding: 2rem;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 12px 12px 0px var(--neo-black);
+}
+
+.modal-header {
+    font-size: 1.3rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 3px solid var(--neo-black);
+}
+
+.modal-close {
+    width: 36px;
+    height: 36px;
+    border: 2px solid var(--neo-black);
+    border-radius: 50%;
+    background: var(--neo-red);
+    color: var(--neo-white);
+    font-weight: 800;
+    cursor: pointer;
+    float: right;
+}
+
+.modal-close:hover {
+    background: var(--neo-black);
+}
+
+/* ========================================
+   THEME TOGGLE BUTTON
+   ======================================== */
+
+.theme-toggle {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9999;
+    padding: 14px 24px;
+    background: var(--neo-black);
+    color: var(--neo-white);
+    border: 3px solid var(--neo-black);
+    border-radius: var(--neo-radius);
+    font-family: var(--font-main);
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    box-shadow: 4px 4px 0px rgba(0,0,0,0.3);
+    transition: all 0.1s ease;
+}
+
+.theme-toggle:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px rgba(0,0,0,0.3);
+    background: var(--neo-yellow);
+    color: var(--neo-black);
+}
+
+.theme-toggle:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px rgba(0,0,0,0.3);
+}
+
+/* ========================================
+   MOBILE MENU BUTTON
+   ======================================== */
+
+.mobile-menu-btn {
+    display: none;
+    width: 44px;
+    height: 44px;
+    border: 3px solid var(--neo-black);
+    border-radius: var(--neo-radius-sm);
+    background: var(--neo-white);
+    cursor: pointer;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+.mobile-menu-btn span {
+    width: 20px;
+    height: 3px;
+    background: var(--neo-black);
+    border-radius: 2px;
+}
+
+@media (max-width: 900px) {
+    .mobile-menu-btn {
+        display: flex;
+    }
+}
+
+/* ========================================
+   SCROLLBAR
+   ======================================== */
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--neo-white);
+    border-left: 2px solid var(--neo-black);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--neo-black);
+    border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #333;
+}
+
+/* ========================================
+   BODY CLASSES FOR SPECIFIC PAGES
+   ======================================== */
+
+/* Landing Page Styles Override */
+body.landing-page {
+    background: var(--neo-yellow);
+}
+
+body.landing-page .hero {
+    background: var(--neo-white);
+    border: var(--neo-border);
+    border-radius: var(--neo-radius);
+    padding: 3rem;
+    box-shadow: var(--neo-shadow);
+}
+
+body.landing-page .btn {
+    padding: 16px 32px;
+    font-size: 1rem;
+}
