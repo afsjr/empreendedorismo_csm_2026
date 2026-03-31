@@ -91,29 +91,39 @@ async function requestAIResponse(userMessage) {
     if (sendBtn) sendBtn.disabled = true;
 
     try {
-        // Chamada Segura via RPC (Database Function)
-        // Mais rápida e 100% compatível com Dashboard Web
         const { data, error } = await supabaseClient.rpc('ia_mentor', {
             p_pergunta: userMessage,
             p_historico: conversationHistory.slice(0, -1).map(m => ({
-                role: m.role === 'assistant' ? 'assistant' : 'user', // PLPGSQL usa 'assistant'
+                role: m.role === 'assistant' ? 'assistant' : 'user',
                 content: m.content
             }))
         });
 
-        if (error) throw error;
+        if (error) {
+            console.error('Erro RPC:', error);
+            throw new Error(error.message);
+        }
 
-        // A resposta do RPC do banco vem direto no formato JSON do OpenAI/Groq
-        let reply = data.choices[0].message.content || "Desculpe, tive um problema ao pensar na resposta.";
+        // Se o banco retornou um objeto de erro em vez de resposta da IA
+        if (data && data.error) {
+            throw new Error(data.error);
+        }
+
+        if (!data || !data.choices) {
+            console.error('Resposta inválida do banco:', data);
+            throw new Error('A IA não retornou uma resposta válida. Verifique sua chave do Groq.');
+        }
+
+        let reply = data.choices[0].message.content || "O mentor não conseguiu pensar em uma resposta.";
         reply = reply.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
 
         conversationHistory.push({ role: 'assistant', content: reply });
         addBotMessage(reply);
 
     } catch (err) {
-        console.error('Erro na Conexão IA:', err);
+        console.error('Erro Detalhado:', err);
         removeTyping();
-        addBotMessage('⚠️ **Erro de Conexão:** Verifique se você rodou o código SQL no Dashboard do Supabase e inseriu a chave do Groq corretamente.');
+        addBotMessage(`⚠️ **Erro na Mentoria:** ${err.message}`);
     } finally {
         if (sendBtn) sendBtn.disabled = false;
         isLoading = false;
