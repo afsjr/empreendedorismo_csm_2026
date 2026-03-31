@@ -97,81 +97,43 @@ function sendMessage(forcedText) {
 }
 
 async function callAPI() {
-    let apiKey = localStorage.getItem('openai_api_key') || sessionStorage.getItem('openai_api_key');
-    
-    if (!apiKey) {
-        document.getElementById('apiKeyModal').style.display = 'flex';
-        return;
-    }
-    
-    console.log('API Key found:', apiKey.substring(0, 10) + '...');
-
-    console.log('Starting API call...');
     const sendBtn = document.getElementById('sendBtn');
-    sendBtn.disabled = true;
+    if (sendBtn) sendBtn.disabled = true;
     isLoading = true;
 
     try {
-        const body = {
-            model: CONFIG.model,
-            max_tokens: 4096,
-            messages: conversationHistory.map(m => ({ role: m.role, content: m.content }))
-        };
-
-        console.log('Calling API:', CONFIG.endpoint, 'Model:', CONFIG.model);
-        console.log('Messages:', conversationHistory);
-
-        const response = await fetch(CONFIG.endpoint, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + apiKey
-            },
-            body: JSON.stringify(body)
+        console.log('Iniciando chamada para a Mentor IA (Edge Function)...');
+        
+        // Chamada para a Edge Function do Supabase
+        const { data, error } = await supabase.functions.invoke('mentor-chat', {
+            body: { 
+                message: conversationHistory[conversationHistory.length - 1].content,
+                history: conversationHistory.slice(0, -1).map(m => ({
+                    role: m.role === 'assistant' ? 'model' : 'user',
+                    parts: [{ text: m.content }]
+                }))
+            }
         });
 
-        console.log('Response status:', response.status);
-        console.log('Full response:', response);
+        if (error) throw error;
 
-        const data = await response.json();
-        console.log('Response data:', JSON.stringify(data).substring(0, 1000));
-
-        if (!response.ok) {
-            const errorDetail = data.error?.message || JSON.stringify(data);
-            throw new Error('Erro ' + response.status + ': ' + errorDetail);
-        }
-
-        if (!data.choices || !data.choices[0] || !data.choices[0].message) {
-            throw new Error('Resposta inesperada do modelo: ' + JSON.stringify(data).substring(0, 200));
-        }
-
-        let reply = data.choices[0].message.content || '';
-
+        let reply = data.reply || '';
         reply = reply.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
-        
         reply = sanitizeOutput(reply);
 
-        if (!reply) {
-            throw new Error('O modelo retornou resposta vazia. Tente novamente.');
-        }
+        if (!reply) throw new Error('O Mentor retornou uma resposta vazia.');
 
         conversationHistory.push({ role: 'assistant', content: reply });
         addBotMessage(reply);
 
     } catch (error) {
-        console.error('API Error:', error);
+        console.error('Erro na Mentoria IA:', error);
         removeTyping();
-        alert('Erro: ' + error.message);
-        const errorMsg = error.message.toLowerCase();
-        if (errorMsg.includes('credit') || errorMsg.includes('insufficient') || errorMsg.includes('billing') || errorMsg.includes('quota') || errorMsg.includes('limit')) {
-            showExpiryModal(' credits');
-        } else {
-            addBotMessage('⚠️ **Erro:** ' + error.message + '\n\nTente enviar sua mensagem novamente.');
-        }
+        addBotMessage('⚠️ **Erro na conexão:** Não consegui falar com o mentor agora. Verifique se as Edge Functions estão configuradas.');
+    } finally {
+        if (sendBtn) sendBtn.disabled = false;
+        isLoading = false;
     }
-
-    sendBtn.disabled = false;
-    isLoading = false;
 }
 
 function addBotMessage(text) {
@@ -371,9 +333,10 @@ document.addEventListener('DOMContentLoaded', function() {
             resetChat();
         });
     }
-});
-    
-    document.getElementById('resetBtn').addEventListener('click', function() {
-        resetChat();
-    });
+
+    // Iniciar Tema Neobrutalista se aplicável
+    if (localStorage.getItem('ee_csm_theme') === 'neo' || localStorage.getItem('ee_csm_theme') === 'neo-dark') {
+        document.body.classList.add('neo-mode');
+        if (localStorage.getItem('ee_csm_theme') === 'neo-dark') document.body.classList.add('dark-neo');
+    }
 });

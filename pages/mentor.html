@@ -5,24 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://openrouter.ai; frame-src none;">
     <title>Mentor IA — Empreendedores Exponenciais</title>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Fonts e CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styles.css">
+    
     <style>
-        :root {
-            --bg-deep: #0a0a0f;
-            --bg-surface: #12121a;
-            --bg-card: #1a1a26;
-            --bg-input: #22222f;
-            --accent-gold: #d4a853;
-            --accent-gold-dim: #b8933f;
-            --accent-red: #c0392b;
-            --text-primary: #eee8d5;
-            --text-secondary: #9a9aaa;
-            --text-muted: #6a6a7a;
-            --border: #2a2a3a;
-            --user-bubble: #1e3a5f;
-            --shadow-gold: 0 0 40px #d4a85315;
+        /* Estilos específicos do Mentor IA combinando com Neobrutalismo */
+        body.neo-mode {
+            background-color: var(--bg-primary) !important;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        .chat-container {
+            max-width: 900px;
+            margin: 0 auto;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .messages {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Override para Neobrutalismo */
+        .message .message-content {
+            border: 3px solid var(--neo-black) !important;
+            box-shadow: 4px 4px 0px var(--neo-black) !important;
+            border-radius: 0 !important;
+            background: white !important;
+            color: #121212 !important;
+        }
+
+        .message.user .message-content {
+            background: var(--neo-yellow) !important;
+        }
+
+        .input-bar {
+            background: white !important;
+            border: 4px solid var(--neo-black) !important;
+            box-shadow: 8px 8px 0px var(--neo-black) !important;
+            padding: 10px;
+        }
+    </style>
         body {
             font-family: 'DM Sans', sans-serif;
             background: var(--bg-deep);
@@ -216,26 +247,7 @@
 
 <button class="reset-btn" id="resetBtn" title="Reiniciar conversa">↺</button>
 
-<div id="apiKeyModal" class="modal" style="display:flex;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:200;align-items:center;justify-content:center;">
-    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:20px;padding:2rem;max-width:440px;width:90%;">
-        <h2 style="font-family:'Space Grotesk',sans-serif;color:var(--accent-gold);margin-bottom:1rem;">🔑 API Key OpenAI</h2>
-        <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:1.5rem;line-height:1.5;">
-            Para usar o Mentor IA, insira sua API key da OpenAI.<br>
-            <span style="font-size:0.8rem;color:var(--text-muted);">Modelos muito便宜的 (gpt-4o-mini).</span>
-        </p>
-        <input type="text" id="apiKeyInput" placeholder="Cole sua API key aqui..." 
-            style="width:100%;background:var(--bg-input);border:1px solid var(--border);color:var(--text-primary);
-            padding:0.85rem 1rem;border-radius:12px;font-size:0.9rem;margin-bottom:1rem;outline:none;">
-        <button id="saveApiKeyBtn" onclick="saveApiKey()" style="width:100%;background:linear-gradient(135deg,var(--accent-gold),var(--accent-gold-dim));
-            border:none;border-radius:12px;padding:0.85rem;color:var(--bg-deep);font-weight:600;cursor:pointer;">
-            Salvar e Continuar
-        </button>
-        <p style="margin-top:1rem;font-size:0.75rem;color:var(--text-muted);text-align:center;">
-            A chave fica salva no seu navegador.<br>
-            <a href="https://platform.openai.com/api-keys" target="_blank" style="color:var(--accent-gold);">Get API key</a>
-        </p>
-    </div>
-</div>
+<!-- O modal de API Key foi removido para facilitar o acesso dos alunos via Edge Functions -->
 
 <script src="../js/mentor.js"></script>
 <script src="../js/theme-toggle.js"></script>
