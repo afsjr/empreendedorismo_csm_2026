@@ -69,13 +69,21 @@ Comece se apresentando e perguntando o nome da pessoa e do negócio.`
 };
 
 function startMode(mode) {
-    console.log('startMode called with:', mode);
+    console.log('Iniciando modo:', mode);
     currentMode = mode;
     conversationHistory = [];
+    
+    // UI Transitions
     document.getElementById('modeSelector').classList.remove('active');
+    document.getElementById('modeSelector').style.display = 'none'; // Garantir que suma
+    document.querySelector('.chat-container').classList.add('active');
+    document.querySelector('.chat-container').style.display = 'flex'; // Forçar flex
+    
     document.getElementById('messages').innerHTML = '';
 
     conversationHistory.push({ role: 'system', content: PROMPTS[mode] });
+    
+    // Pequena mensagem silenciosa para disparar a API
     conversationHistory.push({ role: 'user', content: 'Olá! Estou pronto para começar.' });
 
     showTyping();
@@ -171,12 +179,19 @@ function removeTyping() {
 
 function resetChat() {
     if (!confirm('Reiniciar a conversa?')) return;
+    
+    // UI Transitions
+    document.querySelector('.chat-container').classList.remove('active');
+    document.querySelector('.chat-container').style.display = 'none';
+    const selector = document.getElementById('modeSelector');
+    selector.classList.add('active');
+    selector.style.display = 'flex';
+    
     document.getElementById('messages').innerHTML = '';
     conversationHistory = [];
     currentMode = '';
     isLoading = false;
     document.getElementById('sendBtn').disabled = false;
-    document.getElementById('modeSelector').classList.add('active');
 }
 
 function sanitizeOutput(text) {
