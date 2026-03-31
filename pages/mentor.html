@@ -17,11 +17,9 @@
             --mentor-bg: #0a0a0f;
             --mentor-surface: #12121a;
             --mentor-accent: #E8B800; /* CSM Gold */
-            --mentor-red: #C8181A;    /* CSM Red */
             --mentor-text: #eee8d5;
             --mentor-border: rgba(232, 184, 0, 0.2);
             --user-bubble: #1e3a5f;
-            --shadow-gold: 0 0 20px rgba(232, 184, 0, 0.1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -46,16 +44,10 @@
             display: flex;
             align-items: center;
             gap: 1.5rem;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+            position: sticky; top: 0; z-index: 100;
         }
 
-        .header-logo {
-            font-size: 2.2rem;
-            text-shadow: 0 0 15px var(--mentor-accent);
-        }
+        .header-logo { font-size: 2rem; text-shadow: 0 0 15px var(--mentor-accent); }
 
         .header-text h1 {
             font-family: 'Space Grotesk', sans-serif;
@@ -67,198 +59,74 @@
             margin: 0;
         }
 
-        .header-text p {
-            font-size: 0.75rem;
-            opacity: 0.6;
-            margin: 0;
+        .header-text p { font-size: 0.75rem; opacity: 0.6; margin: 0; }
+
+        .header-btn {
+            margin-left: auto;
+            color: var(--mentor-accent);
+            text-decoration: none;
+            font-weight: bold;
+            background: rgba(255,255,255,0.05);
+            padding: 0.6rem 1.2rem;
+            border-radius: 10px;
+            border: 1px solid var(--mentor-border);
+            cursor: pointer;
         }
 
-        /* MODO NEOBRUTALISTA (OVERRIDE) */
-        body.neo-mode {
-            background-color: var(--bg-primary) !important;
-            background-image: radial-gradient(var(--dot-color) 1.5px, transparent 1.5px) !important;
-            background-size: 30px 30px !important;
-            color: var(--text) !important;
-        }
-
-        body.neo-mode .header {
-            background: var(--bg-surface) !important;
-            border-bottom: 5px solid var(--border-color) !important;
-            box-shadow: 0 4px 0px var(--shadow-color) !important;
-            backdrop-filter: none;
-        }
-
-        body.neo-mode .header-text h1 { color: var(--text) !important; text-shadow: none; }
-
-        /* MODO NEO DARK */
-        body.neo-mode.dark-neo {
-            background-color: #0A0A0A !important;
-            --dot-color: rgba(255, 255, 255, 0.1);
-        }
+        /* MODO NEOBRUTALISTA */
+        body.neo-mode { background-color: var(--bg-primary) !important; color: var(--text) !important; }
+        body.neo-mode .header { background: var(--bg-surface) !important; border-bottom: 5px solid var(--border-color) !important; box-shadow: 0 4px 0px var(--shadow-color) !important; }
+        body.neo-mode.dark-neo { background-color: #0A0A0A !important; }
 
         /* SELETOR DE MODO */
-        .mode-selector {
-            padding: 3rem;
-            display: flex;
-            gap: 2rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            animation: fadeUp 0.6s ease;
-        }
-
+        .mode-selector { padding: 3rem; display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; animation: fadeUp 0.6s ease; }
         .mode-selector.hidden { display: none; }
 
         .mode-card {
-            flex: 1;
-            max-width: 380px;
-            min-width: 280px;
+            flex: 1; max-width: 380px; min-width: 280px;
             background: var(--mentor-surface);
             border: 2px solid var(--mentor-border);
-            padding: 2.5rem;
-            cursor: pointer;
-            border-radius: 24px;
+            padding: 2.5rem; border-radius: 24px; cursor: pointer; text-align: center;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            text-align: center;
         }
 
-        .mode-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--mentor-accent);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.4), 0 0 20px rgba(232, 184, 0, 0.1);
-        }
+        .mode-card:hover { transform: translateY(-10px); border-color: var(--mentor-accent); box-shadow: 0 15px 40px rgba(0,0,0,0.4); }
 
-        body.neo-mode .mode-card {
-            border: 4px solid var(--neo-black) !important;
-            border-radius: 0 !important;
-            box-shadow: 8px 8px 0px var(--shadow-color) !important;
-            background: white !important;
-            color: #121212 !important;
-        }
+        body.neo-mode .mode-card { border: 4px solid var(--neo-black) !important; border-radius: 0 !important; box-shadow: 8px 8px 0px var(--shadow-color) !important; background: white !important; color: #121212 !important; }
 
         /* CHAT CONTAINER */
-        .chat-container {
-            flex: 1;
-            display: none;
-            flex-direction: column;
-            max-width: 900px;
-            width: 100%;
-            margin: 0 auto;
-            padding: 0 2rem;
-            animation: fadeIn 0.4s ease;
-        }
-
+        .chat-container { flex: 1; display: none; flex-direction: column; max-width: 900px; width: 100%; margin: 0 auto; padding: 0 2rem; animation: fadeIn 0.4s ease; }
         .chat-container.active { display: flex; }
 
-        .messages {
-            flex: 1;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            padding: 2rem 0;
-            scrollbar-width: thin;
-            scrollbar-color: var(--mentor-border) transparent;
-        }
-
+        .messages { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 1.5rem; padding: 2rem 0; }
         .message { display: flex; gap: 1rem; max-width: 85%; animation: fadeUp 0.3s ease; }
         .message.user { align-self: flex-end; flex-direction: row-reverse; }
 
         .message-content {
-            padding: 1.2rem 1.5rem;
-            border-radius: 20px;
-            font-size: 1rem;
-            line-height: 1.6;
-            background: var(--mentor-surface);
-            border: 1px solid var(--mentor-border);
-            color: var(--mentor-text);
+            padding: 1.2rem 1.5rem; border-radius: 20px; font-size: 1rem; line-height: 1.6;
+            background: var(--mentor-surface); border: 1px solid var(--mentor-border); color: var(--mentor-text);
         }
 
-        .message.user .message-content {
-            background: var(--user-bubble);
-            border-bottom-right-radius: 4px;
-        }
+        .message.user .message-content { background: var(--user-bubble); }
 
-        body.neo-mode .message .message-content {
-            border: 3px solid var(--neo-black) !important;
-            box-shadow: 6px 6px 0px var(--neo-black) !important;
-            border-radius: 0 !important;
-            background: white !important;
-            color: #121212 !important;
-        }
-
-        body.neo-mode .message.user .message-content { background: var(--neo-yellow) !important; }
+        body.neo-mode .message .message-content { border: 3px solid var(--neo-black) !important; box-shadow: 6px 6px 0px var(--neo-black) !important; border-radius: 0 !important; background: white !important; color: #121212 !important; }
 
         /* INPUT BAR */
-        .input-bar {
-            padding: 1.5rem 0;
-            background: var(--mentor-bg);
-            border-top: 1px solid var(--mentor-border);
-            position: sticky;
-            bottom: 0;
-        }
-
-        .input-wrapper {
-            display: flex;
-            gap: 1rem;
-            max-width: 900px;
-            margin: 0 auto;
-        }
+        .input-bar { padding: 1.5rem 0; background: var(--mentor-bg); border-top: 1px solid var(--mentor-border); position: sticky; bottom: 0; }
+        .input-wrapper { display: flex; gap: 1rem; max-width: 900px; margin: 0 auto; }
 
         textarea {
-            flex: 1;
-            background: var(--mentor-surface);
-            border: 2px solid var(--mentor-border);
-            color: white;
-            padding: 1rem 1.5rem;
-            border-radius: 16px;
-            resize: none;
-            min-height: 56px;
-            max-height: 150px;
-            outline: none;
-            font-family: inherit;
-            font-size: 1rem;
+            flex: 1; background: var(--mentor-surface); border: 2px solid var(--mentor-border);
+            color: white; padding: 1rem 1.5rem; border-radius: 16px; resize: none;
+            min-height: 56px; max-height: 150px; outline: none; font-size: 1rem;
         }
 
-        body.neo-mode textarea {
-            border: 3px solid var(--neo-black) !important;
-            border-radius: 0 !important;
-            background: white !important;
-            color: #121212 !important;
-        }
-
-        .send-btn {
-            padding: 0 2rem;
-            background: var(--mentor-accent);
-            border: none;
-            border-radius: 16px;
-            color: #000;
-            font-weight: 900;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        body.neo-mode .send-btn {
-            border: 3px solid var(--neo-black) !important;
-            border-radius: 0 !important;
-            box-shadow: 4px 4px 0px var(--neo-black) !important;
-        }
+        .send-btn { padding: 0 2rem; background: var(--mentor-accent); border: none; border-radius: 16px; color: #000; font-weight: 900; cursor: pointer; }
 
         @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .reset-btn {
-            position: fixed;
-            bottom: 25px;
-            left: 25px;
-            background: #222;
-            color: #ccc;
-            border: 1px solid #444;
-            padding: 8px 16px;
-            border-radius: 30px;
-            cursor: pointer;
-            z-index: 1000;
-            font-size: 0.8rem;
-        }
+        .reset-btn { position: fixed; bottom: 25px; left: 25px; background: #222; color: #ccc; border: 1px solid #444; padding: 8px 16px; border-radius: 30px; cursor: pointer; z-index: 1000; font-size: 0.8rem; }
     </style>
 </head>
 <body>
@@ -269,23 +137,23 @@
         <h1>Mentor IA</h1>
         <p>Empreendedores Exponenciais — CSM</p>
     </div>
-    <a class="header-btn" href="../index.html" style="margin-left: auto; color: var(--mentor-accent); text-decoration: none; font-weight: bold; background: rgba(255,255,255,0.05); padding: 0.6rem 1.2rem; border-radius: 10px; border: 1px solid var(--mentor-border);">Sair 🏠</a>
+    <a id="exitProject" class="header-btn">Sair 🏠</a>
 </div>
 
 <div class="mode-selector active" id="modeSelector">
     <div class="mode-card" id="modeCriar">
-        <span style="font-size: 3.5rem; display: block; margin-bottom: 1rem; filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));">🚀</span>
+        <span style="font-size: 3.5rem; display: block; margin-bottom: 1rem;">🚀</span>
         <h3>Quero criar um negócio</h3>
         <p>Transforme sua ideia em um plano estruturado e receba orientação passo a passo.</p>
     </div>
     <div class="mode-card" id="modeAvaliar">
-        <span style="font-size: 3.5rem; display: block; margin-bottom: 1rem; filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));">📊</span>
+        <span style="font-size: 3.5rem; display: block; margin-bottom: 1rem;">📊</span>
         <h3>Avaliar meu negócio</h3>
         <p>Faça um diagnóstico completo das suas finanças, mercado e diferencial competitivo.</p>
     </div>
 </div>
 
-<div class="chat-container">
+<div class="chat-container" id="chatContainer">
     <div class="messages" id="messages"></div>
     <div class="input-bar">
         <div class="input-wrapper">
@@ -297,11 +165,24 @@
 
 <button class="reset-btn" id="resetBtn" title="Reiniciar conversa">Reiniciar ↺</button>
 
-<!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Scripts (Carregar de CDN mais seguro) -->
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 <script src="../supabase-config.js"></script>
 <script src="../js/app.js"></script>
 <script src="../js/mentor.js"></script>
+
+<!-- Script de Segurança para CSP -->
+<script>
+    // Gerenciador de saída compatível com CSP
+    document.addEventListener('DOMContentLoaded', () => {
+        const exitBtn = document.getElementById('exitProject');
+        if (exitBtn) {
+            exitBtn.addEventListener('click', () => {
+                window.location.href = '../index.html';
+            });
+        }
+    });
+</script>
 
 </body>
 </html>
