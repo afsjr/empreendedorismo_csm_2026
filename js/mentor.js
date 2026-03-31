@@ -1,121 +1,99 @@
-const CONFIG = {
-    apiKey: localStorage.getItem('openai_api_key') || '',
-    endpoint: 'https://api.openai.com/v1/chat/completions',
-    model: 'gpt-4o-mini'
-};
-
-const EXPIRY_DATE = new Date('2027-01-01');
+// ========================================
+// MENTOR IA JS - Versão Segura via Supabase Functions
+// ========================================
 
 let conversationHistory = [];
 let currentMode = '';
 let isLoading = false;
 
-function isExpired() {
-    return new Date() > EXPIRY_DATE;
-}
-
-function getDaysRemaining() {
-    const now = new Date();
-    const diff = EXPIRY_DATE - now;
-    return Math.ceil(diff / (1000 * 60 * 60 * 24));
-}
-
-const SYSTEM_BASE = `Você é o Mentor IA do programa "Empreendedores Exponenciais" do Colégio Santa Mônica (Limoeiro-PE).
-
-Seu papel é guiar pessoas no processo de criação ou avaliação de negócios, fazendo perguntas estratégicas e oferecendo mentoria personalizada.
-
-CONHECIMENTO BASE:
-• 6º Ano — Descoberta: O que é empreender, perfil empreendedor, oportunidades, criatividade, habilidades do futuro
-• 7º Ano — Planejamento: Canvas, pesquisa de mercado, marketing, planejamento financeiro, proposta de valor
-• 8º Ano — Execução: Gestão de equipe, custos e precificação, DRE, estratégias de venda, pitch
-• 9º Ano — Escala: Inovação e tecnologia, investimentos, escalabilidade, impacto social, Shark Tank
-
-24 projetos práticos: vendas artesanais, consultoria local, produtos inovadores, campanha social, startup de serviços, feira de negócios.
-Referências: BNCC (Competências 6, 9, 10), EntreComp (EU), SEBRAE.
-
-REGRAS:
-1. Faça UMA pergunta por vez
-2. Seja encorajador mas honesto
-3. Linguagem acessível (12 a 60 anos)
-4. Conecte a conceitos práticos (Canvas, DRE, Pitch)
-5. Feedback sanduíche: elogio + melhoria + incentivo
-6. Resuma ao final de cada etapa
-7. Emojis com moderação
-8. SEMPRE em português brasileiro
-9. Ofereça 2-3 opções quando possível`;
+// Prompts do Sistema
+const SYSTEM_BASE = `Você é o Mentor IA do programa "Empreendedores Exponenciais" do Colégio Santa Mônica (Limoeiro-PE). Seu papel é guiar alunos no processo de criação ou avaliação de negócios.`;
 
 const PROMPTS = {
-    criar: SYSTEM_BASE + `
-
-MODO: CRIAR UM NEGÓCIO (uma pergunta por vez):
-ETAPA 1 — DESCOBERTA: Ideia, problema, clientes
-ETAPA 2 — CANVAS: Proposta de valor, segmento, canais, receita
-ETAPA 3 — FINANÇAS: Custos, precificação, meta, equilíbrio
-ETAPA 4 — EXECUÇÃO: Primeiros 30 dias, equipe, MVP
-ETAPA 5 — PITCH: Pitch de 1 minuto
-Ao final, gere RESUMO COMPLETO do plano.
-Comece se apresentando e perguntando o nome da pessoa.`,
-
-    avaliar: SYSTEM_BASE + `
-
-MODO: AVALIAR NEGÓCIO EXISTENTE (uma pergunta por vez):
-ETAPA 1 — CONTEXTO: Nome, tipo, tempo, equipe
-ETAPA 2 — PROPOSTA DE VALOR: O que vende, para quem, diferencial
-ETAPA 3 — FINANÇAS: Faturamento, custos, margem, equilíbrio
-ETAPA 4 — MERCADO: Concorrentes, preço, canais
-ETAPA 5 — CRESCIMENTO: Desafio, oportunidades, metas
-Ao final, RELATÓRIO com pontos fortes, atenção, 3 ações e nota 1-10.
-Comece se apresentando e perguntando o nome da pessoa e do negócio.`
+    criar: SYSTEM_BASE + ` MODO: CRIAR UM NEGÓCIO. Comece se apresentando e perguntando qual ideia o aluno tem em mente.`,
+    avaliar: SYSTEM_BASE + ` MODO: AVALIAR NEGÓCIO. Comece perguntando o nome do negócio e o que ele faz.`
 };
 
+// Funções de Interface
 function startMode(mode) {
-    console.log('Iniciando modo:', mode);
+    console.log('🏁 Iniciando modo:', mode);
     currentMode = mode;
     conversationHistory = [];
     
-    // UI Transitions
-    document.getElementById('modeSelector').classList.remove('active');
-    document.getElementById('modeSelector').style.display = 'none'; // Garantir que suma
-    document.querySelector('.chat-container').classList.add('active');
-    document.querySelector('.chat-container').style.display = 'flex'; // Forçar flex
+    // UI: Esconder selector e mostrar chat
+    const modeSelector = document.getElementById('modeSelector');
+    const chatContainer = document.querySelector('.chat-container');
     
-    document.getElementById('messages').innerHTML = '';
+    if (modeSelector) modeSelector.style.display = 'none';
+    if (chatContainer) {
+        chatContainer.style.display = 'flex';
+        chatContainer.classList.add('active');
+    }
 
+    // Limpar mensagens e iniciar histórico
+    document.getElementById('messages').innerHTML = '';
     conversationHistory.push({ role: 'system', content: PROMPTS[mode] });
     
-    // Pequena mensagem silenciosa para disparar a API
-    conversationHistory.push({ role: 'user', content: 'Olá! Estou pronto para começar.' });
-
+    // Chamar primeira resposta
     showTyping();
-    callAPI();
+    requestAIResponse('Olá! Estou pronto para começar.');
 }
 
-function sendMessage(forcedText) {
+function sendMessage() {
     if (isLoading) return;
     const input = document.getElementById('userInput');
-    const text = forcedText || input.value.trim();
+    const text = input.value.trim();
     if (!text || !currentMode) return;
 
     addUserMessage(text);
-    if (!forcedText) { input.value = ''; autoResize(input); }
+    input.value = '';
+    autoResize(input);
 
     conversationHistory.push({ role: 'user', content: text });
     showTyping();
-    callAPI();
+    requestAIResponse(text);
 }
 
-async function callAPI() {
+// Inicialização
+document.addEventListener('DOMContentLoaded', () => {
+    // Escutadores de Clique
+    const btnCriar = document.getElementById('modeCriar');
+    const btnAvaliar = document.getElementById('modeAvaliar');
+    const btnSend = document.getElementById('sendBtn');
+    const btnReset = document.getElementById('resetBtn');
+
+    if (btnCriar) btnCriar.addEventListener('click', () => startMode('criar'));
+    if (btnAvaliar) btnAvaliar.addEventListener('click', () => startMode('avaliar'));
+    if (btnSend) btnSend.addEventListener('click', () => sendMessage());
+    if (btnReset) btnReset.addEventListener('click', () => resetChat());
+    
+    const input = document.getElementById('userInput');
+    if (input) {
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+    }
+
+    // Tema
+    const theme = localStorage.getItem('ee_csm_theme');
+    if (theme && theme.includes('neo')) {
+        document.body.classList.add('neo-mode');
+        if (theme === 'neo-dark') document.body.classList.add('dark-neo');
+    }
+});
+
+async function requestAIResponse(userMessage) {
+    isLoading = true;
     const sendBtn = document.getElementById('sendBtn');
     if (sendBtn) sendBtn.disabled = true;
-    isLoading = true;
 
     try {
-        console.log('Iniciando chamada para a Mentor IA (Edge Function)...');
-        
-        // Chamada para a Edge Function do Supabase
-        const { data, error } = await supabase.functions.invoke('mentor-chat', {
+        const { data, error } = await supabaseClient.functions.invoke('mentor-chat', {
             body: { 
-                message: conversationHistory[conversationHistory.length - 1].content,
+                message: userMessage,
                 history: conversationHistory.slice(0, -1).map(m => ({
                     role: m.role === 'assistant' ? 'model' : 'user',
                     parts: [{ text: m.content }]
@@ -125,233 +103,76 @@ async function callAPI() {
 
         if (error) throw error;
 
-        let reply = data.reply || '';
+        let reply = data.reply || "Desculpe, tive um problema ao pensar na resposta.";
         reply = reply.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
-        reply = sanitizeOutput(reply);
-
-        if (!reply) throw new Error('O Mentor retornou uma resposta vazia.');
 
         conversationHistory.push({ role: 'assistant', content: reply });
         addBotMessage(reply);
 
-    } catch (error) {
-        console.error('Erro na Mentoria IA:', error);
+    } catch (err) {
+        console.error('Erro IA:', err);
         removeTyping();
-        addBotMessage('⚠️ **Erro na conexão:** Não consegui falar com o mentor agora. Verifique se as Edge Functions estão configuradas.');
+        addBotMessage('⚠️ **Erro de Conexão:** Verifique se as permissões da Edge Function e a chave do Groq estão configuradas no Supabase.');
     } finally {
         if (sendBtn) sendBtn.disabled = false;
         isLoading = false;
     }
 }
 
-function addBotMessage(text) {
-    removeTyping();
-    const messagesDiv = document.getElementById('messages');
-    const msgDiv = document.createElement('div');
-    msgDiv.className = 'message bot';
-    msgDiv.innerHTML = '<div class="message-avatar">🧠</div><div class="message-content">' + formatMarkdown(text) + '</div>';
-    messagesDiv.appendChild(msgDiv);
-    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+// Auxiliares de UI
+function addUserMessage(text) {
+    const messages = document.getElementById('messages');
+    const div = document.createElement('div');
+    div.className = 'message user';
+    div.innerHTML = `<div class="message-content">${escapeHTML(text)}</div>`;
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
 }
 
-function addUserMessage(text) {
-    const messagesDiv = document.getElementById('messages');
-    const msgDiv = document.createElement('div');
-    msgDiv.className = 'message user';
-    msgDiv.innerHTML = '<div class="message-avatar">👤</div><div class="message-content">' + escapeHtml(text) + '</div>';
-    messagesDiv.appendChild(msgDiv);
-    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+function addBotMessage(text) {
+    removeTyping();
+    const messages = document.getElementById('messages');
+    const div = document.createElement('div');
+    div.className = 'message bot';
+    div.innerHTML = `<div class="message-avatar">🧠</div><div class="message-content">${formatMarkdown(text)}</div>`;
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
 }
 
 function showTyping() {
     removeTyping();
-    const messagesDiv = document.getElementById('messages');
-    const d = document.createElement('div');
-    d.className = 'typing';
-    d.innerHTML = '<div class="message-avatar" style="background:linear-gradient(135deg,var(--accent-gold),var(--accent-gold-dim))">🧠</div><div class="typing-dots"><span></span><span></span><span></span></div>';
-    messagesDiv.appendChild(d);
-    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    const messages = document.getElementById('messages');
+    const div = document.createElement('div');
+    div.className = 'typing';
+    div.id = 'typing-indicator';
+    div.innerHTML = `<div class="message-avatar">🧠</div><div class="message-content">Escrevendo...</div>`;
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
 }
 
 function removeTyping() {
-    document.querySelectorAll('.typing').forEach(t => t.remove());
+    const indicator = document.getElementById('typing-indicator');
+    if (indicator) indicator.remove();
 }
 
 function resetChat() {
-    if (!confirm('Reiniciar a conversa?')) return;
-    
-    // UI Transitions
-    document.querySelector('.chat-container').classList.remove('active');
-    document.querySelector('.chat-container').style.display = 'none';
-    const selector = document.getElementById('modeSelector');
-    selector.classList.add('active');
-    selector.style.display = 'flex';
-    
-    document.getElementById('messages').innerHTML = '';
-    conversationHistory = [];
-    currentMode = '';
-    isLoading = false;
-    document.getElementById('sendBtn').disabled = false;
+    if (!confirm('Deseja reiniciar a mentoria?')) return;
+    location.reload(); 
 }
 
-function sanitizeOutput(text) {
-    let sanitized = text;
-    
-    sanitized = sanitized.replace(/```[\s\S]*?```/g, '');
-    sanitized = sanitized.replace(/`[^`]+`/g, '');
-    
-    const codePatterns = [
-        /\b(eval|new Function|setTimeout|setInterval|setImmediate|execScript)\s*\(/gi,
-        /\b(document|window|location|navigator|screen)\./gi,
-        /javascript:/gi,
-        /<script[\s>]/gi,
-        /<\/script>/gi,
-        /<iframe[\s>]/gi,
-        /<\/iframe>/gi,
-        /on\w+\s*=/gi,
-        /\\x[0-9a-fA-F]{2}/g,
-        /\\u[0-9a-fA-F]{4}/g
-    ];
-    
-    codePatterns.forEach(pattern => {
-        sanitized = sanitized.replace(pattern, '');
-    });
-    
-    return sanitized;
-}
-
-function escapeHtml(text) {
+function escapeHTML(str) {
     const div = document.createElement('div');
-    div.textContent = text;
+    div.textContent = str;
     return div.innerHTML;
 }
 
 function formatMarkdown(text) {
-    let escaped = escapeHtml(text);
-    let html = escaped
+    return text
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        .replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, '<em>$1</em>')
         .replace(/\n/g, '<br>');
-    html = html.replace(/((?:(?:^|<br>)- .+)+)/g, function(block) {
-        const items = block.replace(/(?:^|<br>)- /g, '<li>').replace(/(?=<li>)/g, '</li>');
-        return '<ul>' + items + '</ul>';
-    });
-    return html;
 }
 
 function autoResize(el) {
     el.style.height = 'auto';
-    el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+    el.style.height = el.scrollHeight + 'px';
 }
-
-function showExpiryModal(reason) {
-    const modal = document.getElementById('apiKeyModal');
-    const msg = document.getElementById('apiKeyMsg');
-    const days = document.getElementById('daysLeft');
-    
-    if (reason === ' expired') {
-        msg.innerHTML = '⚠️ <strong>A chave de acesso expirou!</strong><br>Os créditos gratuitos terminaram ou o período de validade acabou.';
-    } else if (reason === ' credits') {
-        msg.innerHTML = '⚠️ <strong>Créditos esgotados!</strong><br>A chave de acesso gratuita não possui mais créditos disponíveis.';
-    }
-    
-    days.parentElement.style.display = 'none';
-    modal.style.display = 'flex';
-}
-
-function saveApiKey() {
-    alert('saveApiKey called!');
-    const input = document.getElementById('apiKeyInput');
-    if (!input) {
-        alert('Input não encontrado!');
-        return;
-    }
-    const key = input.value.trim();
-    if (!key) {
-        alert('Por favor, insira uma API key.');
-        return;
-    }
-    localStorage.setItem('openai_api_key', key);
-    alert('Chave salva: ' + key.substring(0, 10) + '...');
-    
-    const modal = document.getElementById('apiKeyModal');
-    if (modal) {
-        modal.style.display = 'none';
-        alert('Modal escondido!');
-    } else {
-        alert('Modal não encontrado!');
-    }
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    const savedKey = localStorage.getItem('openai_api_key');
-    console.log('Saved key:', savedKey ? 'YES' : 'NO');
-    
-    if (!savedKey) {
-        document.getElementById('apiKeyModal').style.display = 'flex';
-    } else {
-        document.getElementById('apiKeyModal').style.display = 'none';
-    }
-    
-    const saveBtn = document.getElementById('saveApiKeyBtn');
-    if (saveBtn) {
-        saveBtn.addEventListener('click', saveApiKey);
-    }
-    
-    const apiKeyInput = document.getElementById('apiKeyInput');
-    if (apiKeyInput) {
-        apiKeyInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                saveApiKey();
-            }
-        });
-    }
-    
-    const modeCriar = document.getElementById('modeCriar');
-    if (modeCriar) {
-        modeCriar.addEventListener('click', function() {
-            startMode('criar');
-        });
-    }
-    
-    const modeAvaliar = document.getElementById('modeAvaliar');
-    if (modeAvaliar) {
-        modeAvaliar.addEventListener('click', function() {
-            startMode('avaliar');
-        });
-    }
-    
-    const sendBtn = document.getElementById('sendBtn');
-    if (sendBtn) {
-        sendBtn.addEventListener('click', function() {
-            sendMessage();
-        });
-    }
-    
-    const userInput = document.getElementById('userInput');
-    if (userInput) {
-        userInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendMessage();
-            }
-        });
-        
-        userInput.addEventListener('input', function() {
-            autoResize(this);
-        });
-    }
-    
-    const resetBtn = document.getElementById('resetBtn');
-    if (resetBtn) {
-        resetBtn.addEventListener('click', function() {
-            resetChat();
-        });
-    }
-
-    // Iniciar Tema Neobrutalista se aplicável
-    if (localStorage.getItem('ee_csm_theme') === 'neo' || localStorage.getItem('ee_csm_theme') === 'neo-dark') {
-        document.body.classList.add('neo-mode');
-        if (localStorage.getItem('ee_csm_theme') === 'neo-dark') document.body.classList.add('dark-neo');
-    }
-});
