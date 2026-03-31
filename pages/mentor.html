@@ -127,6 +127,38 @@
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         .reset-btn { position: fixed; bottom: 25px; left: 25px; background: #222; color: #ccc; border: 1px solid #444; padding: 8px 16px; border-radius: 30px; cursor: pointer; z-index: 1000; font-size: 0.8rem; }
+
+        /* RESPONSIVIDADE GERAL E NEO */
+        @media (max-width: 768px) {
+            .header { padding: 1rem; gap: 1rem; }
+            .header-logo { font-size: 1.50rem; }
+            .header-text h1 { font-size: 1rem; }
+            
+            .mode-selector { padding: 1.5rem; gap: 1rem; }
+            .mode-card { padding: 1.5rem; min-width: 100%; }
+            
+            .chat-container { padding: 0 1rem; }
+            .message { max-width: 92%; }
+            .message-content { font-size: 0.95rem; padding: 1rem; }
+            
+            .input-bar { padding: 1rem; }
+            .input-wrapper { gap: 0.5rem; }
+            .send-btn { padding: 0 1.2rem; font-size: 0.8rem; }
+
+            /* Ajustes Específicos Neo no Mobile */
+            body.neo-mode .mode-card { 
+                box-shadow: 4px 4px 0px var(--shadow-color) !important; 
+                margin-bottom: 0.5rem;
+            }
+            body.neo-mode .input-bar { border-width: 3px !important; margin: 10px !important; }
+            body.neo-mode .header { border-bottom-width: 4px !important; }
+        }
+
+        @media (max-width: 480px) {
+            .header-text p { display: none; }
+            .mode-card h3 { font-size: 1.1rem; }
+            .mode-card p { font-size: 0.8rem; }
+        }
     </style>
 </head>
 <body>
