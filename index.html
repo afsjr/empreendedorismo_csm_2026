@@ -339,20 +339,62 @@
             color: #fff;
         }
 
+        /* SEÇÃO PEDAGÓGICA RESPONSIVA */
+        .pedagogico-section {
+            margin-top: 3rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .pedagogico-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .pedagogico-item {
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            border-left: 5px solid var(--csm-gold);
+            transition: transform 0.3s ease;
+        }
+
+        .pedagogico-item:hover { transform: scale(1.02); }
+        .pedagogico-item.red { border-left-color: var(--csm-red); }
+        .pedagogico-item.green { border-left-color: #22c55e; }
+
         @media (max-width: 768px) {
+            body { padding: 15px; }
+            .hero-header { margin-bottom: 30px; }
+            .hero-title { font-size: 24px; }
+            
             .cards-grid {
                 grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 0 10px;
             }
 
             .platform-card {
-                padding: 25px;
+                padding: 30px 20px;
+                border-radius: 20px;
             }
 
-            .hero-logo {
-                width: 150px;
-                height: 50px;
-                border-radius: 8px;
-            }
+            .card-icon { width: 60px; height: 60px; font-size: 28px; }
+            .card-title { font-size: 22px; }
+
+            .pedagogico-section { padding: 1.5rem 1rem; }
+            .pedagogico-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-logo { width: 130px; height: 45px; }
+            .hero-meta { font-size: 12px; }
+            .card-button { width: 100%; justify-content: center; }
         }
 
         @media (min-width: 1200px) {
@@ -372,66 +414,6 @@
 
             .card-title {
                 font-size: 1.5rem;
-            }
-        }
-
-        @media (min-width: 1600px) {
-            .hero-logo {
-                width: 300px;
-                height: 90px;
-                border-radius: 12px;
-            }
-
-            .hero-title {
-                font-size: clamp(38px, 5vw, 56px);
-            }
-
-            .hero-subtitle {
-                font-size: 1.3rem;
-            }
-
-            .platform-card {
-                padding: 38px;
-            }
-
-            .card-title {
-                font-size: 1.65rem;
-            }
-
-            .card-description {
-                font-size: 1.05rem;
-            }
-        }
-
-        @media (min-width: 1920px) {
-            .hero-logo {
-                width: 350px;
-                height: 100px;
-                border-radius: 12px;
-            }
-
-            .hero-title {
-                font-size: clamp(42px, 5vw, 64px);
-            }
-
-            .hero-subtitle {
-                font-size: 1.4rem;
-            }
-
-            .platform-card {
-                padding: 40px;
-            }
-
-            .card-title {
-                font-size: 1.8rem;
-            }
-
-            .card-description {
-                font-size: 1.1rem;
-            }
-
-            .card-features li {
-                font-size: 1rem;
             }
         }
     </style>
@@ -517,49 +499,47 @@
         </div>
 
         <!-- FUNDAMENTAÇÃO PEDAGÓGICA -->
-        <section style="margin-top: 3rem; padding: 2rem; background: var(--bg-surface); border-radius: var(--radius); border: 1px solid var(--border);">
+        <section class="pedagogico-section">
             <h2 style="font-size: 1.5rem; margin-bottom: 1rem; text-align: center; color: var(--csm-gold);">📚 Fundamentação Pedagógica</h2>
             
-            <p style="text-align: center; max-width: 700px; margin: 0 auto 1.5rem; color: var(--text-dim);">
+            <p style="text-align: center; max-width: 700px; margin: 0 auto 1.5rem; color: rgba(255,255,255,0.7);">
                 O programa <strong>Empreendedores Exponenciais</strong> está fundamentado nas 
                 <strong>10 Competências Gerais da BNCC</strong> (Base Nacional Comum Curricular),
                 especialmente:
             </p>
             
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
-                <div style="padding: 1rem; background: var(--bg-surface2); border-radius: 8px; border-left: 4px solid var(--csm-gold);">
+            <div class="pedagogico-grid">
+                <div class="pedagogico-item">
                     <h3 style="font-size: 1rem; margin-bottom: 0.5rem; color: var(--csm-gold);">Competência 6</h3>
-                    <p style="font-size: 0.9rem; color: var(--text-muted);">Trabalho e Projeto de Vida - Desenvolver projetos de vida, considerando trabalho, renda e investimentos.</p>
+                    <p style="font-size: 0.9rem; color: rgba(255,255,255,0.6);">Trabalho e Projeto de Vida - Desenvolver projetos de vida, considerando trabalho, renda e investimentos.</p>
                 </div>
-                <div style="padding: 1rem; background: var(--bg-surface2); border-radius: 8px; border-left: 4px solid var(--csm-red);">
+                <div class="pedagogico-item red">
                     <h3 style="font-size: 1rem; margin-bottom: 0.5rem; color: var(--csm-red);">Competência 9</h3>
-                    <p style="font-size: 0.9rem; color: var(--text-muted);">Empatia e Cooperação - Competências socioemocionais e trabalho em equipe.</p>
+                    <p style="font-size: 0.9rem; color: rgba(255,255,255,0.6);">Empatia e Cooperação - Competências socioemocionais e trabalho em equipe.</p>
                 </div>
-                <div style="padding: 1rem; background: var(--bg-surface2); border-radius: 8px; border-left: 4px solid var(--accent-green);">
-                    <h3 style="font-size: 1rem; margin-bottom: 0.5rem; color: var(--accent-green);">Competência 10</h3>
-                    <p style="font-size: 0.9rem; color: var(--text-muted);">Responsabilidade e Participação Social - Exercitar cidadania e responsabilidade.</p>
+                <div class="pedagogico-item green">
+                    <h3 style="font-size: 1rem; margin-bottom: 0.5rem; color: #22c55e;">Competência 10</h3>
+                    <p style="font-size: 0.9rem; color: rgba(255,255,255,0.6);">Responsabilidade e Participação Social - Exercitar cidadania e responsabilidade.</p>
                 </div>
             </div>
             
-            <p style="text-align: center; font-size: 0.9rem; color: var(--text-dim); margin-bottom: 1rem;">
+            <p style="text-align: center; font-size: 0.9rem; color: rgba(255,255,255,0.5); margin: 1.5rem 0;">
                 O programa complementa a BNCC ao promover educação empreendedora através de projetos práticos,
                 alinhado às tendências internacionais de ensino de empreendedorismo.
             </p>
             
-            <div style="text-align: center; font-size: 0.85rem; color: var(--text-muted);">
+            <div style="text-align: center; font-size: 0.85rem; color: rgba(255,255,255,0.4);">
                 <strong>Referências Oficiais:</strong><br>
-                <a href="http://basenacionalcomum.mec.gov.br/" target="_blank" style="color: var(--csm-gold); text-decoration: none;">📄 BNCC - Base Nacional Comum Curricular</a> &nbsp;|&nbsp;
-                <a href="https://www.gov.br/mec/pt-br/acesso-a-informacao" target="_blank" style="color: var(--csm-gold); text-decoration: none;">📊 Competências Gerais</a> &nbsp;|&nbsp;
-                <a href="https://www.entrecomp.eu/" target="_blank" style="color: var(--csm-gold); text-decoration: none;">📈 Modelo Entrecomp</a> &nbsp;|&nbsp;
+                <a href="http://basenacionalcomum.mec.gov.br/" target="_blank" style="color: var(--csm-gold); text-decoration: none;">📄 BNCC</a> &nbsp;|&nbsp;
+                <a href="https://www.entrecomp.eu/" target="_blank" style="color: var(--csm-gold); text-decoration: none;">📈 Entrecomp</a> &nbsp;|&nbsp;
                 <a href="https://www.sebrae.com.br/" target="_blank" style="color: var(--csm-gold); text-decoration: none;">💡 SEBRAE</a>
             </div>
         </section>
 
         <!-- Footer -->
-        <footer class="hero-footer">
+        <footer class="hero-footer" style="margin-top: 3rem;">
             <p>
-                © 2026 Empreendedores Exponenciais •
-                Desenvolvido com 💡 para transformar educação
+                © 2026 Empreendedores Exponenciais • Colégio Santa Mônica
             </p>
         </footer>
     </div>
