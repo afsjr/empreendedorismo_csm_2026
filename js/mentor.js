@@ -91,28 +91,29 @@ async function requestAIResponse(userMessage) {
     if (sendBtn) sendBtn.disabled = true;
 
     try {
-        const { data, error } = await supabaseClient.functions.invoke('mentor-chat', {
-            body: { 
-                message: userMessage,
-                history: conversationHistory.slice(0, -1).map(m => ({
-                    role: m.role === 'assistant' ? 'model' : 'user',
-                    parts: [{ text: m.content }]
-                }))
-            }
+        // Chamada Segura via RPC (Database Function)
+        // Mais rápida e 100% compatível com Dashboard Web
+        const { data, error } = await supabaseClient.rpc('ia_mentor', {
+            p_pergunta: userMessage,
+            p_historico: conversationHistory.slice(0, -1).map(m => ({
+                role: m.role === 'assistant' ? 'assistant' : 'user', // PLPGSQL usa 'assistant'
+                content: m.content
+            }))
         });
 
         if (error) throw error;
 
-        let reply = data.reply || "Desculpe, tive um problema ao pensar na resposta.";
+        // A resposta do RPC do banco vem direto no formato JSON do OpenAI/Groq
+        let reply = data.choices[0].message.content || "Desculpe, tive um problema ao pensar na resposta.";
         reply = reply.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
 
         conversationHistory.push({ role: 'assistant', content: reply });
         addBotMessage(reply);
 
     } catch (err) {
-        console.error('Erro IA:', err);
+        console.error('Erro na Conexão IA:', err);
         removeTyping();
-        addBotMessage('⚠️ **Erro de Conexão:** Verifique se as permissões da Edge Function e a chave do Groq estão configuradas no Supabase.');
+        addBotMessage('⚠️ **Erro de Conexão:** Verifique se você rodou o código SQL no Dashboard do Supabase e inseriu a chave do Groq corretamente.');
     } finally {
         if (sendBtn) sendBtn.disabled = false;
         isLoading = false;
