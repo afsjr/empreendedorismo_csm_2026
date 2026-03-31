@@ -8,13 +8,13 @@
 /* VARIÁVEIS NEOBRUTALISTAS REFINADAS */
 body.neo-mode {
     /* Cores de Destaque (Comuns) */
-    --neo-yellow: #FFDE03;
-    --neo-red: #FF4136;
-    --neo-blue: #2E5BFF;
-    --neo-green: #00D166;
-    --neo-purple: #9B51E0;
-    --neo-orange: #FF851B;
-    --neo-pink: #F012BE;
+    --neo-yellow: #E8B800; /* CSM Gold */
+    --neo-red: #C8181A;    /* CSM Red */
+    --neo-blue: #0056B3;
+    --neo-green: #10B981;
+    --neo-gray: #444444;   /* Tom de cinza solicitado */
+    --neo-orange: #F97316;
+    --neo-pink: #D81B60;
     
     /* Tema Light Neobrutalist (Default) */
     --neo-black: #121212;
@@ -269,7 +269,7 @@ body.neo-mode .btn-primary {
 }
 
 body.neo-mode .btn-secondary {
-    background: var(--neo-purple) !important;
+    background: var(--neo-gray) !important;
     color: white !important;
 }
 
@@ -351,6 +351,9 @@ body.neo-mode .stat-card.blue .stat-value,
 body.neo-mode .stat-card.blue .stat-label { color: white !important; text-shadow: 2px 2px 0px rgba(0,0,0,0.5) !important; }
 
 body.neo-mode .stat-card.orange { background: var(--neo-orange) !important; border-color: var(--border-color) !important; }
+body.neo-mode .stat-card.purple { background: var(--neo-gray) !important; border-color: var(--border-color) !important; color: white !important; }
+body.neo-mode .stat-card.purple .stat-value, 
+body.neo-mode .stat-card.purple .stat-label { color: white !important; }
 
 /* ========================================
    TABS
