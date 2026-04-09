@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel do Professor — CSM</title>
-    
+
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;700&display=swap"
+        rel="stylesheet">
+
     <!-- CSS -->
     <link rel="stylesheet" href="../css/styles.css">
-    
+
     <style>
         /* Admin específico */
         .admin-header {
@@ -178,22 +181,33 @@
             font-size: 1.25rem;
         }
 
-        .rank-1 { color: var(--csm-gold); }
-        .rank-2 { color: #c0c0c0; }
-        .rank-3 { color: #cd7f32; }
+        .rank-1 {
+            color: var(--csm-gold);
+        }
+
+        .rank-2 {
+            color: #c0c0c0;
+        }
+
+        .rank-3 {
+            color: #cd7f32;
+        }
 
         @media (max-width: 768px) {
             .admin-header {
                 flex-direction: column;
                 align-items: flex-start;
             }
+
             .filters {
                 flex-direction: column;
                 align-items: stretch;
             }
+
             .filter-group {
                 width: 100%;
             }
+
             .filter-group select {
                 width: 100%;
             }
@@ -201,35 +215,106 @@
 
         /* Fontes maiores para telas grandes */
         @media (min-width: 1200px) {
-            .admin-title { font-size: 2rem; }
-            .admin-subtitle { font-size: 1.1rem; }
-            .stats-grid { grid-template-columns: repeat(4, 1fr); }
-            .data-table { font-size: 1rem; }
-            .data-table th, .data-table td { padding: 1rem; }
-            .modal { max-width: 800px; }
-            .form-input, .form-select, .form-textarea { padding: 0.85rem 1rem; font-size: 1rem; }
+            .admin-title {
+                font-size: 2rem;
+            }
+
+            .admin-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .data-table {
+                font-size: 1rem;
+            }
+
+            .data-table th,
+            .data-table td {
+                padding: 1rem;
+            }
+
+            .modal {
+                max-width: 800px;
+            }
+
+            .form-input,
+            .form-select,
+            .form-textarea {
+                padding: 0.85rem 1rem;
+                font-size: 1rem;
+            }
         }
 
         @media (min-width: 1600px) {
-            .admin-title { font-size: 2.3rem; }
-            .admin-subtitle { font-size: 1.2rem; }
-            .stats-grid { grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
-            .data-table { font-size: 1.05rem; }
-            .data-table th, .data-table td { padding: 1.2rem; }
-            .modal { max-width: 900px; }
-            .form-input, .form-select, .form-textarea { padding: 1rem 1.2rem; font-size: 1.05rem; }
+            .admin-title {
+                font-size: 2.3rem;
+            }
+
+            .admin-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 1.5rem;
+            }
+
+            .data-table {
+                font-size: 1.05rem;
+            }
+
+            .data-table th,
+            .data-table td {
+                padding: 1.2rem;
+            }
+
+            .modal {
+                max-width: 900px;
+            }
+
+            .form-input,
+            .form-select,
+            .form-textarea {
+                padding: 1rem 1.2rem;
+                font-size: 1.05rem;
+            }
         }
 
         @media (min-width: 1920px) {
-            .admin-title { font-size: 2.6rem; }
-            .admin-subtitle { font-size: 1.3rem; }
-            .data-table { font-size: 1.1rem; }
-            .data-table th, .data-table td { padding: 1.4rem; }
-            .modal { max-width: 1000px; }
-            .form-input, .form-select, .form-textarea { padding: 1.1rem 1.3rem; font-size: 1.1rem; }
+            .admin-title {
+                font-size: 2.6rem;
+            }
+
+            .admin-subtitle {
+                font-size: 1.3rem;
+            }
+
+            .data-table {
+                font-size: 1.1rem;
+            }
+
+            .data-table th,
+            .data-table td {
+                padding: 1.4rem;
+            }
+
+            .modal {
+                max-width: 1000px;
+            }
+
+            .form-input,
+            .form-select,
+            .form-textarea {
+                padding: 1.1rem 1.3rem;
+                font-size: 1.1rem;
+            }
         }
     </style>
 </head>
+
 <body>
     <!-- Header -->
     <header class="header">
@@ -237,20 +322,20 @@
             <img src="../CSM.png" alt="Logo CSM">
             CSM <span>| Painel Professor</span>
         </div>
-        
+
         <nav class="nav">
             <button class="nav-btn active" data-tab="duvidas">📝 Dúvidas</button>
             <button class="nav-btn" data-tab="projetos">📚 Projetos</button>
             <button class="nav-btn" data-tab="conquistas">🏆 Conquistas</button>
             <button class="nav-btn" data-tab="ranking">📊 Ranking</button>
         </nav>
-        
+
         <button class="theme-toggle" onclick="App.toggleTheme()">☀️</button>
         <button class="nav-btn" onclick="window.location.href='../index.html'">🏠</button>
     </header>
 
     <div class="container" style="padding-top: 2rem; padding-bottom: 2rem;">
-        
+
         <!-- Header -->
         <div class="admin-header">
             <div>
@@ -386,7 +471,8 @@
                 <div id="duvidaDetalhes"></div>
                 <div class="form-group">
                     <label class="form-label">Sua Resposta</label>
-                    <textarea id="respostaInput" class="form-textarea" rows="4" placeholder="Digite sua resposta..."></textarea>
+                    <textarea id="respostaInput" class="form-textarea" rows="4"
+                        placeholder="Digite sua resposta..."></textarea>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Seu Nome</label>
@@ -411,11 +497,13 @@
                 <div id="projetoDetalhes"></div>
                 <div class="form-group">
                     <label class="form-label">Nota (0-10)</label>
-                    <input type="number" id="notaInput" class="form-input" min="0" max="10" step="0.5" placeholder="9.5">
+                    <input type="number" id="notaInput" class="form-input" min="0" max="10" step="0.5"
+                        placeholder="9.5">
                 </div>
                 <div class="form-group">
                     <label class="form-label">Feedback</label>
-                    <textarea id="feedbackInput" class="form-textarea" rows="4" placeholder="Escreva seu feedback..."></textarea>
+                    <textarea id="feedbackInput" class="form-textarea" rows="4"
+                        placeholder="Escreva seu feedback..."></textarea>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Seu Nome</label>
@@ -457,7 +545,8 @@
                     </div>
                     <div class="form-group">
                         <label class="form-label">Descrição</label>
-                        <textarea name="descricao" class="form-textarea" placeholder="Descreva a conquista..."></textarea>
+                        <textarea name="descricao" class="form-textarea"
+                            placeholder="Descreva a conquista..."></textarea>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Ícone (emoji)</label>
@@ -468,7 +557,8 @@
                         <input type="number" name="pontos" class="form-input" placeholder="50" min="0">
                     </div>
                     <div class="flex gap-1" style="justify-content: flex-end;">
-                        <button type="button" class="btn btn-secondary" onclick="closeModal('conquistaModal')">Cancelar</button>
+                        <button type="button" class="btn btn-secondary"
+                            onclick="closeModal('conquistaModal')">Cancelar</button>
                         <button type="submit" class="btn btn-primary">🏆 Conceder</button>
                     </div>
                 </form>
@@ -477,27 +567,29 @@
     </div>
 
     <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.20.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Validação de dados (deve vir antes do supabase-config.js) -->
+    <script src="../validacao-dados.js"></script>
     <script src="../supabase-config.js"></script>
     <script src="../js/app.js"></script>
-    
+
     <script>
         let currentDuvida = null;
         let currentProjeto = null;
 
         async function init() {
             App.init();
-            
+
             // Pequeno delay para garantir que a sessão foi carregada
             await new Promise(r => setTimeout(r, 100));
-            
+
             // Verificar autenticação DEPOIS de carregar a sessão
             if (!App.isProfessor()) {
                 alert('Você precisa fazer login para acessar esta página.');
                 window.location.href = '../index.html';
                 return;
             }
-            
+
             setupTabs();
             setupForms();
             App.initModalClose();
@@ -573,7 +665,7 @@
 
             try {
                 const duvidas = await DB.listarDuvidas(filtros);
-                
+
                 if (!duvidas.length) {
                     container.innerHTML = App.renderEmpty('Nenhuma dúvida encontrada');
                     return;
@@ -619,7 +711,7 @@
 
             try {
                 const projetos = await DB.listarProjetos(filtros);
-                
+
                 if (!projetos.length) {
                     container.innerHTML = App.renderEmpty('Nenhum projeto encontrado');
                     return;
@@ -664,7 +756,7 @@
 
             try {
                 const conquistas = await DB.listarConquistas(filtros);
-                
+
                 if (!conquistas.length) {
                     container.innerHTML = App.renderEmpty('Nenhuma conquista concedida ainda');
                     return;
@@ -701,7 +793,7 @@
 
             try {
                 const ranking = await DB.getRanking(turma);
-                
+
                 if (!ranking.length) {
                     container.innerHTML = App.renderEmpty('Nenhum dado de ranking');
                     return;
@@ -811,7 +903,7 @@
         function exportData() {
             const tabs = ['duvidas', 'projetos', 'conquistas'];
             const activeTab = document.querySelector('.nav-btn[data-tab].active')?.dataset.tab || 'duvidas';
-            
+
             if (activeTab === 'duvidas') {
                 DB.listarDuvidas().then(data => App.exportToCSV(data, 'duvidas.csv'));
             } else if (activeTab === 'projetos') {
@@ -834,4 +926,5 @@
     </script>
     <script src="../js/theme-toggle.js"></script>
 </body>
+
 </html>

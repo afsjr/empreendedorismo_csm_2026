@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel Pedagógico — CSM</title>
-    
+
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Space+Grotesk:wght@400;700&display=swap"
+        rel="stylesheet">
+
     <!-- CSS -->
     <link rel="stylesheet" href="../css/styles.css">
-    
+
     <style>
         /* Toast notifications */
         .toast {
@@ -19,29 +22,65 @@
             padding: 12px 20px;
             border-radius: 8px;
             margin-bottom: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             animation: slideIn 0.3s ease;
             font-size: 0.9rem;
         }
-        .toast-success { background: #059669; }
-        .toast-error { background: #dc2626; }
-        .toast-info { background: #2563eb; }
+
+        .toast-success {
+            background: #059669;
+        }
+
+        .toast-error {
+            background: #dc2626;
+        }
+
+        .toast-info {
+            background: #2563eb;
+        }
+
         @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
 
         /* Teoria específicos */
         :root {
             --grade-accent: #f97316;
-            --grade-glow: rgba(249,115,22,.12);
-            --grade-surface: rgba(249,115,22,.06);
+            --grade-glow: rgba(249, 115, 22, .12);
+            --grade-surface: rgba(249, 115, 22, .06);
         }
 
-        .theme-orange { --grade-accent: #f97316; --grade-glow: rgba(249,115,22,.12); --grade-surface: rgba(249,115,22,.06) }
-        .theme-red { --grade-accent: #ef4444; --grade-glow: rgba(239,68,68,.12); --grade-surface: rgba(239,68,68,.06) }
-        .theme-blue { --grade-accent: #3b82f6; --grade-glow: rgba(59,130,246,.12); --grade-surface: rgba(59,130,246,.06) }
-        .theme-purple { --grade-accent: #a855f7; --grade-glow: rgba(168,85,247,.12); --grade-surface: rgba(168,85,247,.06) }
+        .theme-orange {
+            --grade-accent: #f97316;
+            --grade-glow: rgba(249, 115, 22, .12);
+            --grade-surface: rgba(249, 115, 22, .06)
+        }
+
+        .theme-red {
+            --grade-accent: #ef4444;
+            --grade-glow: rgba(239, 68, 68, .12);
+            --grade-surface: rgba(239, 68, 68, .06)
+        }
+
+        .theme-blue {
+            --grade-accent: #3b82f6;
+            --grade-glow: rgba(59, 130, 246, .12);
+            --grade-surface: rgba(59, 130, 246, .06)
+        }
+
+        .theme-purple {
+            --grade-accent: #a855f7;
+            --grade-glow: rgba(168, 85, 247, .12);
+            --grade-surface: rgba(168, 85, 247, .06)
+        }
 
         .grade-banner {
             border-radius: var(--radius);
@@ -88,8 +127,15 @@
         }
 
         @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(12px); }
-            to { opacity: 1; transform: none; }
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: none;
+            }
         }
 
         .content-card h2 {
@@ -117,12 +163,36 @@
             color: var(--text-dim);
         }
 
-        .tab-panel b { color: var(--text); font-weight: 600; }
-        .tab-panel h3 { color: var(--text); margin-top: 1.2rem; margin-bottom: 0.5rem; font-size: 1rem; }
-        .tab-panel ul { margin-left: 1.2rem; margin-top: 0.4rem; margin-bottom: 0.6rem; }
-        .tab-panel li { margin-bottom: 0.3rem; }
-        .tab-panel p { margin-bottom: 0.7rem; }
-        .tab-panel i { font-style: italic; opacity: 0.85; }
+        .tab-panel b {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .tab-panel h3 {
+            color: var(--text);
+            margin-top: 1.2rem;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .tab-panel ul {
+            margin-left: 1.2rem;
+            margin-top: 0.4rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .tab-panel li {
+            margin-bottom: 0.3rem;
+        }
+
+        .tab-panel p {
+            margin-bottom: 0.7rem;
+        }
+
+        .tab-panel i {
+            font-style: italic;
+            opacity: 0.85;
+        }
 
         .question-box {
             background: var(--bg-surface);
@@ -159,12 +229,15 @@
             transition: var(--transition);
         }
 
-        .qb-send:hover { opacity: 0.85; }
+        .qb-send:hover {
+            opacity: 0.85;
+        }
+
         .qb-success {
             padding: 0.8rem 1rem;
             border-radius: var(--radius-sm);
-            background: rgba(34,197,94,0.1);
-            border: 1px solid rgba(34,197,94,0.2);
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.2);
             color: #4ade80;
             font-size: 0.88rem;
             display: none;
@@ -179,9 +252,11 @@
             padding: 1.5rem;
             margin-top: 1.5rem;
         }
+
         .qa-section h3 {
             margin-bottom: 0.5rem;
         }
+
         .qa-list {
             display: flex;
             flex-direction: column;
@@ -189,12 +264,14 @@
             max-height: 500px;
             overflow-y: auto;
         }
+
         .qa-item {
             background: var(--bg-surface2);
             border: 1px solid var(--border);
             border-radius: var(--radius-sm);
             padding: 1rem;
         }
+
         .qa-header {
             display: flex;
             justify-content: space-between;
@@ -202,56 +279,67 @@
             margin-bottom: 0.5rem;
             gap: 0.5rem;
         }
+
         .qa-meta {
             font-size: 0.75rem;
             color: var(--text-muted);
         }
+
         .qa-badge {
             font-size: 0.7rem;
             padding: 2px 8px;
             border-radius: 10px;
             font-weight: 600;
         }
+
         .qa-badge.pendente {
-            background: rgba(234,179,8,0.2);
+            background: rgba(234, 179, 8, 0.2);
             color: #eab308;
         }
+
         .qa-badge.respondida {
-            background: rgba(34,197,94,0.2);
+            background: rgba(34, 197, 94, 0.2);
             color: #22c55e;
         }
+
         .qa-question {
             font-weight: 600;
             margin-bottom: 0.75rem;
             line-height: 1.5;
         }
+
         .qa-answer {
-            background: rgba(34,197,94,0.1);
+            background: rgba(34, 197, 94, 0.1);
             border-left: 3px solid var(--accent-green);
             padding: 0.75rem;
             border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
             margin-top: 0.75rem;
         }
+
         .qa-answer-label {
             font-size: 0.7rem;
             color: var(--accent-green);
             font-weight: 600;
             margin-bottom: 0.25rem;
         }
+
         .qa-answer-text {
             font-size: 0.9rem;
             line-height: 1.5;
         }
+
         .qa-answer-by {
             font-size: 0.7rem;
             color: var(--text-muted);
             margin-top: 0.5rem;
         }
+
         .qa-response-form {
             margin-top: 0.75rem;
             padding-top: 0.75rem;
             border-top: 1px solid var(--border);
         }
+
         .qa-response-form textarea {
             width: 100%;
             padding: 0.75rem;
@@ -263,6 +351,7 @@
             margin-bottom: 0.5rem;
             resize: vertical;
         }
+
         .qa-response-form button {
             padding: 0.5rem 1rem;
             background: var(--accent-green);
@@ -273,9 +362,11 @@
             font-weight: 600;
             font-size: 0.85rem;
         }
+
         .qa-response-form button:hover {
             opacity: 0.9;
         }
+
         .qa-empty {
             text-align: center;
             padding: 2rem;
@@ -294,52 +385,149 @@
             border: 0;
         }
 
-        .qb-success.show { display: block; }
+        .qb-success.show {
+            display: block;
+        }
 
         @media (max-width: 900px) {
-            .grade-banner { padding: 1.5rem; }
-            .grade-banner h1 { font-size: 1.4rem; }
-            .content-card { padding: 1.2rem; }
+            .grade-banner {
+                padding: 1.5rem;
+            }
+
+            .grade-banner h1 {
+                font-size: 1.4rem;
+            }
+
+            .content-card {
+                padding: 1.2rem;
+            }
         }
 
         /* Fontes maiores para telas grandes */
         @media (min-width: 1200px) {
-            .grade-banner { padding: 3rem 3.5rem; }
-            .grade-banner h1 { font-size: 2.3rem; }
-            .grade-banner p { font-size: 1.1rem; }
-            .content-card { padding: 2.5rem 3rem; }
-            .content-card h2 { font-size: 1.7rem; }
-            .page-ref { font-size: 0.85rem; }
-            .tab-panel { font-size: 1.05rem; }
-            .tab-panel h3 { font-size: 1.15rem; }
-            .question-box { padding: 2rem 2.5rem; }
-            .question-box h3 { font-size: 1.15rem; }
+            .grade-banner {
+                padding: 3rem 3.5rem;
+            }
+
+            .grade-banner h1 {
+                font-size: 2.3rem;
+            }
+
+            .grade-banner p {
+                font-size: 1.1rem;
+            }
+
+            .content-card {
+                padding: 2.5rem 3rem;
+            }
+
+            .content-card h2 {
+                font-size: 1.7rem;
+            }
+
+            .page-ref {
+                font-size: 0.85rem;
+            }
+
+            .tab-panel {
+                font-size: 1.05rem;
+            }
+
+            .tab-panel h3 {
+                font-size: 1.15rem;
+            }
+
+            .question-box {
+                padding: 2rem 2.5rem;
+            }
+
+            .question-box h3 {
+                font-size: 1.15rem;
+            }
         }
 
         @media (min-width: 1600px) {
-            .grade-banner { padding: 3.5rem 4rem; }
-            .grade-banner h1 { font-size: 2.6rem; }
-            .grade-banner p { font-size: 1.2rem; }
-            .content-card { padding: 3rem 3.5rem; }
-            .content-card h2 { font-size: 1.9rem; }
-            .page-ref { font-size: 0.9rem; }
-            .tab-panel { font-size: 1.15rem; }
-            .tab-panel h3 { font-size: 1.25rem; }
-            .question-box { padding: 2.5rem 3rem; }
-            .question-box h3 { font-size: 1.25rem; }
+            .grade-banner {
+                padding: 3.5rem 4rem;
+            }
+
+            .grade-banner h1 {
+                font-size: 2.6rem;
+            }
+
+            .grade-banner p {
+                font-size: 1.2rem;
+            }
+
+            .content-card {
+                padding: 3rem 3.5rem;
+            }
+
+            .content-card h2 {
+                font-size: 1.9rem;
+            }
+
+            .page-ref {
+                font-size: 0.9rem;
+            }
+
+            .tab-panel {
+                font-size: 1.15rem;
+            }
+
+            .tab-panel h3 {
+                font-size: 1.25rem;
+            }
+
+            .question-box {
+                padding: 2.5rem 3rem;
+            }
+
+            .question-box h3 {
+                font-size: 1.25rem;
+            }
         }
 
         @media (min-width: 1920px) {
-            .grade-banner { padding: 4rem 5rem; }
-            .grade-banner h1 { font-size: 2.9rem; }
-            .grade-banner p { font-size: 1.3rem; }
-            .content-card { padding: 3.5rem 4rem; }
-            .content-card h2 { font-size: 2.1rem; }
-            .page-ref { font-size: 1rem; }
-            .tab-panel { font-size: 1.25rem; }
-            .tab-panel h3 { font-size: 1.4rem; }
-            .question-box { padding: 3rem 3.5rem; }
-            .question-box h3 { font-size: 1.35rem; }
+            .grade-banner {
+                padding: 4rem 5rem;
+            }
+
+            .grade-banner h1 {
+                font-size: 2.9rem;
+            }
+
+            .grade-banner p {
+                font-size: 1.3rem;
+            }
+
+            .content-card {
+                padding: 3.5rem 4rem;
+            }
+
+            .content-card h2 {
+                font-size: 2.1rem;
+            }
+
+            .page-ref {
+                font-size: 1rem;
+            }
+
+            .tab-panel {
+                font-size: 1.25rem;
+            }
+
+            .tab-panel h3 {
+                font-size: 1.4rem;
+            }
+
+            .question-box {
+                padding: 3rem 3.5rem;
+            }
+
+            .question-box h3 {
+                font-size: 1.35rem;
+            }
         }
 
         /* Garantir sidebar sempre visível em desktop */
@@ -367,6 +555,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Header -->
     <header class="header">
@@ -375,14 +564,14 @@
             <img src="../CSM.png" alt="Logo">
             <span class="logo-text">Empreendedores Exponenciais</span>
         </div>
-        
+
         <nav class="nav" id="gradeTabs">
             <button class="nav-btn active" data-grade="6">6º Ano</button>
             <button class="nav-btn" data-grade="7">7º Ano</button>
             <button class="nav-btn" data-grade="8">8º Ano</button>
             <button class="nav-btn" data-grade="9">9º Ano</button>
         </nav>
-        
+
         <button class="theme-toggle" onclick="App.toggleTheme()" title="Modo claro/escuro">☀️</button>
         <button class="nav-btn" onclick="window.location.href='../index.html'">🏠 Início</button>
     </header>
@@ -406,10 +595,12 @@
                 <div class="content-card" id="lessonContent">
                     <h2>Bem-vindo ao Painel Pedagógico</h2>
                     <p class="page-ref">Selecione um ano e um módulo no menu ao lado</p>
-                    
+
                     <div class="tab-panel active" style="margin-top: 1rem;">
-                        <p>Este painel contém todo o conteúdo curricular do programa <strong>Empreendedores Exponenciais</strong> do Colegio Santa Mônica.</p>
-                        <p>Selecione o <strong>ano</strong> na aba acima e clique em um <strong>módulo</strong> no menu lateral para começar a estudar.</p>
+                        <p>Este painel contém todo o conteúdo curricular do programa <strong>Empreendedores
+                                Exponenciais</strong> do Colegio Santa Mônica.</p>
+                        <p>Selecione o <strong>ano</strong> na aba acima e clique em um <strong>módulo</strong> no menu
+                            lateral para começar a estudar.</p>
                     </div>
                 </div>
 
@@ -428,18 +619,22 @@
                             <option value="9º Ano">9º Ano</option>
                         </select>
                         <label for="duvidaPergunta" class="visually-hidden">Digite sua dúvida</label>
-                        <textarea id="duvidaPergunta" name="pergunta" placeholder="Digite sua dúvida..." rows="3" required></textarea>
+                        <textarea id="duvidaPergunta" name="pergunta" placeholder="Digite sua dúvida..." rows="3"
+                            required></textarea>
                         <button type="submit" class="qb-send">Enviar Dúvida</button>
                     </form>
-                    <div class="qb-success" id="duvidaSuccess">✅ Dúvida enviada com sucesso! O professor responderá em breve.</div>
+                    <div class="qb-success" id="duvidaSuccess">✅ Dúvida enviada com sucesso! O professor responderá em
+                        breve.</div>
                 </div>
 
                 <!-- Q&A Section - Perguntas e Respostas -->
                 <div class="qa-section" id="qaSection">
                     <h3>💬 Perguntas e Respostas</h3>
-                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">Todas as perguntas e respostas dos alunos</p>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">Todas as perguntas e
+                        respostas dos alunos</p>
                     <div id="qaList" class="qa-list">
-                        <div style="text-align: center; padding: 2rem; color: var(--text-muted);">Carregando perguntas...</div>
+                        <div style="text-align: center; padding: 2rem; color: var(--text-muted);">Carregando
+                            perguntas...</div>
                     </div>
                 </div>
             </div>
@@ -447,11 +642,13 @@
     </div>
 
     <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.20.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Validação de dados (deve vir antes do supabase-config.js) -->
+    <script src="../validacao-dados.js"></script>
     <script src="../supabase-config.js"></script>
     <script src="../js/conteudo.js"></script>
     <script src="../js/app.js"></script>
-    
+
     <script>
         // Dados dos módulos por ano - ATUALIZADO EM 27/03/2026 - 5 módulos x 9 lições
         // Estrutura completa restaurada do backup original
@@ -460,216 +657,256 @@
                 title: "Descoberta e Habilidades do Futuro",
                 theme: "orange",
                 mods: [
-                    { id: 1, name: "Negócios", icon: "💼", lessons: [
-                        { title: "Empreendedorismo", page: 8 },
-                        { title: "Conhecer a si mesmo", page: 10 },
-                        { title: "Inteligência emocional", page: 12 },
-                        { title: "Pensamento crítico e empatia", page: 14 },
-                        { title: "Coragem e resiliência", page: 16 },
-                        { title: "Liderança e proatividade", page: 18 },
-                        { title: "Trabalho em equipe", page: 20 },
-                        { title: "Inovação e criatividade", page: 22 },
-                        { title: "Revisão", page: 24, isQuiz: true }
-                    ]},
-                    { id: 2, name: "Educação Financeira", icon: "💰", lessons: [
-                        { title: "Dinheiro e consumo", page: 26 },
-                        { title: "Orçamento familiar", page: 28 },
-                        { title: "Poupança", page: 30 },
-                        { title: "Investimentos basics", page: 32 },
-                        { title: "Custos e preços", page: 34 },
-                        { title: "Marketing de vendas", page: 36 },
-                        { title: "Atendimento ao cliente", page: 38 },
-                        { title: "Gestão de estoque", page: 40 },
-                        { title: "Revisão", page: 42, isQuiz: true }
-                    ]},
-                    { id: 3, name: "Inovação", icon: "💡", lessons: [
-                        { title: "O que é inovação?", page: 44 },
-                        { title: "Identificar problemas", page: 46 },
-                        { title: "Gerar soluções", page: 48 },
-                        { title: "Prototipagem", page: 50 },
-                        { title: "Testes e ajustes", page: 52 },
-                        { title: "Melhoria contínua", page: 54 },
-                        { title: "Design thinking", page: 56 },
-                        { title: "Canvas de inovação", page: 58 },
-                        { title: "Revisão", page: 60, isQuiz: true }
-                    ]},
-                    { id: 4, name: "Pessoas e Comunicação", icon: "👥", lessons: [
-                        { title: "Comunicação verbal", page: 62 },
-                        { title: "Comunicação escrita", page: 64 },
-                        { title: "Oratória", page: 66 },
-                        { title: "Escuta ativa", page: 68 },
-                        { title: "Feedback", page: 70 },
-                        { title: "Gestão de conflitos", page: 72 },
-                        { title: "Networking", page: 74 },
-                        { title: "Presentação pessoal", page: 76 },
-                        { title: "Revisão", page: 78, isQuiz: true }
-                    ]},
-                    { id: 5, name: "Projetos Semestrais", icon: "📋", lessons: [
-                        { title: "Planejamento do projeto", page: 80 },
-                        { title: "Apresentação final", page: 82 }
-                    ]}
+                    {
+                        id: 1, name: "Negócios", icon: "💼", lessons: [
+                            { title: "Empreendedorismo", page: 8 },
+                            { title: "Conhecer a si mesmo", page: 10 },
+                            { title: "Inteligência emocional", page: 12 },
+                            { title: "Pensamento crítico e empatia", page: 14 },
+                            { title: "Coragem e resiliência", page: 16 },
+                            { title: "Liderança e proatividade", page: 18 },
+                            { title: "Trabalho em equipe", page: 20 },
+                            { title: "Inovação e criatividade", page: 22 },
+                            { title: "Revisão", page: 24, isQuiz: true }
+                        ]
+                    },
+                    {
+                        id: 2, name: "Educação Financeira", icon: "💰", lessons: [
+                            { title: "Dinheiro e consumo", page: 26 },
+                            { title: "Orçamento familiar", page: 28 },
+                            { title: "Poupança", page: 30 },
+                            { title: "Investimentos basics", page: 32 },
+                            { title: "Custos e preços", page: 34 },
+                            { title: "Marketing de vendas", page: 36 },
+                            { title: "Atendimento ao cliente", page: 38 },
+                            { title: "Gestão de estoque", page: 40 },
+                            { title: "Revisão", page: 42, isQuiz: true }
+                        ]
+                    },
+                    {
+                        id: 3, name: "Inovação", icon: "💡", lessons: [
+                            { title: "O que é inovação?", page: 44 },
+                            { title: "Identificar problemas", page: 46 },
+                            { title: "Gerar soluções", page: 48 },
+                            { title: "Prototipagem", page: 50 },
+                            { title: "Testes e ajustes", page: 52 },
+                            { title: "Melhoria contínua", page: 54 },
+                            { title: "Design thinking", page: 56 },
+                            { title: "Canvas de inovação", page: 58 },
+                            { title: "Revisão", page: 60, isQuiz: true }
+                        ]
+                    },
+                    {
+                        id: 4, name: "Pessoas e Comunicação", icon: "👥", lessons: [
+                            { title: "Comunicação verbal", page: 62 },
+                            { title: "Comunicação escrita", page: 64 },
+                            { title: "Oratória", page: 66 },
+                            { title: "Escuta ativa", page: 68 },
+                            { title: "Feedback", page: 70 },
+                            { title: "Gestão de conflitos", page: 72 },
+                            { title: "Networking", page: 74 },
+                            { title: "Presentação pessoal", page: 76 },
+                            { title: "Revisão", page: 78, isQuiz: true }
+                        ]
+                    },
+                    {
+                        id: 5, name: "Projetos Semestrais", icon: "📋", lessons: [
+                            { title: "Planejamento do projeto", page: 80 },
+                            { title: "Apresentação final", page: 82 }
+                        ]
+                    }
                 ]
             },
             7: {
                 title: "Fundamentos Empreendedores",
                 theme: "red",
                 mods: [
-                    { id: 1, name: "Negócios", icon: "💼", lessons: [
-                        { title: "Empreendedorismo", page: 84 },
-                        { title: "Conhecer a si mesmo", page: 86 },
-                        { title: "Inteligência emocional", page: 88 },
-                        { title: "Pensamento crítico e empatia", page: 90 },
-                        { title: "Coragem e resiliência", page: 92 },
-                        { title: "Liderança e proatividade", page: 94 },
-                        { title: "Trabalho em equipe", page: 96 },
-                        { title: "Inovação e criatividade", page: 98 },
-                        { title: "Revisão", page: 100, isQuiz: true }
-                    ]},
-                    { id: 2, name: "Educação Financeira", icon: "💰", lessons: [
-                        { title: "Dinheiro e consumo", page: 102 },
-                        { title: "Orçamento familiar", page: 104 },
-                        { title: "Poupança", page: 106 },
-                        { title: "Investimentos basics", page: 108 },
-                        { title: "Custos e preços", page: 110 },
-                        { title: "Marketing de vendas", page: 112 },
-                        { title: "Atendimento ao cliente", page: 114 },
-                        { title: "Gestão de estoque", page: 116 },
-                        { title: "Revisão", page: 118, isQuiz: true }
-                    ]},
-                    { id: 3, name: "Inovação", icon: "💡", lessons: [
-                        { title: "O que é inovação?", page: 120 },
-                        { title: "Identificar problemas", page: 122 },
-                        { title: "Gerar soluções", page: 124 },
-                        { title: "Prototipagem", page: 126 },
-                        { title: "Testes e ajustes", page: 128 },
-                        { title: "Melhoria contínua", page: 130 },
-                        { title: "Design thinking", page: 132 },
-                        { title: "Canvas de inovação", page: 134 },
-                        { title: "Revisão", page: 136, isQuiz: true }
-                    ]},
-                    { id: 4, name: "Pessoas e Comunicação", icon: "👥", lessons: [
-                        { title: "Comunicação verbal", page: 138 },
-                        { title: "Comunicação escrita", page: 140 },
-                        { title: "Oratória", page: 142 },
-                        { title: "Escuta ativa", page: 144 },
-                        { title: "Feedback", page: 146 },
-                        { title: "Gestão de conflitos", page: 148 },
-                        { title: "Networking", page: 150 },
-                        { title: "Presentação pessoal", page: 152 },
-                        { title: "Revisão", page: 154, isQuiz: true }
-                    ]},
-                    { id: 5, name: "Projetos Semestrais", icon: "📋", lessons: [
-                        { title: "Planejamento do projeto", page: 156 },
-                        { title: "Apresentação final", page: 158 }
-                    ]}
+                    {
+                        id: 1, name: "Negócios", icon: "💼", lessons: [
+                            { title: "Empreendedorismo", page: 84 },
+                            { title: "Conhecer a si mesmo", page: 86 },
+                            { title: "Inteligência emocional", page: 88 },
+                            { title: "Pensamento crítico e empatia", page: 90 },
+                            { title: "Coragem e resiliência", page: 92 },
+                            { title: "Liderança e proatividade", page: 94 },
+                            { title: "Trabalho em equipe", page: 96 },
+                            { title: "Inovação e criatividade", page: 98 },
+                            { title: "Revisão", page: 100, isQuiz: true }
+                        ]
+                    },
+                    {
+                        id: 2, name: "Educação Financeira", icon: "💰", lessons: [
+                            { title: "Dinheiro e consumo", page: 102 },
+                            { title: "Orçamento familiar", page: 104 },
+                            { title: "Poupança", page: 106 },
+                            { title: "Investimentos basics", page: 108 },
+                            { title: "Custos e preços", page: 110 },
+                            { title: "Marketing de vendas", page: 112 },
+                            { title: "Atendimento ao cliente", page: 114 },
+                            { title: "Gestão de estoque", page: 116 },
+                            { title: "Revisão", page: 118, isQuiz: true }
+                        ]
+                    },
+                    {
+                        id: 3, name: "Inovação", icon: "💡", lessons: [
+                            { title: "O que é inovação?", page: 120 },
+                            { title: "Identificar problemas", page: 122 },
+                            { title: "Gerar soluções", page: 124 },
+                            { title: "Prototipagem", page: 126 },
+                            { title: "Testes e ajustes", page: 128 },
+                            { title: "Melhoria contínua", page: 130 },
+                            { title: "Design thinking", page: 132 },
+                            { title: "Canvas de inovação", page: 134 },
+                            { title: "Revisão", page: 136, isQuiz: true }
+                        ]
+                    },
+                    {
+                        id: 4, name: "Pessoas e Comunicação", icon: "👥", lessons: [
+                            { title: "Comunicação verbal", page: 138 },
+                            { title: "Comunicação escrita", page: 140 },
+                            { title: "Oratória", page: 142 },
+                            { title: "Escuta ativa", page: 144 },
+                            { title: "Feedback", page: 146 },
+                            { title: "Gestão de conflitos", page: 148 },
+                            { title: "Networking", page: 150 },
+                            { title: "Presentação pessoal", page: 152 },
+                            { title: "Revisão", page: 154, isQuiz: true }
+                        ]
+                    },
+                    {
+                        id: 5, name: "Projetos Semestrais", icon: "📋", lessons: [
+                            { title: "Planejamento do projeto", page: 156 },
+                            { title: "Apresentação final", page: 158 }
+                        ]
+                    }
                 ]
             },
             8: {
                 title: "Startups e Mundo Digital",
                 theme: "blue",
                 mods: [
-                    { id: 1, name: "Negócios", icon: "💼", lessons: [
-                        { title: "Empreendedorismo", page: 160 },
-                        { title: "Conhecer a si mesmo", page: 162 },
-                        { title: "Inteligência emocional", page: 164 },
-                        { title: "Pensamento crítico e empatia", page: 166 },
-                        { title: "Coragem e resiliência", page: 168 },
-                        { title: "Liderança e proatividade", page: 170 },
-                        { title: "Trabalho em equipe", page: 172 },
-                        { title: "Inovação e criatividade", page: 174 },
-                        { title: "Revisão", page: 176, isQuiz: true }
-                    ]},
-                    { id: 2, name: "Educação Financeira", icon: "💰", lessons: [
-                        { title: "Dinheiro e consumo", page: 178 },
-                        { title: "Orçamento familiar", page: 180 },
-                        { title: "Poupança", page: 182 },
-                        { title: "Investimentos basics", page: 184 },
-                        { title: "Custos e preços", page: 186 },
-                        { title: "Marketing de vendas", page: 188 },
-                        { title: "Atendimento ao cliente", page: 190 },
-                        { title: "Gestão de estoque", page: 192 },
-                        { title: "Revisão", page: 194, isQuiz: true }
-                    ]},
-                    { id: 3, name: "Inovação", icon: "💡", lessons: [
-                        { title: "O que é inovação?", page: 196 },
-                        { title: "Identificar problemas", page: 198 },
-                        { title: "Gerar soluções", page: 200 },
-                        { title: "Prototipagem", page: 202 },
-                        { title: "Testes e ajustes", page: 204 },
-                        { title: "Melhoria contínua", page: 206 },
-                        { title: "Design thinking", page: 208 },
-                        { title: "Canvas de inovação", page: 210 },
-                        { title: "Revisão", page: 212, isQuiz: true }
-                    ]},
-                    { id: 4, name: "Pessoas e Comunicação", icon: "👥", lessons: [
-                        { title: "Comunicação verbal", page: 214 },
-                        { title: "Comunicação escrita", page: 216 },
-                        { title: "Oratória", page: 218 },
-                        { title: "Escuta ativa", page: 220 },
-                        { title: "Feedback", page: 222 },
-                        { title: "Gestão de conflitos", page: 224 },
-                        { title: "Networking", page: 226 },
-                        { title: "Presentação pessoal", page: 228 },
-                        { title: "Revisão", page: 230, isQuiz: true }
-                    ]},
-                    { id: 5, name: "Projetos Semestrais", icon: "📋", lessons: [
-                        { title: "Planejamento do projeto", page: 232 },
-                        { title: "Apresentação final", page: 234 }
-                    ]}
+                    {
+                        id: 1, name: "Negócios", icon: "💼", lessons: [
+                            { title: "Empreendedorismo", page: 160 },
+                            { title: "Conhecer a si mesmo", page: 162 },
+                            { title: "Inteligência emocional", page: 164 },
+                            { title: "Pensamento crítico e empatia", page: 166 },
+                            { title: "Coragem e resiliência", page: 168 },
+                            { title: "Liderança e proatividade", page: 170 },
+                            { title: "Trabalho em equipe", page: 172 },
+                            { title: "Inovação e criatividade", page: 174 },
+                            { title: "Revisão", page: 176, isQuiz: true }
+                        ]
+                    },
+                    {
+                        id: 2, name: "Educação Financeira", icon: "💰", lessons: [
+                            { title: "Dinheiro e consumo", page: 178 },
+                            { title: "Orçamento familiar", page: 180 },
+                            { title: "Poupança", page: 182 },
+                            { title: "Investimentos basics", page: 184 },
+                            { title: "Custos e preços", page: 186 },
+                            { title: "Marketing de vendas", page: 188 },
+                            { title: "Atendimento ao cliente", page: 190 },
+                            { title: "Gestão de estoque", page: 192 },
+                            { title: "Revisão", page: 194, isQuiz: true }
+                        ]
+                    },
+                    {
+                        id: 3, name: "Inovação", icon: "💡", lessons: [
+                            { title: "O que é inovação?", page: 196 },
+                            { title: "Identificar problemas", page: 198 },
+                            { title: "Gerar soluções", page: 200 },
+                            { title: "Prototipagem", page: 202 },
+                            { title: "Testes e ajustes", page: 204 },
+                            { title: "Melhoria contínua", page: 206 },
+                            { title: "Design thinking", page: 208 },
+                            { title: "Canvas de inovação", page: 210 },
+                            { title: "Revisão", page: 212, isQuiz: true }
+                        ]
+                    },
+                    {
+                        id: 4, name: "Pessoas e Comunicação", icon: "👥", lessons: [
+                            { title: "Comunicação verbal", page: 214 },
+                            { title: "Comunicação escrita", page: 216 },
+                            { title: "Oratória", page: 218 },
+                            { title: "Escuta ativa", page: 220 },
+                            { title: "Feedback", page: 222 },
+                            { title: "Gestão de conflitos", page: 224 },
+                            { title: "Networking", page: 226 },
+                            { title: "Presentação pessoal", page: 228 },
+                            { title: "Revisão", page: 230, isQuiz: true }
+                        ]
+                    },
+                    {
+                        id: 5, name: "Projetos Semestrais", icon: "📋", lessons: [
+                            { title: "Planejamento do projeto", page: 232 },
+                            { title: "Apresentação final", page: 234 }
+                        ]
+                    }
                 ]
             },
             9: {
                 title: "Mercado e Expansão",
                 theme: "purple",
                 mods: [
-                    { id: 1, name: "Negócios", icon: "💼", lessons: [
-                        { title: "Empreendedorismo", page: 236 },
-                        { title: "Conhecer a si mesmo", page: 238 },
-                        { title: "Inteligência emocional", page: 240 },
-                        { title: "Pensamento crítico e empatia", page: 242 },
-                        { title: "Coragem e resiliência", page: 244 },
-                        { title: "Liderança e proatividade", page: 246 },
-                        { title: "Trabalho em equipe", page: 248 },
-                        { title: "Inovação e criatividade", page: 250 },
-                        { title: "Revisão", page: 252, isQuiz: true }
-                    ]},
-                    { id: 2, name: "Educação Financeira", icon: "💰", lessons: [
-                        { title: "Dinheiro e consumo", page: 254 },
-                        { title: "Orçamento familiar", page: 256 },
-                        { title: "Poupança", page: 258 },
-                        { title: "Investimentos basics", page: 260 },
-                        { title: "Custos e preços", page: 262 },
-                        { title: "Marketing de vendas", page: 264 },
-                        { title: "Atendimento ao cliente", page: 266 },
-                        { title: "Gestão de estoque", page: 268 },
-                        { title: "Revisão", page: 270, isQuiz: true }
-                    ]},
-                    { id: 3, name: "Inovação", icon: "💡", lessons: [
-                        { title: "O que é inovação?", page: 272 },
-                        { title: "Identificar problemas", page: 274 },
-                        { title: "Gerar soluções", page: 276 },
-                        { title: "Prototipagem", page: 278 },
-                        { title: "Testes e ajustes", page: 280 },
-                        { title: "Melhoria contínua", page: 282 },
-                        { title: "Design thinking", page: 284 },
-                        { title: "Canvas de inovação", page: 286 },
-                        { title: "Revisão", page: 288, isQuiz: true }
-                    ]},
-                    { id: 4, name: "Pessoas e Comunicação", icon: "👥", lessons: [
-                        { title: "Comunicação verbal", page: 290 },
-                        { title: "Comunicação escrita", page: 292 },
-                        { title: "Oratória", page: 294 },
-                        { title: "Escuta ativa", page: 296 },
-                        { title: "Feedback", page: 298 },
-                        { title: "Gestão de conflitos", page: 300 },
-                        { title: "Networking", page: 302 },
-                        { title: "Presentação pessoal", page: 304 },
-                        { title: "Revisão", page: 306, isQuiz: true }
-                    ]},
-                    { id: 5, name: "Projetos Semestrais", icon: "📋", lessons: [
-                        { title: "Planejamento do projeto", page: 308 },
-                        { title: "Apresentação final", page: 310 }
-                    ]}
+                    {
+                        id: 1, name: "Negócios", icon: "💼", lessons: [
+                            { title: "Empreendedorismo", page: 236 },
+                            { title: "Conhecer a si mesmo", page: 238 },
+                            { title: "Inteligência emocional", page: 240 },
+                            { title: "Pensamento crítico e empatia", page: 242 },
+                            { title: "Coragem e resiliência", page: 244 },
+                            { title: "Liderança e proatividade", page: 246 },
+                            { title: "Trabalho em equipe", page: 248 },
+                            { title: "Inovação e criatividade", page: 250 },
+                            { title: "Revisão", page: 252, isQuiz: true }
+                        ]
+                    },
+                    {
+                        id: 2, name: "Educação Financeira", icon: "💰", lessons: [
+                            { title: "Dinheiro e consumo", page: 254 },
+                            { title: "Orçamento familiar", page: 256 },
+                            { title: "Poupança", page: 258 },
+                            { title: "Investimentos basics", page: 260 },
+                            { title: "Custos e preços", page: 262 },
+                            { title: "Marketing de vendas", page: 264 },
+                            { title: "Atendimento ao cliente", page: 266 },
+                            { title: "Gestão de estoque", page: 268 },
+                            { title: "Revisão", page: 270, isQuiz: true }
+                        ]
+                    },
+                    {
+                        id: 3, name: "Inovação", icon: "💡", lessons: [
+                            { title: "O que é inovação?", page: 272 },
+                            { title: "Identificar problemas", page: 274 },
+                            { title: "Gerar soluções", page: 276 },
+                            { title: "Prototipagem", page: 278 },
+                            { title: "Testes e ajustes", page: 280 },
+                            { title: "Melhoria contínua", page: 282 },
+                            { title: "Design thinking", page: 284 },
+                            { title: "Canvas de inovação", page: 286 },
+                            { title: "Revisão", page: 288, isQuiz: true }
+                        ]
+                    },
+                    {
+                        id: 4, name: "Pessoas e Comunicação", icon: "👥", lessons: [
+                            { title: "Comunicação verbal", page: 290 },
+                            { title: "Comunicação escrita", page: 292 },
+                            { title: "Oratória", page: 294 },
+                            { title: "Escuta ativa", page: 296 },
+                            { title: "Feedback", page: 298 },
+                            { title: "Gestão de conflitos", page: 300 },
+                            { title: "Networking", page: 302 },
+                            { title: "Presentação pessoal", page: 304 },
+                            { title: "Revisão", page: 306, isQuiz: true }
+                        ]
+                    },
+                    {
+                        id: 5, name: "Projetos Semestrais", icon: "📋", lessons: [
+                            { title: "Planejamento do projeto", page: 308 },
+                            { title: "Apresentação final", page: 310 }
+                        ]
+                    }
                 ]
             }
         };
@@ -680,12 +917,12 @@
         // Inicializar
         function init() {
             console.log('Inicializando teoria...');
-            
+
             // Verificar se elementos existem
             const modulesList = document.getElementById('modulesList');
             const lessonContent = document.getElementById('lessonContent');
             const gradeBanner = document.getElementById('gradeBanner');
-            
+
             if (!modulesList) {
                 console.error('Elemento #modulesList não encontrado!');
                 return;
@@ -694,7 +931,7 @@
                 console.error('Elemento #lessonContent não encontrado!');
                 return;
             }
-            
+
             App.init();
             renderTabs();
             renderSidebar(6);
@@ -722,7 +959,7 @@
         function renderSidebar(grade) {
             const data = MODULOS[grade];
             const container = document.getElementById('modulesList');
-            
+
             if (!container) {
                 console.error('modulesList container not found');
                 return;
@@ -732,7 +969,7 @@
                 container.innerHTML = '<p style="color:red;padding:1rem;">Erro ao carregar módulos</p>';
                 return;
             }
-            
+
             container.innerHTML = data.mods.map(m => `
                 <div class="module-section">
                     <div class="module-header" onclick="toggleModule(${m.id})">
@@ -801,38 +1038,38 @@
                     console.error('Lesson not found:', lessonIndex);
                     return;
                 }
-                
+
                 currentModule = moduleId;
-                
+
                 const isQuiz = lesson.isQuiz;
                 const lessonTitle = lesson.title;
                 const lessonPage = lesson.page;
-                
+
                 const content = document.getElementById('lessonContent');
                 if (!content) {
                     console.error('lessonContent not found');
                     return;
                 }
-                
+
                 const modName = mod.name.toLowerCase();
                 let moduleKey = '';
-                
+
                 if (modName.includes('neg')) moduleKey = 'negocios';
                 else if (modName.includes('fin') || modName.includes('din') || modName.includes('orca')) moduleKey = 'financas';
                 else if (modName.includes('inova')) moduleKey = 'inovacao';
                 else if (modName.includes('pessoa') || modName.includes('comunica')) moduleKey = 'comunicacao';
                 else moduleKey = modName.replace(/[^a-z]/g, '');
-                
+
                 const lessonTitleLower = lesson.title.toLowerCase();
-                
-                const conteudoRico = window.CONTEUDO_LICOES && 
-                                    window.CONTEUDO_LICOES[grade] && 
-                                    window.CONTEUDO_LICOES[grade][moduleKey] ? 
-                                    window.CONTEUDO_LICOES[grade][moduleKey].find(l => 
-                                        l.title.toLowerCase() === lessonTitleLower ||
-                                        l.title.toLowerCase().includes(lessonTitleLower.split(' ')[0])
-                                    ) : null;
-                
+
+                const conteudoRico = window.CONTEUDO_LICOES &&
+                    window.CONTEUDO_LICOES[grade] &&
+                    window.CONTEUDO_LICOES[grade][moduleKey] ?
+                    window.CONTEUDO_LICOES[grade][moduleKey].find(l =>
+                        l.title.toLowerCase() === lessonTitleLower ||
+                        l.title.toLowerCase().includes(lessonTitleLower.split(' ')[0])
+                    ) : null;
+
                 if (isQuiz) {
                     const quizContent = conteudoRico ? conteudoRico.quiz : `
                         <h3>Quiz de Revisão - ${mod.name}</h3>
@@ -871,7 +1108,7 @@
                             <li>Atividade proposta</li>
                         </ul>
                     `;
-                    
+
                     const praticaContent = conteudoRico ? conteudoRico.pratica : `
                         <h3>Atividade em Sala</h3>
                         <p>Em grupos de 4-5 alunos, discutam e respondam:</p>
@@ -884,7 +1121,7 @@
                         <h3>Entrega</h3>
                         <p>Produzam um resumo de 10 linhas sobre o tema estudado.</p>
                     `;
-                    
+
                     const quizTabContent = conteudoRico ? conteudoRico.quiz : `
                         <h3>Quiz de Verificação</h3>
                         <p>Responda para verificar seu aprendizado:</p>
@@ -895,7 +1132,7 @@
                         </div>
                         <button class="btn btn-primary" style="margin-top:1rem;">Enviar Resposta</button>
                     `;
-                    
+
                     content.innerHTML = `
                     <h2>${lessonTitle}</h2>
                     <p class="page-ref">${mod.name} • Página ${lessonPage}</p>
@@ -975,7 +1212,7 @@
 
             try {
                 const duvidas = await DB.listarDuvidas();
-                
+
                 if (!duvidas || duvidas.length === 0) {
                     container.innerHTML = '<div class="qa-empty">Nenhuma pergunta enviada ainda. Seja o primeiro a perguntar!</div>';
                     return;
@@ -984,10 +1221,10 @@
                 const isProfessor = App.isProfessor();
 
                 container.innerHTML = duvidas.map(d => {
-                    const statusBadge = d.status === 'respondida' 
+                    const statusBadge = d.status === 'respondida'
                         ? '<span class="qa-badge respondida">✅ Respondida</span>'
                         : '<span class="qa-badge pendente">⏳ Pendente</span>';
-                    
+
                     const answerHTML = d.resposta ? `
                         <div class="qa-answer">
                             <div class="qa-answer-label">✅ RESPOSTA DO PROFESSOR</div>
@@ -1026,7 +1263,7 @@
         async function responderDuvida(id) {
             const textarea = document.getElementById(`resposta-${id}`);
             const resposta = textarea.value.trim();
-            
+
             if (!resposta) {
                 alert('Por favor, digite uma resposta.');
                 return;
@@ -1051,4 +1288,5 @@
         document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
+
 </html>
